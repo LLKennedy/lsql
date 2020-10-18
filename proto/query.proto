@@ -1,12 +1,82 @@
 syntax = "proto3";
 
+enum Comparator {
+    // Invalid, only used as a default in error states
+    UNKNOWN_COMPARATOR = 0;
+    EQUAL = 1;
+    FUZZY_EQUAL = 2;
+    GREATER_THAN = 3;
+    LESS_THAN = 4;
+    GREATER_THAN_OR_EQUAL = 5;
+    LESS_THAN_OR_EQUAL = 6;
+}
+
+enum GroupOperator {
+    // Invalid, only used as a default in error states
+    UNKNOWN_GROUPOPERATOR = 0;
+    AND = 1;
+    OR = 2;
+    XOR = 3;
+}
+
 message Query {
+    // A UUID generated for this query for idempotence and caching reasons, must be non-empty. 
+    // Repeated values may have their contents ignored by the server if it chooses to return cached content. 
+    // Servers must still correctly obey authC and authZ logic when choosing to return cached content based on ID.
+    string id = 1;
     oneof domain_space {
-        string domain = 1;
-        DomainJoins domains = 2;
+        string domain = 101;
+        // DomainJoins domains = 102; // TODO
     }
+    Paging paging = 2;
+    WhereGroup where = 3;
 }
 
 message DomainJoins {
+    // TODO
+}
 
+message WhereGroup {
+    repeated WhereGroupElement elements = 1;
+    bool negate_operator = 2;
+    GroupOperator operator = 3;
+}
+
+message WhereGroupElement {
+    oneof element {
+        WhereField field = 101;
+        WhereGroup group = 102;
+    }
+}
+
+message WhereField {
+    string field_name = 1;
+    bool negate_comparator = 2;
+    Comparator comparator = 3;
+    // DomainName is optional if only one domain is present, but mandatory if multiple domains are present
+    string domain_name = 4; 
+    oneof value {
+        string string_value = 101;
+        int64 int64_value = 102;
+        uint64 uint64_value = 103;
+        double double_value = 104;
+        bool bool_value = 105;
+        bytes bytes_value = 106;
+        // TODO: time
+        // TODO: other basic types I'm forgetting?
+    }
+    // Ordering is optional, unless the RDBMS on the other end requires it,
+    // but it is the responsibility of the server directly interfacing with the RDBMS to understand the requirements of its data source.
+    Ordering ordering = 5;
+}
+
+message Paging {
+    uint64 limit = 1;
+    uint64 offset = 2;
+}
+
+message Ordering {
+    // Priority must be set to a unique value if ordering is present for an item, duplicate priorities within a request is considered an error
+    uint32 priority = 1;
+    bool descending = 2;
 }

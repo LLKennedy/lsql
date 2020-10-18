@@ -11,3 +11,9 @@ At least, that's the plan. At time of writing, I only just came up with this ide
 ## Code Generation
 
 The idea here is that the proto messages are static, regardless of your data model(s). Code will be generated from .NET Core Entity Framework (EF) models for both the Typescript bindings and an LSQL->EF proxy layer. Other languages are mostly supported by proto's inherent language support, but if I get to it I'll work on codegen for strongly typed in-transit inspection of the query types. It's going to be hard to do this in languages that don't support generics (looking at you, Go).
+
+## Transactions
+
+Transactions? What are those? Not my problem, for sure. After all, we only do gets here. Sure, you *could* use gets to communicate data you want to delete or apply modifications to, but that sounds like a you problem.
+
+For real though, transactions over RPC are their own entire systemic problem, they're out of scope for this project. If you plan to use this query language for transactional sequences, you'll need to implement that within your microservice architecture and DB solution.
