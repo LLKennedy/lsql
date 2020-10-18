@@ -1,0 +1,33 @@
+{
+  "name": "lsql.ts",
+  "version": "1.0.0",
+  "description": "Luke's \"Silly\" Query Language",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llkennedy/lsql.git"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "query"
+  ],
+  "author": "Luke Kennedy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/llkennedy/lsql/issues"
+  },
+  "homepage": "https://github.com/llkennedy/lsql#readme",
+  "devDependencies": {
+    "ts-loader": "^8.0.5",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
