@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message Query {
+    oneof domain_space {
+        string domain = 1;
+        DomainJoins domains = 2;
+    }
+}
+
+message DomainJoins {
+
+}
