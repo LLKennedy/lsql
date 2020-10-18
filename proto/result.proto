@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// proto_path
+import "google/protobuf/struct.proto";
+
+message Result {
+    repeated google.protobuf.Struct data = 1;
+}
+
+message StreamResult {
+    // ID allows mapping of streamed results back to streamed requests
+    string id = 1;
+    repeated google.protobuf.Struct data = 2;
+}

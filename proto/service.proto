@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "github.com/llkennedy/lsql/proto";
+
+import "query.proto";
+import "result.proto";
+
+service DataSource {
+    rpc Execute(Query) returns (Result) {}
+    rpc ExecuteBatch(stream Query) returns (stream StreamResult) {}
+}
