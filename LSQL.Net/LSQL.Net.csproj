@@ -12,10 +12,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <!-- <Protobuf Include="../*.proto" OutputDir="%(RelativePath)" CompileOutputs="true" GrpcServices="Both" ProtoRoot=".." /> -->
-    <!-- <Protobuf Update="../*.proto" GrpcServices="Both" OutputDir="%(RelativePath)" ProtoRoot=".."/> -->
-    <Protobuf Include="..\query.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot=".." CompileOutputs="true" />
-    <Protobuf Include="..\result.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot=".." CompileOutputs="true" />
-    <Protobuf Include="..\service.proto" GrpcServices="Both" OutputDir="%(RelativePath)" ProtoRoot=".." CompileOutputs="true" />
+    <Protobuf Include="../proto/query.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
+    <Protobuf Include="../proto/result.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
+    <Protobuf Include="../proto/service.proto" GrpcServices="Both" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
   </ItemGroup>
 </Project>

@@ -26,9 +26,9 @@ namespace LukeKennedy.LSQL.Net {
           string.Concat(
             "Cg1zZXJ2aWNlLnByb3RvGgtxdWVyeS5wcm90bxoMcmVzdWx0LnByb3RvMlcK",
             "CkRhdGFTb3VyY2USHAoHRXhlY3V0ZRIGLlF1ZXJ5GgcuUmVzdWx0IgASKwoM",
-            "RXhlY3V0ZUJhdGNoEgYuUXVlcnkaDS5TdHJlYW1SZXN1bHQiACgBMAFCP1om",
-            "Z2l0aHViLmNvbS9sbGtlbm5lZHkvbHNxbC9wcm90by9nb2xzcWyqAhRMdWtl",
-            "S2VubmVkeS5MU1FMLk5ldGIGcHJvdG8z"));
+            "RXhlY3V0ZUJhdGNoEgYuUXVlcnkaDS5TdHJlYW1SZXN1bHQiACgBMAFCOVog",
+            "Z2l0aHViLmNvbS9sbGtlbm5lZHkvbHNxbC9nb2xzcWyqAhRMdWtlS2VubmVk",
+            "eS5MU1FMLk5ldGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::LukeKennedy.LSQL.Net.QueryReflection.Descriptor, global::LukeKennedy.LSQL.Net.ResultReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, null));

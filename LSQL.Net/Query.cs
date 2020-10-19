@@ -45,8 +45,8 @@ namespace LukeKennedy.LSQL.Net {
             "DQoJTEVTU19USEFOEAQSGQoVR1JFQVRFUl9USEFOX09SX0VRVUFMEAUSFgoS",
             "TEVTU19USEFOX09SX0VRVUFMEAYqRAoNR3JvdXBPcGVyYXRvchIZChVVTktO",
             "T1dOX0dST1VQT1BFUkFUT1IQABIHCgNBTkQQARIGCgJPUhACEgcKA1hPUhAD",
-            "Qj9aJmdpdGh1Yi5jb20vbGxrZW5uZWR5L2xzcWwvcHJvdG8vZ29sc3FsqgIU",
-            "THVrZUtlbm5lZHkuTFNRTC5OZXRiBnByb3RvMw=="));
+            "QjlaIGdpdGh1Yi5jb20vbGxrZW5uZWR5L2xzcWwvZ29sc3FsqgIUTHVrZUtl",
+            "bm5lZHkuTFNRTC5OZXRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LukeKennedy.LSQL.Net.Comparator), typeof(global::LukeKennedy.LSQL.Net.GroupOperator), }, null, new pbr::GeneratedClrTypeInfo[] {

@@ -27,9 +27,9 @@ namespace LukeKennedy.LSQL.Net {
             "CgxyZXN1bHQucHJvdG8aHGdvb2dsZS9wcm90b2J1Zi9zdHJ1Y3QucHJvdG8i",
             "LwoGUmVzdWx0EiUKBGRhdGEYASADKAsyFy5nb29nbGUucHJvdG9idWYuU3Ry",
             "dWN0IkEKDFN0cmVhbVJlc3VsdBIKCgJpZBgBIAEoCRIlCgRkYXRhGAIgAygL",
-            "MhcuZ29vZ2xlLnByb3RvYnVmLlN0cnVjdEI/WiZnaXRodWIuY29tL2xsa2Vu",
-            "bmVkeS9sc3FsL3Byb3RvL2dvbHNxbKoCFEx1a2VLZW5uZWR5LkxTUUwuTmV0",
-            "YgZwcm90bzM="));
+            "MhcuZ29vZ2xlLnByb3RvYnVmLlN0cnVjdEI5WiBnaXRodWIuY29tL2xsa2Vu",
+            "bmVkeS9sc3FsL2dvbHNxbKoCFEx1a2VLZW5uZWR5LkxTUUwuTmV0YgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
