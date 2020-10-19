@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 option go_package = "github.com/llkennedy/lsql/proto/golsql";
+option csharp_namespace = "LSQL.NET";
 
 enum Comparator {
     // Invalid, only used as a default in error states
