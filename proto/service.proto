@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/llkennedy/lsql/proto";
+option go_package = "github.com/llkennedy/lsql/proto/golsql";
 
 import "query.proto";
 import "result.proto";

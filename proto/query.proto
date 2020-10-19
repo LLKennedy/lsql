@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/llkennedy/lsql/proto/golsql";
+
 enum Comparator {
     // Invalid, only used as a default in error states
     UNKNOWN_COMPARATOR = 0;

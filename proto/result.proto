@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/llkennedy/lsql/proto/golsql";
+
 // proto_path
 import "google/protobuf/struct.proto";
 
