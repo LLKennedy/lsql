@@ -32,7 +32,6 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "google-protobuf": "^3.13.0",
-    "grpc-web": "^1.2.1"
+    "lsql.js": "^0.1.0"
   }
 }

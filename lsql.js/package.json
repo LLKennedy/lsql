@@ -1,6 +1,6 @@
 {
   "name": "lsql.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Raw exported lsql generated js+ts",
   "main": "index.js",
   "scripts": {

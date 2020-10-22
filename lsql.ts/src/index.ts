@@ -1,4 +1,4 @@
-import {Query} from '../../lsql.js/src/query_pb';
+import {Query} from 'lsql.js';
 
 let x = new Query();
 x.getPaging();
