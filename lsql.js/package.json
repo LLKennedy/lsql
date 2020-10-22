@@ -1,0 +1,19 @@
+{
+  "name": "lsql.js",
+  "version": "1.0.0",
+  "description": "Raw exported lsql generated js+ts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LLKennedy/lsql.git"
+  },
+  "author": "Luke Kennedy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LLKennedy/lsql/issues"
+  },
+  "homepage": "https://github.com/LLKennedy/lsql#readme"
+}
