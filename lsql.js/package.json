@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/LLKennedy/lsql/issues"
   },
-  "homepage": "https://github.com/LLKennedy/lsql#readme"
+  "homepage": "https://github.com/LLKennedy/lsql#readme",
+  "dependencies": {
+    "google-protobuf": "^3.13.0",
+    "grpc-web": "^1.2.1"
+  }
 }
