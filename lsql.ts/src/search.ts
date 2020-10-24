@@ -1,20 +1,17 @@
-import {DataSourceClient, DataSourcePromiseClient} from 'lsql.js/service_grpc_web_pb'
-import {Query as protoQuery} from 'lsql.js/query_pb';
-import {Metadata, Error} from 'grpc-web';
+import { DataSourceClient, DataSourcePromiseClient } from 'lsql.js/service_grpc_web_pb'
+import { Query as protoQuery, WhereField } from 'lsql.js/query_pb';
+import { Metadata, Error} from 'grpc-web';
 import { Result as protoResult } from 'lsql.js/result_pb';
 import { Struct } from 'google-protobuf/google/protobuf/struct_pb';
 
-export enum FieldType {
-    STRING = 1, // FIXME: all supported by query.proto's oneof
-}
-
 // Generated code will match this interface
 export interface Model<T> {
-    parseStruct(raw: Struct): T
+    fieldType(fieldPath: string): WhereField.ValueCase;
+    parseStruct(raw: Struct): T; 
 }
 
 // Query<T> is absolutely no different to Query, and only exists so you can't accidentally plug the wrong model's output into a search Execute
-export class Query<T extends Model<T>> extends protoQuery {
+export class Query<T extends Model<T>> extends protoQuery { 
 }
 
 export class Result<T extends Model<T>> extends protoResult {
