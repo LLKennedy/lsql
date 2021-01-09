@@ -7,6 +7,12 @@
       "commands": [
         "dotnet-grpc"
       ]
+    },
+    "dotnet-ef": {
+      "version": "3.1.9",
+      "commands": [
+        "dotnet-ef"
+      ]
     }
   }
 }

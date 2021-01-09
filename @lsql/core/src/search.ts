@@ -1,5 +1,5 @@
 import { DataSourceClient, DataSourcePromiseClient } from 'lsql.js/service_grpc_web_pb'
-import { Query as protoQuery, WhereField } from 'lsql.js/query_pb';
+import { Query as protoQuery, WhereField } from 'lsql.js';
 import { Metadata, Error} from 'grpc-web';
 import { Result as protoResult } from 'lsql.js/result_pb';
 import { Struct } from 'google-protobuf/google/protobuf/struct_pb';
