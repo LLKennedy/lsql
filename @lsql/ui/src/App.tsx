@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
+import { NewGroup } from './query/where';
 
 interface MyModel {
 	Name: string;
@@ -14,6 +14,14 @@ interface AppState {
 }
 
 class App extends React.Component<{}, AppState> {
+	constructor(props: {}) {
+		super(props);
+		this.state = {
+			queryState: {
+				where: NewGroup()
+			}
+		}
+	}
 	render() {
 		return <div className="App">
 			<header className="App-header">

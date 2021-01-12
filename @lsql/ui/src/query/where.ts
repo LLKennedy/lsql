@@ -3,6 +3,25 @@ type WhereElement<T> = Field<T> | Group<T>
 const fieldWhereType = "field";
 const groupWhereType = "group";
 
+export enum GroupOperator {
+    /** Invalid, only used as a default in error states */
+    UNKNOWN_GROUPOPERATOR = 0,
+    AND = 1,
+    OR = 2,
+    XOR = 3
+}
+
+export enum Comparator {
+    /** Invalid, only used as a default in error states */
+    UNKNOWN_COMPARATOR = 0,
+    EQUAL = 1,
+    FUZZY_EQUAL = 2,
+    GREATER_THAN = 3,
+    LESS_THAN = 4,
+    GREATER_THAN_OR_EQUAL = 5,
+    LESS_THAN_OR_EQUAL = 6
+}
+
 export interface Ordering {
     priority: number;
     descending: boolean;
@@ -28,23 +47,14 @@ export interface Group<T> {
     negateOperator: boolean;
 }
 
-export enum GroupOperator {
-    /** Invalid, only used as a default in error states */
-    UNKNOWN_GROUPOPERATOR = 0,
-    AND = 1,
-    OR = 2,
-    XOR = 3
-}
-
-export enum Comparator {
-    /** Invalid, only used as a default in error states */
-    UNKNOWN_COMPARATOR = 0,
-    EQUAL = 1,
-    FUZZY_EQUAL = 2,
-    GREATER_THAN = 3,
-    LESS_THAN = 4,
-    GREATER_THAN_OR_EQUAL = 5,
-    LESS_THAN_OR_EQUAL = 6
+export function NewGroup<T>() {
+    let group: Group<T> = {
+        elements: [],
+        negateOperator: false,
+        operator: GroupOperator.AND,
+        whereType: "group"
+    }
+    return group;
 }
 
 /**Recursively checks all groups and fields within this group */
@@ -65,7 +75,7 @@ export function groupsAreEqual<T>(first: Group<T>, second: Group<T>): boolean {
         // Nothing else to compare
         return true;
     }
-    if (firstElementsEmpty || secondElementsEmpty || first.negateOperator !== second.negateOperator || first.operator !== second.operator || first.whereType !== first.whereType || first.elements.length !== second.elements.length) {
+    if (firstElementsEmpty || secondElementsEmpty || first.negateOperator !== second.negateOperator || first.operator !== second.operator || first.whereType !== second.whereType || first.elements.length !== second.elements.length) {
         // Some mismatched property
         return false;
     }
