@@ -3,26 +3,26 @@ import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
 import { Group, groupsAreEqual, ModelFactory, NewGroup } from "./where";
 
-export interface QueryBuilderProps<T> extends QueryBuilderState<T>, ModelFactory<T> {
+export interface QueryBuilderProps<T> extends QueryBuilderState, ModelFactory<T> {
     /**Indicates to the parent that the internal state is ready to change */
-    update(newState: Partial<QueryBuilderState<T>>): void;
+    update(newState: Partial<QueryBuilderState>): void;
 }
 
-export interface QueryBuilderState<T> {
-    where: Group<T>;
+export interface QueryBuilderState {
+    where: Group;
 }
 
 /**
  * A dynamic boolean logic query builder for LSQL
  */
-export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, QueryBuilderState<T>> {
+export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, QueryBuilderState> {
     constructor(props: QueryBuilderProps<T>) {
         super(props);
         this.state = {
             where: NewGroup()
         };
     }
-    componentDidUpdate(prevProps: QueryBuilderProps<T>, prevState: QueryBuilderState<T>) {
+    componentDidUpdate(prevProps: QueryBuilderProps<T>, prevState: QueryBuilderState) {
         if (!groupsAreEqual(prevProps.where, this.props.where)) {
             // Updated query from props, set in state
             this.setState({
@@ -35,7 +35,7 @@ export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, Query
             <GroupBuilder data={this.state.where} update={this.update.bind(this)} createEmptyModel={this.props.createEmptyModel} />
         </div>
     }
-    update(data: Group<T>) {
+    update(data: Group) {
         this.props.update({
             where: data
         })

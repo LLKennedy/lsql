@@ -18,7 +18,7 @@ function createMyModel(): MyModel {
 }
 
 interface AppState {
-	queryState: QueryBuilderState<MyModel>
+	queryState: QueryBuilderState
 }
 
 class App extends React.Component<{}, AppState> {

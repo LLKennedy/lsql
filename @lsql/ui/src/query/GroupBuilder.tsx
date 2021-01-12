@@ -2,8 +2,8 @@ import React from "react";
 import { Group, ModelFactory } from "./where";
 
 export interface GroupProps<T> extends ModelFactory<T> {
-    data: Group<T>;
-    update(data: Group<T>): void;
+    data: Group;
+    update(data: Group): void;
 
 }
 

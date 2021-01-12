@@ -1,4 +1,4 @@
-type WhereElement<T> = Field<T> | Group<T>
+type WhereElement = Field | Group
 
 const fieldWhereType = "field";
 const groupWhereType = "group";
@@ -32,10 +32,10 @@ export interface Ordering {
     descending: boolean;
 }
 
-export interface Field<T> {
+export interface Field {
     whereType: typeof fieldWhereType;
     /**The only reason for the type argument currently */
-    fieldName: keyof T;
+    fieldName: string;
     comparator: Comparator;
     negateComparator: boolean;
     domainName?: string;
@@ -45,15 +45,15 @@ export interface Field<T> {
 }
 
 /** Top level query structure, but may also be nested arbitrarily deep within the structure. */
-export interface Group<T> {
+export interface Group {
     whereType: typeof groupWhereType;
-    elements: WhereElement<T>[];
+    elements: WhereElement[];
     operator: GroupOperator;
     negateOperator: boolean;
 }
 
-export function NewGroup<T>() {
-    let group: Group<T> = {
+export function NewGroup() {
+    let group: Group = {
         elements: [],
         negateOperator: false,
         operator: GroupOperator.AND,
@@ -63,7 +63,7 @@ export function NewGroup<T>() {
 }
 
 /**Recursively checks all groups and fields within this group */
-export function groupsAreEqual<T>(first: Group<T>, second: Group<T>): boolean {
+export function groupsAreEqual(first: Group, second: Group): boolean {
     // Check for both null/undefined
     let firstIsEmpty = first === undefined || first === null;
     let secondIsEmpty = second === undefined || second === null;
@@ -90,11 +90,11 @@ export function groupsAreEqual<T>(first: Group<T>, second: Group<T>): boolean {
         }
         switch (first.elements[i].whereType) {
             case fieldWhereType:
-                if (!fieldsAreEqual(first.elements[i] as Field<T>, second.elements[i] as Field<T>)) return false;
+                if (!fieldsAreEqual(first.elements[i] as Field, second.elements[i] as Field)) return false;
                 break;
             case groupWhereType:
                 // Recurse here - this will be a problem if you have an obscenely deeply nested query, but there's no real use case for that.
-                if (!groupsAreEqual(first.elements[i] as Group<T>, second.elements[i] as Group<T>)) return false;
+                if (!groupsAreEqual(first.elements[i] as Group, second.elements[i] as Group)) return false;
                 break;
             default:
                 throw new Error(`Cannot compare query elements of type ${first.elements[i].whereType}, must be "${fieldWhereType}" or "${groupWhereType}"`);
@@ -104,7 +104,7 @@ export function groupsAreEqual<T>(first: Group<T>, second: Group<T>): boolean {
     return true;
 }
 
-export function fieldsAreEqual<T>(first: Field<T>, second: Field<T>): boolean {
+export function fieldsAreEqual(first: Field, second: Field): boolean {
     // Check for both null/undefined
     let firstIsEmpty = first === undefined || first === null;
     let secondIsEmpty = second === undefined || second === null;
