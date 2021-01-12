@@ -40,7 +40,10 @@ class App extends React.Component<{}, AppState> {
 	}
 	render() {
 		return <div className="App">
-			<header className="App-header">
+			<div className="App-body">
+				<div className="App-header">
+					LSQL Query Builder Demo
+				</div>
 				<QueryBuilder<MyModel>
 					update={newState => {
 						this.setState({
@@ -50,7 +53,7 @@ class App extends React.Component<{}, AppState> {
 					where={this.state.queryState.where}
 					createEmptyModel={createMyModel}
 				/>
-			</header>
+			</div>
 		</div>
 	}
 }
