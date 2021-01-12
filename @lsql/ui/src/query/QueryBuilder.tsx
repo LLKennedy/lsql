@@ -1,9 +1,9 @@
 import React from "react";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
-import { Group, groupsAreEqual, ModelFactory, NewGroup } from "./where";
+import { Group, groupsAreEqual, Model, ModelFactory, NewGroup } from "./where";
 
-export interface QueryBuilderProps<T> extends QueryBuilderState, ModelFactory<T> {
+export interface QueryBuilderProps<T extends Model> extends QueryBuilderState, ModelFactory<T> {
     /**Indicates to the parent that the internal state is ready to change */
     update(newState: Partial<QueryBuilderState>): void;
 }
@@ -15,7 +15,7 @@ export interface QueryBuilderState {
 /**
  * A dynamic boolean logic query builder for LSQL
  */
-export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, QueryBuilderState> {
+export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderProps<T>, QueryBuilderState> {
     constructor(props: QueryBuilderProps<T>) {
         super(props);
         this.state = {
@@ -32,7 +32,11 @@ export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, Query
     }
     render() {
         return <div className="lsql-querybuilder-container">
-            <GroupBuilder data={this.state.where} update={this.update.bind(this)} createEmptyModel={this.props.createEmptyModel} />
+            <GroupBuilder
+                data={this.state.where}
+                update={this.update.bind(this)}
+                createEmptyModel={this.props.createEmptyModel}
+            />
         </div>
     }
     update(data: Group) {

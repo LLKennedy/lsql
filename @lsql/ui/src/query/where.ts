@@ -23,7 +23,28 @@ export enum Comparator {
     IS_NULL = 7
 }
 
-export interface ModelFactory<T> {
+export enum PropertyType { 
+    STRING,
+    INT64,
+    UINT64,
+    DOUBLE,
+    BOOL,
+    BYTES,
+    TIME
+}
+
+export interface ModelPropertyDescriptor {
+    name: string;
+    type: PropertyType;
+}
+
+export interface Model {
+    /** This is necessary to build the UI for querying the model at runtime, since type information is 100% gone at runtime. */
+    getPropertyList(): ModelPropertyDescriptor[]
+}
+
+export interface ModelFactory<T extends Model> {
+    /** Creates a new instance of the model type - cannot be done via reflection due to language limitations. */
     createEmptyModel(): T
 }
 
