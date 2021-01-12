@@ -9,6 +9,14 @@ interface MyModel {
 	Width: number;
 }
 
+function createMyModel(): MyModel {
+	return {
+		Name: "",
+		Stuff: "",
+		Width: 0
+	}
+}
+
 interface AppState {
 	queryState: QueryBuilderState<MyModel>
 }
@@ -29,7 +37,7 @@ class App extends React.Component<{}, AppState> {
 					this.setState({
 						queryState: Object.assign({}, this.state.queryState, newState)
 					})
-				}} where={this.state.queryState.where} />
+				}} where={this.state.queryState.where} createEmptyModel={createMyModel} />
 			</header>
 		</div>
 	}

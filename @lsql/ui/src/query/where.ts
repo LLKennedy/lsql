@@ -23,6 +23,10 @@ export enum Comparator {
     IS_NULL = 7
 }
 
+export interface ModelFactory<T> {
+    createEmptyModel(): T
+}
+
 export interface Ordering {
     priority: number;
     descending: boolean;
