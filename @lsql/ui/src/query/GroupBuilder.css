@@ -1,0 +1,7 @@
+.lsql-group-operator-selected {
+    background-color: blue;
+}
+
+.lsql-group-operator-unselected {
+    background-color: cornsilk;
+}

@@ -95,8 +95,8 @@ export function groupsAreEqual(first: Group, second: Group): boolean {
         // Only one is null
         return false;
     }
-    let firstElementsEmpty = first.elements === undefined || first.elements === null || first.elements.length === 0;
-    let secondElementsEmpty = second.elements === undefined || second.elements === null || second.elements.length === 0;
+    let firstElementsEmpty = first.elements === undefined || first.elements === null;
+    let secondElementsEmpty = second.elements === undefined || second.elements === null;
     if (firstElementsEmpty && secondElementsEmpty) {
         // Nothing else to compare
         return true;
