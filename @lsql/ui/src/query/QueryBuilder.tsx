@@ -1,4 +1,5 @@
 import React from "react";
+import "./QueryBuilder.css";
 import { Group, groupsAreEqual, NewGroup } from "./where";
 
 export interface QueryBuilderProps<T> extends QueryBuilderState<T> {
@@ -29,8 +30,8 @@ export class QueryBuilder<T> extends React.Component<QueryBuilderProps<T>, Query
         }
     }
     render() {
-        return <div>
-            Hello
+        return <div className="lsql-querybuilder-container">
+            Hi
         </div>
     }
 }

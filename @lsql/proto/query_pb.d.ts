@@ -245,6 +245,7 @@ export enum Comparator {
   LESS_THAN = 4,
   GREATER_THAN_OR_EQUAL = 5,
   LESS_THAN_OR_EQUAL = 6,
+  IS_NULL = 7,
 }
 export enum GroupOperator { 
   UNKNOWN_GROUPOPERATOR = 0,

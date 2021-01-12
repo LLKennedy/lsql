@@ -1968,7 +1968,8 @@ proto.Comparator = {
   GREATER_THAN: 3,
   LESS_THAN: 4,
   GREATER_THAN_OR_EQUAL: 5,
-  LESS_THAN_OR_EQUAL: 6
+  LESS_THAN_OR_EQUAL: 6,
+  IS_NULL: 7
 };
 
 /**

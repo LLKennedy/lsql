@@ -40,13 +40,13 @@ namespace LukeKennedy.LSQL.Net {
             "dWUYaiABKAxIABIbCghvcmRlcmluZxgFIAEoCzIJLk9yZGVyaW5nQgcKBXZh",
             "bHVlIicKBlBhZ2luZxINCgVsaW1pdBgBIAEoBBIOCgZvZmZzZXQYAiABKAQi",
             "MAoIT3JkZXJpbmcSEAoIcHJpb3JpdHkYASABKA0SEgoKZGVzY2VuZGluZxgC",
-            "IAEoCCqUAQoKQ29tcGFyYXRvchIWChJVTktOT1dOX0NPTVBBUkFUT1IQABIJ",
+            "IAEoCCqhAQoKQ29tcGFyYXRvchIWChJVTktOT1dOX0NPTVBBUkFUT1IQABIJ",
             "CgVFUVVBTBABEg8KC0ZVWlpZX0VRVUFMEAISEAoMR1JFQVRFUl9USEFOEAMS",
             "DQoJTEVTU19USEFOEAQSGQoVR1JFQVRFUl9USEFOX09SX0VRVUFMEAUSFgoS",
-            "TEVTU19USEFOX09SX0VRVUFMEAYqRAoNR3JvdXBPcGVyYXRvchIZChVVTktO",
-            "T1dOX0dST1VQT1BFUkFUT1IQABIHCgNBTkQQARIGCgJPUhACEgcKA1hPUhAD",
-            "QjlaIGdpdGh1Yi5jb20vbGxrZW5uZWR5L2xzcWwvZ29sc3FsqgIUTHVrZUtl",
-            "bm5lZHkuTFNRTC5OZXRiBnByb3RvMw=="));
+            "TEVTU19USEFOX09SX0VRVUFMEAYSCwoHSVNfTlVMTBAHKkQKDUdyb3VwT3Bl",
+            "cmF0b3ISGQoVVU5LTk9XTl9HUk9VUE9QRVJBVE9SEAASBwoDQU5EEAESBgoC",
+            "T1IQAhIHCgNYT1IQA0I5WiBnaXRodWIuY29tL2xsa2VubmVkeS9sc3FsL2dv",
+            "bHNxbKoCFEx1a2VLZW5uZWR5LkxTUUwuTmV0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LukeKennedy.LSQL.Net.Comparator), typeof(global::LukeKennedy.LSQL.Net.GroupOperator), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -74,6 +74,7 @@ namespace LukeKennedy.LSQL.Net {
     [pbr::OriginalName("LESS_THAN")] LessThan = 4,
     [pbr::OriginalName("GREATER_THAN_OR_EQUAL")] GreaterThanOrEqual = 5,
     [pbr::OriginalName("LESS_THAN_OR_EQUAL")] LessThanOrEqual = 6,
+    [pbr::OriginalName("IS_NULL")] IsNull = 7,
   }
 
   public enum GroupOperator {

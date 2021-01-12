@@ -1,0 +1,5 @@
+.lsql-querybuilder-container {
+    /* Declare constants here so they're accessible within this whole component */
+    --text-colour: #000000;
+}
+
