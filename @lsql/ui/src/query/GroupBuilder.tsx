@@ -23,9 +23,9 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                     onMouseDown={e => this.toggleNegateOperator()}
                 />
                 <div
-                    className={`${ClassDefs.groupBuilderAddButton} fa fa-plus` /*TODO: add*/}
+                    className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus` /*TODO: add*/}
                 />
-                {this.props.isRootGroup ? null : <div className={`${ClassDefs.groupBuilderAddButton} fa fa-times`}></div>} {/*TODO: delete*/}
+                {this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}></div>} {/*TODO: delete*/}
             </div>
             {this.props.data.elements?.map((element, i) => {
                 switch (element.whereType) {

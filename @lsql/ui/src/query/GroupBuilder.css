@@ -1,3 +1,13 @@
+* {
+    /* Variables for everything in this component */
+    --hover-colour: aqua;
+    --good-hover-colour: green;
+    --bad-hover-colour: red;
+    --selected-button-colour: blue;
+    --unselected-button-colour: cornsilk;
+    --button-border-colour: black;
+}
+
 .lsql-groupbuilder-container {
     display: inline-flex;
     flex-direction: column
@@ -7,11 +17,9 @@
 .lsql-toggleable, .lsql-clickable {
     cursor: pointer;
     user-select: none;
-}
-.lsql-toggleable:not(.lsql-toggled), .lsql-clickable:not(.lsql-clicked) {
     background-color: var(--unselected-button-colour);
 }
-.lsql-toggleable:hover, .lsql-clickable:hover, .lsql-toggled:hover {
+.lsql-toggleable:hover, .lsql-clickable:hover, .lsql-toggleable.lsql-toggled:hover {
     background-color: var(--hover-colour);
 }
 .lsql-toggleable.lsql-toggled, .lsql-clickable.lsql-clicked {
@@ -33,7 +41,7 @@
     justify-content: center;
     border: 0.1em solid var(--button-border-colour);
     border-radius: 100%;
-    margin: 0.2em;
+    margin-left: 0.2em;
 }
 
 .lsql-groupoperator-container {
