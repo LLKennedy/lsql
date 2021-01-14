@@ -1,3 +1,13 @@
+* {
+    /* Variables for everything in this library */
+    --hover-colour: aqua;
+    --good-hover-colour: green;
+    --bad-hover-colour: red;
+    --selected-button-colour: blue;
+    --unselected-button-colour: cornsilk;
+    --button-border-colour: black;
+}
+
 .lsql-querybuilder-container {
     color: black;
     background-color: cadetblue;

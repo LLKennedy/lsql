@@ -1,47 +1,44 @@
 .lsql-groupbuilder-container {
-    --hover-colour: aqua;
-    --good-hover-colour: green;
-    --bad-hover-colour: red;
-    --selected-button-colour: blue;
-    --unselected-button-colour: cornsilk;
-    --button-border-colour: black;
     display: inline-flex;
     flex-direction: column
+}
+
+/* Clickable and toggleable elements */
+.lsql-toggleable, .lsql-clickable {
+    cursor: pointer;
+    user-select: none;
+}
+.lsql-toggleable:not(.lsql-toggled), .lsql-clickable:not(.lsql-clicked) {
+    background-color: var(--unselected-button-colour);
+}
+.lsql-toggleable:hover, .lsql-clickable:hover, .lsql-toggled:hover {
+    background-color: var(--hover-colour);
+}
+.lsql-toggleable.lsql-toggled, .lsql-clickable.lsql-clicked {
+    background-color: var(--selected-button-colour);
+    color: white;
 }
 
 .lsql-groupbuilder-header {
     display: inline-flex;
     align-items: center;
+    justify-content: flex-start;
 }
 
-.lsql-groupbuilder-negatebutton,
-.lsql-groupbuilder-addbutton,
-.lsql-groupbuilder-deletebutton {
+.lsql-circle {
     width: 1em;
     height: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 0.1em solid var(--button-border-colour);
-    background-color: var(--unselected-button-colour);
     border-radius: 100%;
     margin: 0.2em;
 }
 
-.lsql-groupbuilder-negatebutton:hover {
-    background-color: var(--hover-colour);
-}
-
-.lsql-groupbuilder-addbutton:hover {
-    background-color: var(--good-hover-colour);
-}
-
-.lsql-groupbuilder-deletebutton:hover {
-    background-color: var(--bad-hover-colour);
-}
-
 .lsql-groupoperator-container {
     display: inline-flex;
+    margin-left: 1em;
 }
 
 .lsql-groupoperator-container div {
@@ -51,17 +48,4 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
-}
-
-.lsql-groupoperator-unselected:hover {
-    background-color: var(--hover-colour);
-}
-
-.lsql-groupoperator-selected {
-    background-color: var(--selected-button-colour);
-    color: white;
-}
-
-.lsql-groupoperator-unselected {
-    background-color: var(--unselected-button-colour);
 }

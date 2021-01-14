@@ -18,8 +18,13 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                     operator={this.props.data.operator}
                     update={this.updateOperator.bind(this)}
                 />
-                <div className={`${ClassDefs.groupBuilderNegateButton} fa fa-exclamation`}></div> {/*TODO: negate operator*/}
-                <div className={`${ClassDefs.groupBuilderAddButton} fa fa-plus`}></div> {/*TODO: add*/}
+                <div
+                    className={`${ClassDefs.circle} ${ClassDefs.toggleable + (this.props.data.negateOperator && (" " + ClassDefs.toggled) || "")} fa fa-exclamation`}
+                    onMouseDown={e => this.toggleNegateOperator()}
+                />
+                <div
+                    className={`${ClassDefs.groupBuilderAddButton} fa fa-plus` /*TODO: add*/}
+                />
                 {this.props.isRootGroup ? null : <div className={`${ClassDefs.groupBuilderAddButton} fa fa-times`}></div>} {/*TODO: delete*/}
             </div>
             {this.props.data.elements?.map((element, i) => {
@@ -51,8 +56,17 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
             })}
         </div>
     }
+    copyGroup(group: Group): Group {
+        return Object.assign<{}, Group>({}, { ...group });
+    }
+    toggleNegateOperator() {
+        let newProps = this.copyGroup(this.props.data);
+        newProps.negateOperator = !newProps.negateOperator;
+        this.props.update(newProps);
+    }
     updateOperator(operator: GroupOperator) {
-        let newProps = Object.assign<{}, Group, Partial<Group>>({}, this.props.data, { operator: operator })
+        let newProps = this.copyGroup(this.props.data);
+        newProps.operator = operator;
         if ((this.props.data.elements?.length > 1)) {
             newProps.operator = GroupOperator.UNKNOWN_GROUPOPERATOR;
         }
@@ -76,5 +90,13 @@ function GroupOperatorSelector(props: SelectorProps) {
 }
 
 function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, strRep: string, update: (newOperator: GroupOperator) => void) {
-    return <div key={`lsql-groupoperator-${operator}`} className={operator === current ? ClassDefs.groupOperatorSelected : ClassDefs.groupUperatorUnselected} onMouseDown={e => { update(operator) }}>{strRep}</div>
+    let classString: string = ClassDefs.clickable;
+    if (operator === current) {
+        classString += " " + ClassDefs.clicked;
+    }
+    return <div
+        key={`lsql-groupoperator-${operator}`}
+        className={classString}
+        onMouseDown={e => { update(operator) }}
+    >{strRep}</div>
 }
