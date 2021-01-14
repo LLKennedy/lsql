@@ -77,7 +77,7 @@ export function NewGroup() {
     let group: Group = {
         elements: [],
         negateOperator: false,
-        operator: GroupOperator.AND,
+        operator: GroupOperator.UNKNOWN_GROUPOPERATOR,
         whereType: "group"
     }
     return group;

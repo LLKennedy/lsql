@@ -1,4 +1,5 @@
 import React from "react";
+import { ClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
 import { Group, groupsAreEqual, Model, ModelFactory, NewGroup } from "./where";
@@ -31,8 +32,9 @@ export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderP
         }
     }
     render() {
-        return <div className="lsql-querybuilder-container">
+        return <div className={ClassDefs.queryBuilderContainer}>
             <GroupBuilder
+                isRootGroup={true}
                 data={this.state.where}
                 update={this.update.bind(this)}
                 createEmptyModel={this.props.createEmptyModel}
