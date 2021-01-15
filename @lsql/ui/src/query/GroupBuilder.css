@@ -27,6 +27,13 @@
     color: white;
 }
 
+/* Context menu */
+.lsql-context-menu {
+    position: relative;
+    top: 1em;
+    border: 0.1em solid var(--button-border-colour);
+}
+
 .lsql-groupbuilder-header {
     display: inline-flex;
     align-items: center;

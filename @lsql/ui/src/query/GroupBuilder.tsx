@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { Field, Group, GroupOperator, Model, ModelFactory } from "./where";
+import { Field, Group, GroupOperator, Model, ModelFactory, WhereElement } from "./where";
 
 export interface GroupProps<T extends Model> extends ModelFactory<T> {
     data: Group;
@@ -14,17 +14,20 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
     render() {
         return <div className={ClassDefs.groupBuilderContainer}>
             <div className={ClassDefs.groupBuilderHeader}>
-                <GroupOperatorSelector
-                    operator={this.props.data.operator}
-                    update={this.updateOperator.bind(this)}
-                />
-                <div
-                    className={`${ClassDefs.circle} ${ClassDefs.toggleable + (this.props.data.negateOperator && (" " + ClassDefs.toggled) || "")} fa fa-exclamation`}
-                    onMouseDown={e => this.toggleNegateOperator()}
-                />
-                <div
-                    className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus` /*TODO: add*/}
-                />
+                {
+                    this.props.data.elements?.length > 1 ? [
+                        <GroupOperatorSelector
+                            operator={this.props.data.operator}
+                            update={this.updateOperator.bind(this)}
+                        />,
+                        <div
+                            className={`${ClassDefs.circle} ${ClassDefs.toggleable + (this.props.data.negateOperator && (" " + ClassDefs.toggled) || "")} fa fa-exclamation`}
+                            onMouseDown={e => this.toggleNegateOperator()}
+                        />
+                    ] : null
+                }
+
+                <GroupAddButton add={this.addElement.bind(this)} />
                 {this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}></div>} {/*TODO: delete*/}
             </div>
             {this.props.data.elements?.map((element, i) => {
@@ -67,9 +70,14 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
     updateOperator(operator: GroupOperator) {
         let newProps = this.copyGroup(this.props.data);
         newProps.operator = operator;
-        if ((this.props.data.elements?.length > 1)) {
+        if (!(this.props.data.elements?.length > 1)) {
             newProps.operator = GroupOperator.UNKNOWN_GROUPOPERATOR;
         }
+        this.props.update(newProps);
+    }
+    addElement(newElement: WhereElement) {
+        let newProps = this.copyGroup(this.props.data);
+        newProps.elements.push(newElement);
         this.props.update(newProps);
     }
 }
@@ -99,4 +107,32 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
         className={classString}
         onMouseDown={e => { update(operator) }}
     >{strRep}</div>
+}
+
+interface AddButtonProps {
+    add(newComponent: WhereElement): void;
+}
+
+interface AddButtonState {
+    clicked: boolean;
+}
+
+class GroupAddButton extends React.Component<AddButtonProps, AddButtonState> {
+    constructor(props: AddButtonProps) {
+        super(props);
+        this.state = {
+            clicked: false
+        };
+    }
+    render() {
+        return <div style={{ position: "relative" }}>
+            {this.state.clicked ? <div className={ClassDefs.contextMenu}>Hello</div> : null}
+            <div
+                className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+                onMouseDown={e => this.setState({
+                    clicked: true,
+                })}
+            />
+        </div>
+    }
 }

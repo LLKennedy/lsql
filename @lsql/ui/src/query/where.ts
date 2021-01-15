@@ -1,4 +1,4 @@
-type WhereElement = Field | Group
+export type WhereElement = Field | Group
 
 const fieldWhereType = "field";
 const groupWhereType = "group";
@@ -53,17 +53,42 @@ export interface Ordering {
     descending: boolean;
 }
 
-export interface Field {
+export interface NumericField {
+    type: PropertyType.DOUBLE | PropertyType.INT64 | PropertyType.UINT64;
+    value: number;
+}
+
+export interface StringField {
+    type: PropertyType.STRING;
+    value: string;
+}
+
+export interface BooleanField {
+    type: PropertyType.BOOL;
+    value: boolean;
+}
+
+export interface BytesField {
+    type: PropertyType.BYTES;
+    value: ArrayBuffer;
+}
+
+export interface TimeField {
+    type: PropertyType.TIME;
+    value: Date;
+}
+
+export interface FieldWithoutValue {
     whereType: typeof fieldWhereType;
     /**The only reason for the type argument currently */
     fieldName: string;
     comparator: Comparator;
     negateComparator: boolean;
     domainName?: string;
-    /** TODO: discriminate this union? */
-    value: string | number | boolean | ArrayBuffer;
     ordering: Ordering;
 }
+
+export type Field = FieldWithoutValue & (NumericField | StringField | BooleanField | BytesField | TimeField)
 
 /** Top level query structure, but may also be nested arbitrarily deep within the structure. */
 export interface Group {
