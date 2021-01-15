@@ -4,6 +4,7 @@ import { Comparator, Field, Model, ModelFactory } from "./where";
 
 export interface FieldProps<T extends Model> extends ModelFactory<T> {
     data: Field;
+    elementIndex: number[];
     update(data: Field): void;
 
 }
@@ -14,7 +15,7 @@ export class FieldBuilder<T extends Model> extends React.Component<FieldProps<T>
         return <div>
             <select>
                 {Object.keys(emptyModel).map(key => {
-                    return <option>{key}</option>
+                    return <option key={key}>{key}</option>
                 })}
             </select>
         </div>

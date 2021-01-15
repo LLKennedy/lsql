@@ -20,10 +20,12 @@ export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderP
     constructor(props: QueryBuilderProps<T>) {
         super(props);
         this.state = {
-            where: props.where
+            where: { ...props.where }
         };
     }
-    componentDidUpdate(prevProps: QueryBuilderProps<T>, prevState: QueryBuilderState) {
+    componentDidUpdate(prevProps: Readonly<QueryBuilderProps<T>>, prevState: Readonly<QueryBuilderState>) {
+        if (!groupsAreEqual(prevState.where, this.state.where)) {
+        }
         if (!groupsAreEqual(prevProps.where, this.props.where)) {
             // Updated query from props, set in state
             this.setState({
@@ -34,6 +36,7 @@ export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderP
     render() {
         return <div className={ClassDefs.queryBuilderContainer}>
             <GroupBuilder
+                elementIndex={[0]}
                 isRootGroup={true}
                 data={this.state.where}
                 update={this.update.bind(this)}

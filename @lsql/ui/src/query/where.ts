@@ -1,7 +1,7 @@
 export type WhereElement = Field | Group
 
-const fieldWhereType = "field";
-const groupWhereType = "group";
+export const fieldWhereType = "field";
+export const groupWhereType = "group";
 
 export enum GroupOperator {
 	/** Invalid, only used as a default in error states */
@@ -138,8 +138,63 @@ export function NewField<T extends Model>(factory: ModelFactory<T>, name?: strin
 			priority: 0,
 		},
 		type: fieldProp.type,
-		whereType: "field"
+		whereType: fieldWhereType
 	};
+	switch (newField.type) {
+		case PropertyType.BOOL:
+			newField.value = false;
+			break;
+		case PropertyType.BYTES:
+			newField.value = new ArrayBuffer(0);
+			break;
+		case PropertyType.DOUBLE:
+		case PropertyType.UINT64:
+		case PropertyType.INT64:
+			newField.value = 0;
+			break;
+		case PropertyType.STRING:
+			newField.value = "";
+			break;
+		case PropertyType.TIME:
+			newField.value = new Date();
+			break;
+		default:
+			newField.value = "";
+			break;
+	}
+	return newField as Field;
+}
+
+export function CopyGroup(group: Group): Group {
+	let newGroup: Group = {
+		negateOperator: group?.negateOperator,
+		operator: group?.operator,
+		whereType: group?.whereType,
+		elements: []
+	}
+	for (let i = 0; i < group?.elements?.length; i++) {
+		let element = group.elements[i];
+		switch (element.whereType) {
+			case groupWhereType:
+				newGroup.elements.push(CopyGroup(element));
+				break;
+				case fieldWhereType:
+					newGroup.elements.push(CopyField(element));
+		} 
+	}
+	return newGroup;
+}
+
+export function CopyField(field: Field): Field {
+	let newField: Partial<Field> = {
+		comparator: field.comparator,
+		fieldName: field.fieldName,
+		negateComparator: field.negateComparator,
+		ordering: {...field.ordering},
+		whereType: field.whereType,
+		domainName: field.domainName,
+		type: field.type
+	}
 	switch (newField.type) {
 		case PropertyType.BOOL:
 			newField.value = false;
@@ -222,5 +277,5 @@ export function fieldsAreEqual(first: Field, second: Field): boolean {
 		// Some mismatched property
 		return false;
 	}
-	return false;
+	return true;
 }
