@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { Field, Group, GroupOperator, Model, ModelFactory, WhereElement } from "./where";
+import { Group, GroupOperator, Model, ModelFactory, NewField, WhereElement } from "./where";
 
 export interface GroupProps<T extends Model> extends ModelFactory<T> {
     data: Group;
@@ -21,13 +21,13 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                             update={this.updateOperator.bind(this)}
                         />,
                         <div
-                            className={`${ClassDefs.circle} ${ClassDefs.toggleable + (this.props.data.negateOperator && (" " + ClassDefs.toggled) || "")} fa fa-exclamation`}
+                            className={`${ClassDefs.circle} ${ClassDefs.toggleable + ((this.props.data.negateOperator && (" " + ClassDefs.toggled)) || "")} fa fa-exclamation`}
                             onMouseDown={e => this.toggleNegateOperator()}
                         />
                     ] : null
                 }
 
-                <GroupAddButton add={this.addElement.bind(this)} />
+                <GroupAddButton add={this.addElement.bind(this)} createEmptyModel={this.props.createEmptyModel} />
                 {this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}></div>} {/*TODO: delete*/}
             </div>
             {this.props.data.elements?.map((element, i) => {
@@ -39,6 +39,7 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                             update={data => {
                                 let newProps = Object.assign({}, this.props.data);
                                 newProps.elements[i] = data;
+                                console.log("updating sub-group");
                                 this.props.update(newProps);
                             }}
                             isRootGroup={false}
@@ -50,6 +51,7 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                             update={data => {
                                 let newProps = Object.assign({}, this.props.data);
                                 newProps.elements[i] = data;
+                                console.log("updating sub-field");
                                 this.props.update(newProps);
                             }}
                         />
@@ -65,6 +67,7 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
     toggleNegateOperator() {
         let newProps = this.copyGroup(this.props.data);
         newProps.negateOperator = !newProps.negateOperator;
+        console.log("toggling operator negation");
         this.props.update(newProps);
     }
     updateOperator(operator: GroupOperator) {
@@ -73,11 +76,13 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
         if (!(this.props.data.elements?.length > 1)) {
             newProps.operator = GroupOperator.UNKNOWN_GROUPOPERATOR;
         }
+        console.log("switching operator");
         this.props.update(newProps);
     }
     addElement(newElement: WhereElement) {
         let newProps = this.copyGroup(this.props.data);
         newProps.elements.push(newElement);
+        console.log("adding element");
         this.props.update(newProps);
     }
 }
@@ -109,30 +114,21 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
     >{strRep}</div>
 }
 
-interface AddButtonProps {
+interface AddButtonProps<T extends Model> extends ModelFactory<T> {
     add(newComponent: WhereElement): void;
 }
 
-interface AddButtonState {
-    clicked: boolean;
-}
-
-class GroupAddButton extends React.Component<AddButtonProps, AddButtonState> {
-    constructor(props: AddButtonProps) {
+class GroupAddButton<T extends Model> extends React.Component<AddButtonProps<T>> {
+    constructor(props: AddButtonProps<T>) {
         super(props);
         this.state = {
             clicked: false
         };
     }
     render() {
-        return <div style={{ position: "relative" }}>
-            {this.state.clicked ? <div className={ClassDefs.contextMenu}>Hello</div> : null}
-            <div
-                className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
-                onMouseDown={e => this.setState({
-                    clicked: true,
-                })}
-            />
-        </div>
+        return <div
+            className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+            onMouseDown={e => this.props.add(NewField(this.props))}
+        />;
     }
 }

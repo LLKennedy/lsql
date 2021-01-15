@@ -34,7 +34,9 @@ class App extends React.Component<{}, AppState> {
 		super(props);
 		this.state = {
 			queryState: {
-				where: NewGroup()
+				where: NewGroup({
+					createEmptyModel: createMyModel
+				})
 			}
 		}
 	}
@@ -46,6 +48,7 @@ class App extends React.Component<{}, AppState> {
 				</div>
 				<QueryBuilder<MyModel>
 					update={newState => {
+						console.log("updating app state")
 						this.setState({
 							queryState: Object.assign({}, this.state.queryState, newState)
 						})

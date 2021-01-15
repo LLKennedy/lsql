@@ -12,10 +12,11 @@ export class FieldBuilder<T extends Model> extends React.Component<FieldProps<T>
     render() {
         let emptyModel = this.props.createEmptyModel();
         return <div>
-            {Object.keys(emptyModel).map(key => {
-
-                return <span>{key}<br /></span>
-            })}
+            <select>
+                {Object.keys(emptyModel).map(key => {
+                    return <option>{key}</option>
+                })}
+            </select>
         </div>
     }
 }
