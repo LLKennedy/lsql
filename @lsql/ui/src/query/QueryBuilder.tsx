@@ -2,9 +2,10 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
-import { Group, groupsAreEqual, Model, ModelFactory } from "./where";
+import { FieldPropertyDescriptor, Group, groupsAreEqual } from "./where";
 
-export interface QueryBuilderProps<T extends Model> extends QueryBuilderState, ModelFactory<T> {
+export interface QueryBuilderProps extends QueryBuilderState {
+    propertyList: readonly FieldPropertyDescriptor[];
     /**Indicates to the parent that the internal state is ready to change */
     update(newState: Partial<QueryBuilderState>): void;
 }
@@ -16,14 +17,14 @@ export interface QueryBuilderState {
 /**
  * A dynamic boolean logic query builder for LSQL
  */
-export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderProps<T>, QueryBuilderState> {
-    constructor(props: QueryBuilderProps<T>) {
+export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilderState> {
+    constructor(props: QueryBuilderProps) {
         super(props);
         this.state = {
             where: { ...props.where }
         };
     }
-    componentDidUpdate(prevProps: Readonly<QueryBuilderProps<T>>, prevState: Readonly<QueryBuilderState>) {
+    componentDidUpdate(prevProps: Readonly<QueryBuilderProps>, prevState: Readonly<QueryBuilderState>) {
         if (!groupsAreEqual(prevState.where, this.state.where)) {
         }
         if (!groupsAreEqual(prevProps.where, this.props.where)) {
@@ -40,7 +41,7 @@ export class QueryBuilder<T extends Model> extends React.Component<QueryBuilderP
                 isRootGroup={true}
                 data={this.state.where}
                 update={this.update.bind(this)}
-                createEmptyModel={this.props.createEmptyModel}
+                propertyList={this.props.propertyList}
             />
         </div>
     }

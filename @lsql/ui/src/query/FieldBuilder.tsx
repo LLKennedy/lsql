@@ -1,22 +1,20 @@
 import React from "react";
 import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { Comparator, CopyField, Field, Model, ModelFactory, PropertyType } from "./where";
+import { Comparator, CopyField, Field, FieldPropertyDescriptor, PropertyType } from "./where";
 
-export interface FieldProps<T extends Model> extends ModelFactory<T> {
+export interface FieldProps {
     data: Field;
     elementIndex: number[];
+    propertyList: readonly FieldPropertyDescriptor[];
     update(data: Field): void;
-
 }
 
-export class FieldBuilder<T extends Model> extends React.Component<FieldProps<T>> {
+export class FieldBuilder extends React.Component<FieldProps> {
     render() {
-        let emptyModel = this.props.createEmptyModel();
-        let props = emptyModel.getPropertyList();
         return <div className={ClassDefs.fieldContainer}>
             <select value={this.props.data.fieldName} onChange={this.updateValue.bind(this)}>
-                {props.map((key, i) => {
+                {this.props.propertyList.map((key, i) => {
                     let subElementIndex = [...this.props.elementIndex, i];
                     let elementString = `lsql-field-propertyselect-${indexString(subElementIndex)}`;
                     return <option key={elementString} value={key.name}>{key.name}</option>
@@ -26,8 +24,6 @@ export class FieldBuilder<T extends Model> extends React.Component<FieldProps<T>
     }
     updateValue(e: React.ChangeEvent<HTMLSelectElement>) {
         let newValue = e.target.value;
-        let emptyModel = this.props.createEmptyModel();
-        let props = emptyModel.getPropertyList();
         let newField = CopyField(this.props.data);
         newField.fieldName = newValue;
         // for (let i = 0; i < props.)

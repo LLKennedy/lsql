@@ -33,19 +33,9 @@ export enum PropertyType {
 	TIME
 }
 
-export interface ModelPropertyDescriptor {
+export interface FieldPropertyDescriptor {
 	name: string;
 	type: PropertyType;
-}
-
-export interface Model {
-	/** This is necessary to build the UI for querying the model at runtime, since type information is 100% gone at runtime. */
-	getPropertyList(): ModelPropertyDescriptor[]
-}
-
-export interface ModelFactory<T extends Model> {
-	/** Creates a new instance of the model type - cannot be done via reflection due to language limitations. */
-	createEmptyModel(): T
 }
 
 export interface Ordering {
@@ -98,9 +88,9 @@ export interface Group {
 	negateOperator: boolean;
 }
 
-export function NewGroup<T extends Model>(factory: ModelFactory<T>): Group {
+export function NewGroup(propertyList: readonly FieldPropertyDescriptor[]): Group {
 	let group: Group = {
-		elements: [NewField(factory)],
+		elements: [NewField(propertyList)],
 		negateOperator: false,
 		operator: GroupOperator.UNKNOWN_GROUPOPERATOR,
 		whereType: "group"
@@ -108,17 +98,15 @@ export function NewGroup<T extends Model>(factory: ModelFactory<T>): Group {
 	return group;
 }
 
-export function NewField<T extends Model>(factory: ModelFactory<T>, name?: string): Field {
-	let model = factory.createEmptyModel();
-	let modelProps = model.getPropertyList();
-	if (!(modelProps.length > 0)) {
+export function NewField(propertyList: readonly FieldPropertyDescriptor[], name?: string): Field {
+	if (!(propertyList.length > 0)) {
 		throw new Error("No properties on provided model, cannot create field");
 	}
-	let fieldProp = modelProps[0];
+	let fieldProp = propertyList[0];
 	if (name !== undefined) {
 		let found = false;
-		for (let i = 0; i < modelProps.length; i++) {
-			let aProp = modelProps[i];
+		for (let i = 0; i < propertyList.length; i++) {
+			let aProp = propertyList[i];
 			if (aProp.name === name) {
 				fieldProp = aProp;
 				break;

@@ -2,16 +2,17 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { fieldWhereType, Group, GroupOperator, groupWhereType, Model, ModelFactory, NewField, WhereElement } from "./where";
+import { FieldPropertyDescriptor, fieldWhereType, Group, GroupOperator, groupWhereType, NewField, WhereElement } from "./where";
 
-export interface GroupProps<T extends Model> extends ModelFactory<T> {
+export interface GroupProps {
     elementIndex: number[];
     data: Group;
     isRootGroup: boolean;
+    propertyList: readonly FieldPropertyDescriptor[];
     update(data: Group): void;
 }
 
-export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>> {
+export class GroupBuilder extends React.Component<GroupProps> {
     render() {
         return <div className={ClassDefs.groupContainer}>
             <div className={ClassDefs.groupHeader}>
@@ -28,7 +29,7 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                         />
                     ] : null
                 }
-                <GroupAddButton add={this.addElement.bind(this)} createEmptyModel={this.props.createEmptyModel} />
+                <GroupAddButton add={this.addElement.bind(this)} propertyList={this.props.propertyList} />
                 {this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}></div>} {/*TODO: delete*/}
             </div>
             {this.props.data.elements?.map((element, i) => {
@@ -36,11 +37,11 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                 let elementString = `lsql-group-element-${indexString(subElementIndex)}`;
                 switch (element.whereType) {
                     case groupWhereType:
-                        return <GroupBuilder<T>
+                        return <GroupBuilder
                             key={elementString}
                             elementIndex={subElementIndex}
+                            propertyList={this.props.propertyList}
                             data={element}
-                            createEmptyModel={this.props.createEmptyModel}
                             update={data => {
                                 let newProps = Object.assign({}, this.props.data);
                                 newProps.elements[i] = data;
@@ -49,11 +50,11 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
                             isRootGroup={false}
                         />
                     case fieldWhereType:
-                        return <FieldBuilder<T>
+                        return <FieldBuilder
                             key={elementString}
                             elementIndex={subElementIndex}
+                            propertyList={this.props.propertyList}
                             data={element}
-                            createEmptyModel={this.props.createEmptyModel}
                             update={data => {
                                 let newProps = Object.assign({}, this.props.data);
                                 newProps.elements[i] = data;
@@ -133,12 +134,13 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
     >{strRep}</div>
 }
 
-interface AddButtonProps<T extends Model> extends ModelFactory<T> {
+interface AddButtonProps {
+    propertyList: readonly FieldPropertyDescriptor[];
     add(newComponent: WhereElement): void;
 }
 
-class GroupAddButton<T extends Model> extends React.Component<AddButtonProps<T>> {
-    constructor(props: AddButtonProps<T>) {
+class GroupAddButton extends React.Component<AddButtonProps> {
+    constructor(props: AddButtonProps) {
         super(props);
         this.state = {
             clicked: false
@@ -147,7 +149,7 @@ class GroupAddButton<T extends Model> extends React.Component<AddButtonProps<T>>
     render() {
         return <div
             className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
-            onMouseDown={e => this.props.add(NewField(this.props))}
+            onMouseDown={e => this.props.add(NewField(this.props.propertyList))}
         />;
     }
 }

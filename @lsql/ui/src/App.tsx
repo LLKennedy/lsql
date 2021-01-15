@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { ModelPropertyDescriptor, NewGroup, PropertyType } from './query/where';
+import { FieldPropertyDescriptor, NewGroup, PropertyType } from './query/where';
 
 class MyModel {
 	Name: string = "";
 	Stuff: string = "";
 	Width: number = 0;
-	getPropertyList(): ModelPropertyDescriptor[] {
+	getPropertyList(): FieldPropertyDescriptor[] {
 		return [{
 			name: "Name",
 			type: PropertyType.STRING
@@ -32,28 +32,30 @@ interface AppState {
 class App extends React.Component<{}, AppState> {
 	constructor(props: {}) {
 		super(props);
+		let model = createMyModel();
+		let propsList = model.getPropertyList();
 		this.state = {
 			queryState: {
-				where: NewGroup({
-					createEmptyModel: createMyModel
-				})
+				where: NewGroup(propsList)
 			}
 		}
 	}
 	render() {
+		let model = createMyModel();
+		let propsList = model.getPropertyList();
 		return <div className="App">
 			<div className="App-body">
 				<div className="App-header">
 					LSQL Query Builder Demo
 				</div>
-				<QueryBuilder<MyModel>
+				<QueryBuilder
 					update={newState => {
 						this.setState({
 							queryState: Object.assign({}, this.state.queryState, newState)
 						})
 					}}
 					where={this.state.queryState.where}
-					createEmptyModel={createMyModel}
+					propertyList={propsList}
 				/>
 			</div>
 		</div>
