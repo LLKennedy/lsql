@@ -1,6 +1,7 @@
 import React from "react";
+import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { Comparator, Field, Model, ModelFactory } from "./where";
+import { Comparator, CopyField, Field, Model, ModelFactory, PropertyType } from "./where";
 
 export interface FieldProps<T extends Model> extends ModelFactory<T> {
     data: Field;
@@ -12,14 +13,55 @@ export interface FieldProps<T extends Model> extends ModelFactory<T> {
 export class FieldBuilder<T extends Model> extends React.Component<FieldProps<T>> {
     render() {
         let emptyModel = this.props.createEmptyModel();
-        return <div>
-            <select>
-                {Object.keys(emptyModel).map(key => {
-                    return <option key={key}>{key}</option>
+        let props = emptyModel.getPropertyList();
+        return <div className={ClassDefs.fieldContainer}>
+            <select value={this.props.data.fieldName} onChange={this.updateValue.bind(this)}>
+                {props.map((key, i) => {
+                    let subElementIndex = [...this.props.elementIndex, i];
+                    let elementString = `lsql-field-propertyselect-${indexString(subElementIndex)}`;
+                    return <option key={elementString} value={key.name}>{key.name}</option>
                 })}
             </select>
         </div>
     }
+    updateValue(e: React.ChangeEvent<HTMLSelectElement>) {
+        let newValue = e.target.value;
+        let emptyModel = this.props.createEmptyModel();
+        let props = emptyModel.getPropertyList();
+        let newField = CopyField(this.props.data);
+        newField.fieldName = newValue;
+        // for (let i = 0; i < props.)
+        switch (newField.type) {
+            case PropertyType.BOOL:
+                newField.value = false;
+                break;
+            case PropertyType.BYTES:
+                newField.value = new ArrayBuffer(0);
+                break;
+            case PropertyType.DOUBLE:
+            case PropertyType.UINT64:
+            case PropertyType.INT64:
+                newField.value = 0;
+                break;
+            case PropertyType.STRING:
+                newField.value = "";
+                break;
+            case PropertyType.TIME:
+                newField.value = new Date();
+                break;
+        }
+    }
+}
+
+function indexString(elementIndex: number[]): string {
+    let str = "";
+    for (let i = 0; i < elementIndex?.length; i++) {
+        if (i !== 0) {
+            str += "-";
+        }
+        str += `${elementIndex[i]}`;
+    }
+    return str;
 }
 
 function FieldComparatorSelector(comparator: Comparator, update: (comparator: Comparator) => void) {

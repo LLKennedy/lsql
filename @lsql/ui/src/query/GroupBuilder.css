@@ -8,7 +8,7 @@
     --button-border-colour: black;
 }
 
-.lsql-groupbuilder-container {
+.lsql-group-container {
     display: inline-flex;
     flex-direction: column
 }
@@ -34,7 +34,7 @@
     border: 0.1em solid var(--button-border-colour);
 }
 
-.lsql-groupbuilder-header {
+.lsql-group-header {
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;

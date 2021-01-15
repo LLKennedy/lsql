@@ -197,24 +197,24 @@ export function CopyField(field: Field): Field {
 	}
 	switch (newField.type) {
 		case PropertyType.BOOL:
-			newField.value = false;
+			newField.value = field.value as boolean;
 			break;
 		case PropertyType.BYTES:
-			newField.value = new ArrayBuffer(0);
+			newField.value = field.value as ArrayBuffer;
 			break;
 		case PropertyType.DOUBLE:
 		case PropertyType.UINT64:
 		case PropertyType.INT64:
-			newField.value = 0;
+			newField.value = field.value as number;
 			break;
 		case PropertyType.STRING:
-			newField.value = "";
+			newField.value = field.value as string;
 			break;
 		case PropertyType.TIME:
-			newField.value = new Date();
+			newField.value = field.value as Date;
 			break;
 		default:
-			newField.value = "";
+			newField.value = field.value as any;
 			break;
 	}
 	return newField as Field;

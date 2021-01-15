@@ -6,12 +6,10 @@ export enum ClassDefs {
     circle = "lsql-circle",
     contextMenu = "lsql-context-menu",
     queryBuilderContainer = "lsql-querybuilder-container",
-    groupBuilderContainer = "lsql-groupbuilder-container",
-    groupBuilderHeader = "lsql-groupbuilder-header",
-    groupBuilderNegateButton = "lsql-groupbuilder-negatebutton",
-    groupBuilderAddButton = "lsql-groupbuilder-addbutton",
-    groupBuilderDeleteButton = "lsql-groupbuilder-deletebutton",
+    groupContainer = "lsql-group-container",
+    groupHeader = "lsql-group-header",
     groupOperatorContainer = "lsql-groupoperator-container",
     groupUperatorUnselected = "lsql-groupoperator-unselected",
-    groupOperatorSelected = "lsql-groupoperator-selected"
+    groupOperatorSelected = "lsql-groupoperator-selected",
+    fieldContainer = "lsql-field-container"
 }

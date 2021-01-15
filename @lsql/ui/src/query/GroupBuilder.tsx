@@ -13,8 +13,8 @@ export interface GroupProps<T extends Model> extends ModelFactory<T> {
 
 export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>> {
     render() {
-        return <div className={ClassDefs.groupBuilderContainer}>
-            <div className={ClassDefs.groupBuilderHeader}>
+        return <div className={ClassDefs.groupContainer}>
+            <div className={ClassDefs.groupHeader}>
                 {
                     this.props.data.elements?.length > 1 ? [
                         <GroupOperatorSelector
@@ -33,7 +33,7 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
             </div>
             {this.props.data.elements?.map((element, i) => {
                 let subElementIndex = [...this.props.elementIndex, i];
-                let elementString = indexString(subElementIndex);
+                let elementString = `lsql-group-element-${indexString(subElementIndex)}`;
                 switch (element.whereType) {
                     case groupWhereType:
                         return <GroupBuilder<T>
@@ -85,6 +85,11 @@ export class GroupBuilder<T extends Model> extends React.Component<GroupProps<T>
     addElement(newElement: WhereElement) {
         let newProps = this.copyGroup(this.props.data);
         newProps.elements.push(newElement);
+        if (newProps.operator === GroupOperator.UNKNOWN_GROUPOPERATOR) {
+            // Set initial state for operators
+            newProps.operator = GroupOperator.AND;
+            newProps.negateOperator = false;
+        }
         this.props.update(newProps);
     }
 }
@@ -95,7 +100,7 @@ function indexString(elementIndex: number[]): string {
         if (i !== 0) {
             str += "-";
         }
-        str += `${i}`;
+        str += `${elementIndex[i]}`;
     }
     return str;
 }
@@ -106,7 +111,7 @@ interface SelectorProps {
     update: (operator: GroupOperator) => void;
 }
 
-function GroupOperatorSelector(props: SelectorProps) {
+const GroupOperatorSelector: React.FunctionComponent<SelectorProps> = function (props: SelectorProps) {
     let operators: [GroupOperator, string][] = [[GroupOperator.AND, "AND"], [GroupOperator.OR, "OR"], [GroupOperator.XOR, "XOR"]]
     return <div className={ClassDefs.groupOperatorContainer}>
         {operators.map(op => {
