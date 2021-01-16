@@ -3,6 +3,8 @@ import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
 import { BooleanField, BytesField, Comparator, CopyField, Field, NumericField, PropertyType, StringField, TimeField } from "./where";
 
+type FieldValue = NumericField | StringField | BooleanField | BytesField | TimeField;
+
 export interface FieldProps {
     data: Field;
     elementIndex: number[];
@@ -38,10 +40,14 @@ export class FieldBuilder extends React.Component<FieldProps> {
                 elementIndex={this.props.elementIndex}
                 update={this.updateComparator.bind(this)}
             />
-            <FieldInput
-                data={this.props.data}
-                update={this.updateValue.bind(this)}
-            />
+            {
+                this.props.data.comparator === Comparator.IS_NULL ? null :
+                    <FieldInput
+                        data={this.props.data}
+                        elementIndex={this.props.elementIndex}
+                        update={this.updateValue.bind(this)}
+                    />
+            }
         </div>
     }
     updateFieldName(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -95,8 +101,23 @@ export class FieldBuilder extends React.Component<FieldProps> {
         newField.negateComparator = negateComparator;
         this.props.update(newField);
     }
-    updateValue(value: string | number | boolean | ArrayBuffer | Date) {
-
+    updateValue(value: FieldValue) {
+        if (this.props.data.type !== value.type) {
+            throw new Error("Invalid value update, mismatched types")
+        }
+        let newField = CopyField(this.props.data);
+        switch (this.props.data.type) {
+            case PropertyType.BOOL:
+                newField.value = value.value;
+                break;
+            case PropertyType.BYTES:
+            case PropertyType.DOUBLE:
+            case PropertyType.INT64:
+            case PropertyType.STRING:
+            case PropertyType.TIME:
+            case PropertyType.UINT64:
+        }
+        this.props.update(newField);
     }
 }
 
@@ -140,18 +161,44 @@ class FieldComparatorSelector extends React.Component<ComparatorProps> {
 
 interface InputProps {
     data: NumericField | StringField | BooleanField | BytesField | TimeField
-    update(newValue: string | number | boolean | ArrayBuffer | Date): void;
+    elementIndex: number[];
+    update(newValue: FieldValue): void;
 }
 
 class FieldInput extends React.Component<InputProps> {
     render() {
-        return <div></div>
+        switch (this.props.data.type) {
+            case PropertyType.BOOL:
+                return <select
+                    value={`${this.props.data.value}`}
+                    className={ClassDefs.fieldDropdown}
+                    onChange={e => this.props.update({ type: PropertyType.BOOL, value: e.target.value === `${true}` })}
+                >
+                    <option key={`lsql-field-value-${indexString(this.props.elementIndex)}-true`} value={`${true}`}>TRUE</option>
+                    <option key={`lsql-field-value-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>FALSE</option>
+                </select>
+            case PropertyType.BYTES:
+            case PropertyType.DOUBLE:
+            case PropertyType.INT64:
+            case PropertyType.STRING:
+            case PropertyType.TIME:
+            case PropertyType.UINT64:
+        }
+        return <input
+            className={ClassDefs.fieldDropdown}
+            value={this.props.data.value as string}
+            type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
+            onChange={e => this.updateInputValue(e.target.value)}
+        />
+    }
+    updateInputValue(newValRaw: string) {
+
     }
 }
 
 const allComparatorList: readonly Comparator[] = [Comparator.EQUAL, Comparator.FUZZY_EQUAL, Comparator.GREATER_THAN, Comparator.GREATER_THAN_OR_EQUAL, Comparator.IS_NULL, Comparator.LESS_THAN, Comparator.LESS_THAN_OR_EQUAL];
 
-const boolComparators: [Comparator, string][] = [
+const boolComparators: readonly [Comparator, string][] = [
     [
         Comparator.EQUAL,
         "EQUAL TO"
@@ -162,7 +209,7 @@ const boolComparators: [Comparator, string][] = [
     ]
 ];
 
-const dataComparators: [Comparator, string][] = [
+const dataComparators: readonly [Comparator, string][] = [
     [
         Comparator.EQUAL,
         "EQUAL TO"
@@ -177,7 +224,7 @@ const dataComparators: [Comparator, string][] = [
     ]
 ];
 
-const numericComparators: [Comparator, string][] = [
+const numericComparators: readonly [Comparator, string][] = [
     [
         Comparator.EQUAL,
         "=="
