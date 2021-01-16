@@ -2,13 +2,13 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { FieldPropertyDescriptor, fieldWhereType, Group, GroupOperator, groupWhereType, NewField, WhereElement } from "./where";
+import { fieldWhereType, Group, GroupOperator, groupWhereType, NewField, PropertyType, WhereElement } from "./where";
 
 export interface GroupProps {
     elementIndex: number[];
     data: Group;
     isRootGroup: boolean;
-    propertyList: readonly FieldPropertyDescriptor[];
+    propertyList: ReadonlyMap<string, PropertyType>;
     update(data: Group): void;
 }
 
@@ -135,7 +135,7 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
 }
 
 interface AddButtonProps {
-    propertyList: readonly FieldPropertyDescriptor[];
+    propertyList: ReadonlyMap<string, PropertyType>;
     add(newComponent: WhereElement): void;
 }
 

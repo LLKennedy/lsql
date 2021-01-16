@@ -2,10 +2,10 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
-import { FieldPropertyDescriptor, Group, groupsAreEqual } from "./where";
+import { Group, groupsAreEqual, PropertyType } from "./where";
 
 export interface QueryBuilderProps extends QueryBuilderState {
-    propertyList: readonly FieldPropertyDescriptor[];
+    propertyList: ReadonlyMap<string, PropertyType>;
     /**Indicates to the parent that the internal state is ready to change */
     update(newState: Partial<QueryBuilderState>): void;
 }

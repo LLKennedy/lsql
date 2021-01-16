@@ -33,11 +33,6 @@ export enum PropertyType {
 	TIME
 }
 
-export interface FieldPropertyDescriptor {
-	name: string;
-	type: PropertyType;
-}
-
 export interface Ordering {
 	priority: number;
 	descending: boolean;
@@ -88,7 +83,7 @@ export interface Group {
 	negateOperator: boolean;
 }
 
-export function NewGroup(propertyList: readonly FieldPropertyDescriptor[]): Group {
+export function NewGroup(propertyList: ReadonlyMap<string, PropertyType>): Group {
 	let group: Group = {
 		elements: [NewField(propertyList)],
 		negateOperator: false,
@@ -98,34 +93,28 @@ export function NewGroup(propertyList: readonly FieldPropertyDescriptor[]): Grou
 	return group;
 }
 
-export function NewField(propertyList: readonly FieldPropertyDescriptor[], name?: string): Field {
-	if (!(propertyList.length > 0)) {
+export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?: string): Field {
+	if (!(propertyList.size > 0)) {
 		throw new Error("No properties on provided model, cannot create field");
 	}
-	let fieldProp = propertyList[0];
+	let [, propType] = Array.from(propertyList)[0];
 	if (name !== undefined) {
-		let found = false;
-		for (let i = 0; i < propertyList.length; i++) {
-			let aProp = propertyList[i];
-			if (aProp.name === name) {
-				fieldProp = aProp;
-				break;
-			}
-		}
-		if (!found) {
+		let foundPropType = propertyList.get(name);
+		if (foundPropType === undefined) {
 			throw new Error("Specified property name not found");
 		}
+		propType = foundPropType;
 	}
 	let newField: Partial<Field> = {
 		comparator: Comparator.EQUAL,
 		// domainName: // TODO
-		fieldName: fieldProp.name,
+		fieldName: name,
 		negateComparator: false,
 		ordering: {
 			descending: false,
 			priority: 0,
 		},
-		type: fieldProp.type,
+		type: propType,
 		whereType: fieldWhereType
 	};
 	switch (newField.type) {

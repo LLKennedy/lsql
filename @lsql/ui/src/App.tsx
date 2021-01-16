@@ -1,23 +1,27 @@
 import React from 'react';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { FieldPropertyDescriptor, NewGroup, PropertyType } from './query/where';
+import { NewGroup, PropertyType } from './query/where';
 
 class MyModel {
 	Name: string = "";
 	Stuff: string = "";
 	Width: number = 0;
-	getPropertyList(): FieldPropertyDescriptor[] {
-		return [{
-			name: "Name",
-			type: PropertyType.STRING
-		}, {
-			name: "Stuff",
-			type: PropertyType.STRING
-		}, {
-			name: "Width",
-			type: PropertyType.DOUBLE
-		}]
+	getPropertyList(): ReadonlyMap<string, PropertyType> {
+		return new Map<string, PropertyType>([
+			[
+				"Name",
+				PropertyType.STRING
+			],
+			[
+				"Stuff",
+				PropertyType.STRING
+			],
+			[
+				"Width",
+				PropertyType.DOUBLE
+			]
+		])
 	}
 }
 

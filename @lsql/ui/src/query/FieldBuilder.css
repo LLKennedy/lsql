@@ -1,0 +1,15 @@
+.lsql-field-container {
+    margin: 0.2em;
+    margin-left: 1em;
+    display: inline-flex;
+}
+
+.lsql-field-dropdown {
+    width: 15em;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.lsql-field-text {
+    margin: 0 0.2em;
+}
