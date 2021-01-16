@@ -55,7 +55,7 @@ export interface BooleanField {
 
 export interface BytesField {
 	type: PropertyType.BYTES;
-	value: ArrayBuffer;
+	value: Uint8Array;
 }
 
 export interface TimeField {
@@ -122,7 +122,7 @@ export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?:
 			newField.value = false;
 			break;
 		case PropertyType.BYTES:
-			newField.value = new ArrayBuffer(0);
+			newField.value = new Uint8Array(0);
 			break;
 		case PropertyType.DOUBLE:
 		case PropertyType.UINT64:
@@ -177,7 +177,7 @@ export function CopyField(field: Field): Field {
 			newField.value = field.value as boolean;
 			break;
 		case PropertyType.BYTES:
-			newField.value = field.value as ArrayBuffer;
+			newField.value = field.value as Uint8Array;
 			break;
 		case PropertyType.DOUBLE:
 		case PropertyType.UINT64:
