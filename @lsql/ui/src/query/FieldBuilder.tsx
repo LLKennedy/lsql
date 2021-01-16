@@ -194,18 +194,17 @@ class FieldInput extends React.Component<InputProps> {
 			onChange={e => this.updateInputValue(e)}
 		/>
 	}
-	valueToString(): string | undefined {
+	valueToString(): string {
 		switch (this.props.data.type) {
 			case PropertyType.BOOL:
 				throw new Error("Invalid type configuration, tried to cast bool to string")
 			case PropertyType.BYTES:
 				return base64.stringify(this.props.data.value)
 			case PropertyType.TIME:
-				return undefined;
-			// let minutesOffset = this.props.data.value.getTimezoneOffset();
-			// let newTime = new Date(this.props.data.value.getTime() + (minutesOffset * 60 * 1000));
-			// let isoString = newTime.toISOString();
-			// return isoString.replace("Z", "");
+				let minutesOffset = this.props.data.value.getTimezoneOffset();
+				let newTime = new Date(this.props.data.value.getTime() + (minutesOffset * 60 * 1000));
+				let isoString = newTime.toISOString();
+				return isoString.replace("Z", "");
 			case PropertyType.DOUBLE:
 			case PropertyType.INT64:
 			case PropertyType.UINT64:
@@ -248,7 +247,10 @@ class FieldInput extends React.Component<InputProps> {
 				newData.value = newValRaw;
 				break;
 			case PropertyType.TIME:
-				newData.value = e.target.valueAsDate ?? newData.value;
+				let isoDate = new Date(e.target.value + "Z");
+				let offsetMinutes = new Date().getTimezoneOffset();
+				let localTime = new Date(isoDate.getTime() - (offsetMinutes * 60 * 1000))
+				newData.value = localTime;
 				break;
 		}
 		this.props.update(newData);
