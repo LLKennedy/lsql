@@ -151,168 +151,86 @@ class FieldInput extends React.Component<InputProps> {
 
 const allComparatorList: readonly Comparator[] = [Comparator.EQUAL, Comparator.FUZZY_EQUAL, Comparator.GREATER_THAN, Comparator.GREATER_THAN_OR_EQUAL, Comparator.IS_NULL, Comparator.LESS_THAN, Comparator.LESS_THAN_OR_EQUAL];
 
+const boolComparators: [Comparator, string][] = [
+    [
+        Comparator.EQUAL,
+        "EQUAL TO"
+    ],
+    [
+        Comparator.IS_NULL,
+        "NULL"
+    ]
+];
+
+const dataComparators: [Comparator, string][] = [
+    [
+        Comparator.EQUAL,
+        "EQUAL TO"
+    ],
+    [
+        Comparator.FUZZY_EQUAL,
+        "INCLUSIVE OF"
+    ],
+    [
+        Comparator.IS_NULL,
+        "NULL"
+    ]
+];
+
+const numericComparators: [Comparator, string][] = [
+    [
+        Comparator.EQUAL,
+        "=="
+    ],
+    [
+        Comparator.GREATER_THAN,
+        ">"
+    ],
+    [
+        Comparator.GREATER_THAN_OR_EQUAL,
+        "≥"
+    ],
+    [
+        Comparator.LESS_THAN,
+        "<"
+    ],
+    [
+        Comparator.LESS_THAN_OR_EQUAL,
+        "≤"
+    ],
+    [
+        Comparator.IS_NULL,
+        "NULL"
+    ]
+];
+
 const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, string>> = new Map<PropertyType, Map<Comparator, string>>([
     [
         PropertyType.BOOL,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "EQUAL TO"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(boolComparators)
     ],
     [
         PropertyType.BYTES,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "EQUAL TO"
-            ],
-            [
-                Comparator.FUZZY_EQUAL,
-                "INCLUSIVE OF"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(dataComparators)
     ],
     [
         PropertyType.DOUBLE,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "=="
-            ],
-            [
-                Comparator.GREATER_THAN,
-                ">"
-            ],
-            [
-                Comparator.GREATER_THAN_OR_EQUAL,
-                "≥"
-            ],
-            [
-                Comparator.LESS_THAN,
-                "<"
-            ],
-            [
-                Comparator.LESS_THAN_OR_EQUAL,
-                "≤"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(numericComparators)
     ],
     [
         PropertyType.INT64,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "=="
-            ],
-            [
-                Comparator.GREATER_THAN,
-                ">"
-            ],
-            [
-                Comparator.GREATER_THAN_OR_EQUAL,
-                "≥"
-            ],
-            [
-                Comparator.LESS_THAN,
-                "<"
-            ],
-            [
-                Comparator.LESS_THAN_OR_EQUAL,
-                "≤"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(numericComparators)
     ],
     [
         PropertyType.UINT64,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "=="
-            ],
-            [
-                Comparator.GREATER_THAN,
-                ">"
-            ],
-            [
-                Comparator.GREATER_THAN_OR_EQUAL,
-                "≥"
-            ],
-            [
-                Comparator.LESS_THAN,
-                "<"
-            ],
-            [
-                Comparator.LESS_THAN_OR_EQUAL,
-                "≤"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(numericComparators)
     ],
     [
         PropertyType.STRING,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "EQUAL TO"
-            ],
-            [
-                Comparator.FUZZY_EQUAL,
-                "INCLUSIVE OF"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(dataComparators)
     ],
     [
         PropertyType.TIME,
-        new Map<Comparator, string>([
-            [
-                Comparator.EQUAL,
-                "=="
-            ],
-            [
-                Comparator.GREATER_THAN,
-                ">"
-            ],
-            [
-                Comparator.GREATER_THAN_OR_EQUAL,
-                "≥"
-            ],
-            [
-                Comparator.LESS_THAN,
-                "<"
-            ],
-            [
-                Comparator.LESS_THAN_OR_EQUAL,
-                "≤"
-            ],
-            [
-                Comparator.IS_NULL,
-                "NULL"
-            ]
-        ])
+        new Map<Comparator, string>(numericComparators)
     ]
 ]);
