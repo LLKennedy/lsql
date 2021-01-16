@@ -41,6 +41,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
                 update={this.updateComparator.bind(this)}
             />
             {
+                // Hide the value input if we're comparing to IS NULL or NOT IS NULL
                 this.props.data.comparator === Comparator.IS_NULL ? null :
                     <FieldInput
                         data={this.props.data}
@@ -106,17 +107,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
             throw new Error("Invalid value update, mismatched types")
         }
         let newField = CopyField(this.props.data);
-        switch (this.props.data.type) {
-            case PropertyType.BOOL:
-                newField.value = value.value;
-                break;
-            case PropertyType.BYTES:
-            case PropertyType.DOUBLE:
-            case PropertyType.INT64:
-            case PropertyType.STRING:
-            case PropertyType.TIME:
-            case PropertyType.UINT64:
-        }
+        newField.value = value.value;
         this.props.update(newField);
     }
 }
@@ -160,13 +151,14 @@ class FieldComparatorSelector extends React.Component<ComparatorProps> {
 }
 
 interface InputProps {
-    data: NumericField | StringField | BooleanField | BytesField | TimeField
+    data: FieldValue
     elementIndex: number[];
     update(newValue: FieldValue): void;
 }
 
 class FieldInput extends React.Component<InputProps> {
     render() {
+        let pattern: string | undefined = undefined;
         switch (this.props.data.type) {
             case PropertyType.BOOL:
                 return <select
@@ -178,21 +170,58 @@ class FieldInput extends React.Component<InputProps> {
                     <option key={`lsql-field-value-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>FALSE</option>
                 </select>
             case PropertyType.BYTES:
+                pattern = "[a-zA-Z0-9/+=]*";
+                break;
             case PropertyType.DOUBLE:
+                pattern = "[0-9.]*";
+                break;
             case PropertyType.INT64:
-            case PropertyType.STRING:
-            case PropertyType.TIME:
             case PropertyType.UINT64:
+                pattern = "[0-9]*";
+                break;
+            case PropertyType.STRING:
+                pattern = ".*";
+                break;
         }
         return <input
             className={ClassDefs.fieldDropdown}
-            value={this.props.data.value as string}
+            value={this.valueToString()}
             type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
+            pattern={pattern}
             onChange={e => this.updateInputValue(e.target.value)}
         />
     }
+    valueToString(): string {
+        // if ()
+        return this.props.data.value as string;
+    }
     updateInputValue(newValRaw: string) {
-
+        let newData: FieldValue = { ...this.props.data };
+        switch (this.props.data.type) {
+            case PropertyType.BYTES:
+                // TODO
+                break;
+            case PropertyType.DOUBLE:
+                let newFloat = parseFloat(newValRaw);
+                if (!isNaN(newFloat)) {
+                    newData.value = newFloat;
+                }
+                break;
+            case PropertyType.INT64:
+            case PropertyType.UINT64:
+                let newInt = parseInt(newValRaw);
+                if (!isNaN(newInt)) {
+                    newData.value = newInt;
+                }
+                break;
+            case PropertyType.STRING:
+                newData.value = newValRaw;
+                break;
+            case PropertyType.TIME:
+                // TODO
+                break;
+        }
+        this.props.update(newData);
     }
 }
 
