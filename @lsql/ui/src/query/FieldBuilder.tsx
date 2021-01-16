@@ -1,7 +1,7 @@
 import React from "react";
 import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { Comparator, CopyField, Field, PropertyType } from "./where";
+import { BooleanField, BytesField, Comparator, CopyField, Field, NumericField, PropertyType, StringField, TimeField } from "./where";
 
 export interface FieldProps {
     data: Field;
@@ -15,7 +15,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
         return <div className={ClassDefs.fieldContainer}>
             <select
                 value={this.props.data.fieldName}
-                onChange={this.updateValue.bind(this)}
+                onChange={this.updateFieldName.bind(this)}
                 className={ClassDefs.fieldDropdown}
             >
                 {(Array.from(this.props.propertyList)).map(([name,], i) => {
@@ -38,9 +38,13 @@ export class FieldBuilder extends React.Component<FieldProps> {
                 elementIndex={this.props.elementIndex}
                 update={this.updateComparator.bind(this)}
             />
+            <FieldInput
+                data={this.props.data}
+                update={this.updateValue.bind(this)}
+            />
         </div>
     }
-    updateValue(e: React.ChangeEvent<HTMLSelectElement>) {
+    updateFieldName(e: React.ChangeEvent<HTMLSelectElement>) {
         let newValue = e.target.value;
         let newField = CopyField(this.props.data);
         newField.fieldName = newValue;
@@ -49,7 +53,17 @@ export class FieldBuilder extends React.Component<FieldProps> {
             throw new Error("Invalid property selected");
         }
         newField.type = newType;
-        // for (let i = 0; i < props.)
+        let typeComparators = typeComparatorMap.get(newType);
+        if (typeComparators === undefined) {
+            throw new Error("Cannot set default comparator with unknown type");
+        }
+        let comparatorDetailStrings = Array.from(typeComparators);
+        if (comparatorDetailStrings.length < 1) {
+            throw new Error("Cannot set default comparator for type with no known comparators");
+        }
+        typeComparators.keys()
+        let [defaultComparator,] = comparatorDetailStrings[0];
+        newField.comparator = defaultComparator;
         switch (newField.type) {
             case PropertyType.BOOL:
                 newField.value = false;
@@ -80,6 +94,9 @@ export class FieldBuilder extends React.Component<FieldProps> {
         let newField = CopyField(this.props.data);
         newField.negateComparator = negateComparator;
         this.props.update(newField);
+    }
+    updateValue(value: string | number | boolean | ArrayBuffer | Date) {
+
     }
 }
 
@@ -121,6 +138,17 @@ class FieldComparatorSelector extends React.Component<ComparatorProps> {
 
 }
 
+interface InputProps {
+    data: NumericField | StringField | BooleanField | BytesField | TimeField
+    update(newValue: string | number | boolean | ArrayBuffer | Date): void;
+}
+
+class FieldInput extends React.Component<InputProps> {
+    render() {
+        return <div></div>
+    }
+}
+
 const allComparatorList: readonly Comparator[] = [Comparator.EQUAL, Comparator.FUZZY_EQUAL, Comparator.GREATER_THAN, Comparator.GREATER_THAN_OR_EQUAL, Comparator.IS_NULL, Comparator.LESS_THAN, Comparator.LESS_THAN_OR_EQUAL];
 
 const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, string>> = new Map<PropertyType, Map<Comparator, string>>([
@@ -130,6 +158,10 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
             [
                 Comparator.EQUAL,
                 "EQUAL TO"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ],
@@ -139,6 +171,14 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
             [
                 Comparator.EQUAL,
                 "EQUAL TO"
+            ],
+            [
+                Comparator.FUZZY_EQUAL,
+                "INCLUSIVE OF"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ],
@@ -147,15 +187,27 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
         new Map<Comparator, string>([
             [
                 Comparator.EQUAL,
-                "EQUAL TO"
+                "=="
             ],
             [
                 Comparator.GREATER_THAN,
-                "GREATER THAN"
+                ">"
             ],
             [
                 Comparator.GREATER_THAN_OR_EQUAL,
-                "GREATER THAN OR EQUAL TO"
+                "≥"
+            ],
+            [
+                Comparator.LESS_THAN,
+                "<"
+            ],
+            [
+                Comparator.LESS_THAN_OR_EQUAL,
+                "≤"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ],
@@ -164,7 +216,27 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
         new Map<Comparator, string>([
             [
                 Comparator.EQUAL,
-                "EQUAL TO"
+                "=="
+            ],
+            [
+                Comparator.GREATER_THAN,
+                ">"
+            ],
+            [
+                Comparator.GREATER_THAN_OR_EQUAL,
+                "≥"
+            ],
+            [
+                Comparator.LESS_THAN,
+                "<"
+            ],
+            [
+                Comparator.LESS_THAN_OR_EQUAL,
+                "≤"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ],
@@ -173,7 +245,27 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
         new Map<Comparator, string>([
             [
                 Comparator.EQUAL,
-                "EQUAL TO"
+                "=="
+            ],
+            [
+                Comparator.GREATER_THAN,
+                ">"
+            ],
+            [
+                Comparator.GREATER_THAN_OR_EQUAL,
+                "≥"
+            ],
+            [
+                Comparator.LESS_THAN,
+                "<"
+            ],
+            [
+                Comparator.LESS_THAN_OR_EQUAL,
+                "≤"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ],
@@ -199,7 +291,27 @@ const typeComparatorMap: ReadonlyMap<PropertyType, ReadonlyMap<Comparator, strin
         new Map<Comparator, string>([
             [
                 Comparator.EQUAL,
-                "EQUAL TO"
+                "=="
+            ],
+            [
+                Comparator.GREATER_THAN,
+                ">"
+            ],
+            [
+                Comparator.GREATER_THAN_OR_EQUAL,
+                "≥"
+            ],
+            [
+                Comparator.LESS_THAN,
+                "<"
+            ],
+            [
+                Comparator.LESS_THAN_OR_EQUAL,
+                "≤"
+            ],
+            [
+                Comparator.IS_NULL,
+                "NULL"
             ]
         ])
     ]

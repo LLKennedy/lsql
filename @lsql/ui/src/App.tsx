@@ -15,11 +15,27 @@ class MyModel {
 			],
 			[
 				"Stuff",
-				PropertyType.STRING
+				PropertyType.BOOL
 			],
 			[
 				"Width",
 				PropertyType.DOUBLE
+			],
+			[
+				"Height",
+				PropertyType.INT64
+			],
+			[
+				"Length",
+				PropertyType.UINT64
+			],
+			[
+				"Data",
+				PropertyType.BYTES
+			],
+			[
+				"Created",
+				PropertyType.TIME
 			]
 		])
 	}

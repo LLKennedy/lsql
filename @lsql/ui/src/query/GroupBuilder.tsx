@@ -19,11 +19,12 @@ export class GroupBuilder extends React.Component<GroupProps> {
                 {
                     this.props.data.elements?.length > 1 ? [
                         <GroupOperatorSelector
+                            key={`lsql-group-${indexString(this.props.elementIndex)}-operator-selector`}
                             operator={this.props.data.operator}
                             elementIndex={this.props.elementIndex}
                             update={this.updateOperator.bind(this)}
                         />,
-                        <div
+                        <div key={`lsql-group-${indexString(this.props.elementIndex)}-negate-operator-selector`}
                             className={`${ClassDefs.circle} ${ClassDefs.toggleable + ((this.props.data.negateOperator && (" " + ClassDefs.toggled)) || "")} fa fa-exclamation`}
                             onMouseDown={e => this.toggleNegateOperator()}
                         />
