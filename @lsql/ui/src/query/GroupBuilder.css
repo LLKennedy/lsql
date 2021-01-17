@@ -43,6 +43,8 @@
 .lsql-circle {
     width: 1em;
     height: 1em;
+    max-width: 1em;
+    max-height: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,4 +65,8 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
+}
+
+.lsql-field-inputs {
+    display: inline-flex;
 }

@@ -10,46 +10,52 @@ export interface FieldProps {
 	data: Field;
 	elementIndex: number[];
 	propertyList: ReadonlyMap<string, PropertyType>;
-	update(data: Field): void;
+	update(data: Field | undefined): void;
 }
 
 export class FieldBuilder extends React.Component<FieldProps> {
 	render() {
-		return <div className={ClassDefs.fieldContainer}>
-			<select
-				value={this.props.data.fieldName}
-				onChange={this.updateFieldName.bind(this)}
-				className={ClassDefs.fieldDropdown}
-			>
-				{(Array.from(this.props.propertyList)).map(([name,], i) => {
-					let subElementIndex = [...this.props.elementIndex, i];
-					let elementString = `lsql-field-propertyselect-${indexString(subElementIndex)}`;
-					return <option key={elementString} value={name}>{name}</option>
-				})}
-			</select>
-			<select
-				value={`${this.props.data.negateComparator}`}
-				className={ClassDefs.fieldDropdown}
-				onChange={e => this.updateNegateComparator(e.target.value === `${true}`)}
-			>
-				<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>IS</option>
-				<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-true`} value={`${true}`}>IS NOT</option>
-			</select>
-			<FieldComparatorSelector
-				comparator={this.props.data.comparator}
-				propertyType={this.props.data.type}
-				elementIndex={this.props.elementIndex}
-				update={this.updateComparator.bind(this)}
+		return <div className={ClassDefs.fieldInputs}>
+			<div className={ClassDefs.fieldContainer}>
+				<select
+					value={this.props.data.fieldName}
+					onChange={this.updateFieldName.bind(this)}
+					className={ClassDefs.fieldDropdown}
+				>
+					{(Array.from(this.props.propertyList)).map(([name,], i) => {
+						let subElementIndex = [...this.props.elementIndex, i];
+						let elementString = `lsql-field-propertyselect-${indexString(subElementIndex)}`;
+						return <option key={elementString} value={name}>{name}</option>
+					})}
+				</select>
+				<select
+					value={`${this.props.data.negateComparator}`}
+					className={ClassDefs.fieldDropdown}
+					onChange={e => this.updateNegateComparator(e.target.value === `${true}`)}
+				>
+					<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>IS</option>
+					<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-true`} value={`${true}`}>IS NOT</option>
+				</select>
+				<FieldComparatorSelector
+					comparator={this.props.data.comparator}
+					propertyType={this.props.data.type}
+					elementIndex={this.props.elementIndex}
+					update={this.updateComparator.bind(this)}
+				/>
+				{
+					// Hide the value input if we're comparing to IS NULL or NOT IS NULL
+					this.props.data.comparator === Comparator.IS_NULL ? null :
+						<FieldInput
+							data={this.props.data}
+							elementIndex={this.props.elementIndex}
+							update={this.updateValue.bind(this)}
+						/>
+				}
+			</div>
+			<div
+				className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}
+				onMouseDown={e => this.props.update(undefined)}
 			/>
-			{
-				// Hide the value input if we're comparing to IS NULL or NOT IS NULL
-				this.props.data.comparator === Comparator.IS_NULL ? null :
-					<FieldInput
-						data={this.props.data}
-						elementIndex={this.props.elementIndex}
-						update={this.updateValue.bind(this)}
-					/>
-			}
 		</div>
 	}
 	updateFieldName(e: React.ChangeEvent<HTMLSelectElement>) {

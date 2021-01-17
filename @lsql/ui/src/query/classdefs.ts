@@ -13,5 +13,6 @@ export enum ClassDefs {
 	groupOperatorSelected = "lsql-groupoperator-selected",
 	fieldContainer = "lsql-field-container",
 	fieldDropdown = "lsql-field-dropdown",
-	fieldText = "lsql-field-text"
+	fieldText = "lsql-field-text",
+	fieldInputs = "lsql-field-inputs"
 }

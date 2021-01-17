@@ -58,7 +58,17 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							data={element}
 							update={data => {
 								let newProps = Object.assign({}, this.props.data);
-								newProps.elements[i] = data;
+								let newElements: WhereElement[] = [];
+								for (let j = 0; j < newProps.elements.length; j++) {
+									if (j !== i) {
+										newElements.push(newProps.elements[j]);
+										continue;
+									}
+									if (data !== undefined) {
+										newElements.push(data);
+									}
+								}
+								newProps.elements = newElements;
 								this.props.update(newProps);
 							}}
 						/>
