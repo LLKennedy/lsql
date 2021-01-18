@@ -10,7 +10,8 @@
 
 .lsql-group-container {
     display: inline-flex;
-    flex-direction: column
+    flex-direction: column;
+    margin-left: 1em;
 }
 
 /* Clickable and toggleable elements */

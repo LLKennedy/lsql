@@ -2,14 +2,14 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { fieldWhereType, Group, GroupOperator, groupWhereType, NewField, PropertyType, WhereElement } from "./where";
+import { fieldWhereType, Group, GroupOperator, groupWhereType, NewField, NewGroup, PropertyType, WhereElement } from "./where";
 
 export interface GroupProps {
 	elementIndex: number[];
 	data: Group;
 	isRootGroup: boolean;
 	propertyList: ReadonlyMap<string, PropertyType>;
-	update(data: Group): void;
+	update(data: Group | undefined): void;
 }
 
 export class GroupBuilder extends React.Component<GroupProps> {
@@ -30,8 +30,17 @@ export class GroupBuilder extends React.Component<GroupProps> {
 						/>
 					] : null
 				}
-				<GroupAddButton add={this.addElement.bind(this)} propertyList={this.props.propertyList} />
-				{this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}></div>} {/*TODO: delete*/}
+				<GroupAddButton
+					add={this.addElement.bind(this)}
+					propertyList={this.props.propertyList}
+					addElement="field"
+				/>
+				<GroupAddButton
+					add={this.addElement.bind(this)}
+					propertyList={this.props.propertyList}
+					addElement="group"
+				/>
+				{this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`} onMouseDown={e => this.props.update(undefined)}></div>} {/*TODO: delete*/}
 			</div>
 			{this.props.data.elements?.map((element, i) => {
 				let subElementIndex = [...this.props.elementIndex, i];
@@ -45,7 +54,17 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							data={element}
 							update={data => {
 								let newProps = Object.assign({}, this.props.data);
-								newProps.elements[i] = data;
+								let newElements: WhereElement[] = [];
+								for (let j = 0; j < newProps.elements.length; j++) {
+									if (j !== i) {
+										newElements.push(newProps.elements[j]);
+										continue;
+									}
+									if (data !== undefined) {
+										newElements.push(data);
+									}
+								}
+								newProps.elements = newElements;
 								this.props.update(newProps);
 							}}
 							isRootGroup={false}
@@ -147,6 +166,7 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
 
 interface AddButtonProps {
 	propertyList: ReadonlyMap<string, PropertyType>;
+	addElement: "field" | "group";
 	add(newComponent: WhereElement): void;
 }
 
@@ -158,9 +178,19 @@ class GroupAddButton extends React.Component<AddButtonProps> {
 		};
 	}
 	render() {
-		return <div
-			className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
-			onMouseDown={e => this.props.add(NewField(this.props.propertyList))}
-		/>;
+		switch (this.props.addElement) {
+			case "field":
+				return <div
+					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+					onMouseDown={e => this.props.add(NewField(this.props.propertyList))}
+				/>;
+			case "group":
+			default:
+				return <div
+					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+					onMouseDown={e => this.props.add(NewGroup(this.props.propertyList))}
+				/>;
+		}
+
 	}
 }

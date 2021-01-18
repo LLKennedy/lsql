@@ -45,7 +45,7 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 			/>
 		</div>
 	}
-	update(data: Group) {
+	update(data: Group | undefined) {
 		this.props.update({
 			where: data
 		})
