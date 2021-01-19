@@ -163,7 +163,20 @@ interface InputProps {
 	update(newValue: FieldValue): void;
 }
 
-class FieldInput extends React.Component<InputProps> {
+// InputState is necessary to cleanly handle temporary invalid states
+interface InputState {
+	raw: string;
+	valid: boolean;
+}
+
+class FieldInput extends React.Component<InputProps, InputState> {
+	constructor(props: InputProps) {
+		super(props);
+		this.state = {
+			raw: this.valueToString(),
+			valid: true
+		};
+	}
 	render() {
 		let pattern: string | undefined = undefined;
 		switch (this.props.data.type) {
@@ -194,11 +207,23 @@ class FieldInput extends React.Component<InputProps> {
 		}
 		return <input
 			className={ClassDefs.fieldDropdown}
-			value={this.valueToString()}
+			value={this.state.raw}
 			type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
 			pattern={pattern}
-			onChange={e => this.updateInputValue(e)}
+			onChange={e => this.setState({
+				raw: e.target.value
+			})}
 		/>
+	}
+	componentDidUpdate(prevProps: InputProps, prevState: InputState) {
+		if (this.props.data.value !== prevProps.data.value) {
+			this.setState({
+				raw: this.valueToString()
+			})
+		}
+		if (this.state.raw !== prevState.raw) {
+			this.updateInputValue(this.state.raw);
+		}
 	}
 	valueToString(): string {
 		switch (this.props.data.type) {
@@ -208,7 +233,7 @@ class FieldInput extends React.Component<InputProps> {
 				return base64.stringify(this.props.data.value)
 			case PropertyType.TIME:
 				let minutesOffset = this.props.data.value.getTimezoneOffset();
-				let newTime = new Date(this.props.data.value.getTime() + (minutesOffset * 60 * 1000));
+				let newTime = new Date(this.props.data.value.getTime() - (minutesOffset * 60 * 1000));
 				let isoString = newTime.toISOString();
 				return isoString.replace("Z", "");
 			case PropertyType.DOUBLE:
@@ -219,47 +244,56 @@ class FieldInput extends React.Component<InputProps> {
 				return this.props.data.value as string;
 		}
 	}
-	updateInputValue(e: React.ChangeEvent<HTMLInputElement>) {
-		let newValRaw = e.target.value;
-		let newData: FieldValue = { ...this.props.data };
-		switch (newData.type) {
-			case PropertyType.BYTES:
-				newData.value = base64.parse(newValRaw, {
-					loose: true
-				});
-				break;
-			case PropertyType.DOUBLE:
-				if (newValRaw === "" || newValRaw === "-" || newValRaw === ".") {
-					newData.value = 0;
+	updateInputValue(newValRaw: string) {
+		this.setState({
+			valid: false,
+		})
+		try {
+			let newData: FieldValue = { ...this.props.data };
+			switch (newData.type) {
+				case PropertyType.BYTES:
+					newData.value = base64.parse(newValRaw, {
+						loose: true
+					});
 					break;
-				}
-				let newFloat = parseFloat(newValRaw);
-				if (!isNaN(newFloat)) {
-					newData.value = newFloat;
-				}
-				break;
-			case PropertyType.INT64:
-			case PropertyType.UINT64:
-				if (newValRaw === "" || newValRaw === "-" || newValRaw === ".") {
-					newData.value = 0;
+				case PropertyType.DOUBLE:
+					if (newValRaw === "" || newValRaw === "-" || newValRaw === ".") {
+						newData.value = 0;
+						break;
+					}
+					let newFloat = parseFloat(newValRaw);
+					if (!isNaN(newFloat)) {
+						newData.value = newFloat;
+					}
 					break;
-				}
-				let newInt = parseInt(newValRaw);
-				if (!isNaN(newInt)) {
-					newData.value = newInt;
-				}
-				break;
-			case PropertyType.STRING:
-				newData.value = newValRaw;
-				break;
-			case PropertyType.TIME:
-				let isoDate = new Date(e.target.value + "Z");
-				let offsetMinutes = new Date().getTimezoneOffset();
-				let localTime = new Date(isoDate.getTime() - (offsetMinutes * 60 * 1000))
-				newData.value = localTime;
-				break;
+				case PropertyType.INT64:
+				case PropertyType.UINT64:
+					if (newValRaw === "" || newValRaw === "-" || newValRaw === ".") {
+						newData.value = 0;
+						break;
+					}
+					let newInt = parseInt(newValRaw);
+					if (!isNaN(newInt)) {
+						newData.value = newInt;
+					}
+					break;
+				case PropertyType.STRING:
+					newData.value = newValRaw;
+					break;
+				case PropertyType.TIME:
+					let isoDate = new Date(newValRaw + "Z");
+					let offsetMinutes = new Date().getTimezoneOffset();
+					let localTime = new Date(isoDate.getTime() + (offsetMinutes * 60 * 1000))
+					newData.value = localTime;
+					break;
+			}
+			this.setState({
+				valid: true,
+			})
+			this.props.update(newData);
+		} catch (err) {
+			console.warn(`Invalid input state: ${err}`)
 		}
-		this.props.update(newData);
 	}
 }
 

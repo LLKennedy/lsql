@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { NewGroup, PropertyType } from './query/where';
+import { CopyGroup, NewGroup, PropertyType } from './query/where';
 
 class MyModel {
 	Name: string = "";
@@ -71,12 +71,17 @@ class App extends React.Component<{}, AppState> {
 				<QueryBuilder
 					update={newState => {
 						this.setState({
-							queryState: Object.assign({}, this.state.queryState, newState)
+							queryState: {
+								where: CopyGroup(newState.where ?? this.state.queryState.where)
+							}
 						})
 					}}
 					where={this.state.queryState.where}
 					propertyList={propsList}
 				/>
+				<pre>
+					{JSON.stringify(this.state.queryState.where, null, 4)}
+				</pre>
 			</div>
 		</div>
 	}

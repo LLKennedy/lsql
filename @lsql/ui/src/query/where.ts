@@ -97,13 +97,15 @@ export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?:
 	if (!(propertyList.size > 0)) {
 		throw new Error("No properties on provided model, cannot create field");
 	}
-	let [, propType] = Array.from(propertyList)[0];
+	let [firstName, propType] = Array.from(propertyList)[0];
 	if (name !== undefined) {
 		let foundPropType = propertyList.get(name);
 		if (foundPropType === undefined) {
 			throw new Error("Specified property name not found");
 		}
 		propType = foundPropType;
+	} else {
+		name = firstName;
 	}
 	let newField: Partial<Field> = {
 		comparator: Comparator.EQUAL,
