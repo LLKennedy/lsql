@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { CopyUIGroup, NewUIGroup, PropertyType } from './query/where';
-import { ToProto } from './query/protojson';
+import { CopyUIGroup, NewUIGroup, PropertyType } from '@lsql/core';
+import { json } from '@lsql/core';
 
 class MyModel {
 	Name: string = "";
@@ -64,7 +64,7 @@ class App extends React.Component<{}, AppState> {
 	render() {
 		let model = createMyModel();
 		let propsList = model.getPropertyList();
-		let proto = ToProto(this.state.queryState.where);
+		let proto = json.ToProto(this.state.queryState.where);
 		return <div className="App">
 			<div className="App-body">
 				<div className="App-header">

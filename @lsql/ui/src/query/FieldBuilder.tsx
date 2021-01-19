@@ -1,7 +1,7 @@
 import React from "react";
 import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "./where";
+import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "@lsql/core";
 import { base64 } from 'rfc4648';
 
 export interface FieldProps {

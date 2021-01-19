@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
-import { UIGroup, UIGroupsAreEqual, PropertyType } from "./where";
+import { UIGroup, UIGroupsAreEqual, PropertyType } from "@lsql/core";
 
 export interface QueryBuilderProps extends QueryBuilderState {
 	propertyList: ReadonlyMap<string, PropertyType>;
