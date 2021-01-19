@@ -67,8 +67,8 @@ export class WhereGroup extends jspb.Message {
   getNegateOperator(): boolean;
   setNegateOperator(value: boolean): WhereGroup;
 
-  getOperator(): GroupOperator;
-  setOperator(value: GroupOperator): WhereGroup;
+  getOperator(): roupOperator;
+  setOperator(value: roupOperator): WhereGroup;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): WhereGroup.AsObject;
@@ -82,7 +82,7 @@ export namespace WhereGroup {
   export type AsObject = {
     elementsList: Array<WhereGroupElement.AsObject>,
     negateOperator: boolean,
-    operator: GroupOperator,
+    operator: roupOperator,
   }
 }
 
@@ -127,8 +127,8 @@ export class WhereField extends jspb.Message {
   getNegateComparator(): boolean;
   setNegateComparator(value: boolean): WhereField;
 
-  getComparator(): Comparator;
-  setComparator(value: Comparator): WhereField;
+  getComparator(): omparator;
+  setComparator(value: omparator): WhereField;
 
   getDomainName(): string;
   setDomainName(value: string): WhereField;
@@ -177,7 +177,7 @@ export namespace WhereField {
   export type AsObject = {
     fieldName: string,
     negateComparator: boolean,
-    comparator: Comparator,
+    comparator: omparator,
     domainName: string,
     stringValue: string,
     int64Value: number,
