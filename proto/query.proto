@@ -68,7 +68,7 @@ message WhereField {
         double double_value = 104;
         bool bool_value = 105;
         bytes bytes_value = 106;
-        google.protobuf.Timestamp timestamp = 107;
+        google.protobuf.Timestamp time_value = 107;
         // TODO: other basic types I'm forgetting?
     }
     // Ordering is optional, unless the RDBMS on the other end requires it,

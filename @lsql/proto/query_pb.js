@@ -1049,7 +1049,7 @@ proto.WhereField.ValueCase = {
   DOUBLE_VALUE: 104,
   BOOL_VALUE: 105,
   BYTES_VALUE: 106,
-  TIMESTAMP: 107
+  TIME_VALUE: 107
 };
 
 /**
@@ -1100,7 +1100,7 @@ proto.WhereField.toObject = function(includeInstance, msg) {
     doubleValue: jspb.Message.getFloatingPointFieldWithDefault(msg, 104, 0.0),
     boolValue: jspb.Message.getBooleanFieldWithDefault(msg, 105, false),
     bytesValue: msg.getBytesValue_asB64(),
-    timestamp: (f = msg.getTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    timeValue: (f = msg.getTimeValue()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     ordering: (f = msg.getOrdering()) && proto.Ordering.toObject(includeInstance, f)
   };
 
@@ -1181,7 +1181,7 @@ proto.WhereField.deserializeBinaryFromReader = function(msg, reader) {
     case 107:
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
-      msg.setTimestamp(value);
+      msg.setTimeValue(value);
       break;
     case 5:
       var value = new proto.Ordering;
@@ -1287,7 +1287,7 @@ proto.WhereField.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getTimestamp();
+  f = message.getTimeValue();
   if (f != null) {
     writer.writeMessage(
       107,
@@ -1619,10 +1619,10 @@ proto.WhereField.prototype.hasBytesValue = function() {
 
 
 /**
- * optional google.protobuf.Timestamp timestamp = 107;
+ * optional google.protobuf.Timestamp time_value = 107;
  * @return {?proto.google.protobuf.Timestamp}
  */
-proto.WhereField.prototype.getTimestamp = function() {
+proto.WhereField.prototype.getTimeValue = function() {
   return /** @type{?proto.google.protobuf.Timestamp} */ (
     jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 107));
 };
@@ -1632,7 +1632,7 @@ proto.WhereField.prototype.getTimestamp = function() {
  * @param {?proto.google.protobuf.Timestamp|undefined} value
  * @return {!proto.WhereField} returns this
 */
-proto.WhereField.prototype.setTimestamp = function(value) {
+proto.WhereField.prototype.setTimeValue = function(value) {
   return jspb.Message.setOneofWrapperField(this, 107, proto.WhereField.oneofGroups_[0], value);
 };
 
@@ -1641,8 +1641,8 @@ proto.WhereField.prototype.setTimestamp = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.WhereField} returns this
  */
-proto.WhereField.prototype.clearTimestamp = function() {
-  return this.setTimestamp(undefined);
+proto.WhereField.prototype.clearTimeValue = function() {
+  return this.setTimeValue(undefined);
 };
 
 
@@ -1650,7 +1650,7 @@ proto.WhereField.prototype.clearTimestamp = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.WhereField.prototype.hasTimestamp = function() {
+proto.WhereField.prototype.hasTimeValue = function() {
   return jspb.Message.getField(this, 107) != null;
 };
 

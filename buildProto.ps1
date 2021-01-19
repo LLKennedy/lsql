@@ -7,7 +7,6 @@ $ProtoFiles = Get-ChildItem -path $Directory -Recurse -Include $IncludeRule | Wh
 foreach ($file in $ProtoFiles) {
     protoc --proto_path="$($file.DirectoryName)" --go_out=paths=source_relative:./golsql --go-grpc_out=paths=source_relative:./golsql --js_out=import_style=commonjs:"./@lsql/proto" --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:"./@lsql/proto" $file.FullName
 }
-# Get-ChildItem -Path ./lsql.ts/src/generated *.d.ts | Rename-Item -NewName { $_.name -replace ".d.ts",".ts" }
 dotnet build ./LSQL.Net/LSQL.Net.csproj
 go build ./golsql
 go mod tidy

@@ -32,23 +32,23 @@ namespace LukeKennedy.LSQL.Net {
             "bmVnYXRlX29wZXJhdG9yGAIgASgIEiAKCG9wZXJhdG9yGAMgASgOMg4uR3Jv",
             "dXBPcGVyYXRvciJaChFXaGVyZUdyb3VwRWxlbWVudBIcCgVmaWVsZBhlIAEo",
             "CzILLldoZXJlRmllbGRIABIcCgVncm91cBhmIAEoCzILLldoZXJlR3JvdXBI",
-            "AEIJCgdlbGVtZW50ItQCCgpXaGVyZUZpZWxkEhIKCmZpZWxkX25hbWUYASAB",
+            "AEIJCgdlbGVtZW50ItUCCgpXaGVyZUZpZWxkEhIKCmZpZWxkX25hbWUYASAB",
             "KAkSGQoRbmVnYXRlX2NvbXBhcmF0b3IYAiABKAgSHwoKY29tcGFyYXRvchgD",
             "IAEoDjILLkNvbXBhcmF0b3ISEwoLZG9tYWluX25hbWUYBCABKAkSFgoMc3Ry",
             "aW5nX3ZhbHVlGGUgASgJSAASFQoLaW50NjRfdmFsdWUYZiABKANIABIWCgx1",
             "aW50NjRfdmFsdWUYZyABKARIABIWCgxkb3VibGVfdmFsdWUYaCABKAFIABIU",
-            "Cgpib29sX3ZhbHVlGGkgASgISAASFQoLYnl0ZXNfdmFsdWUYaiABKAxIABIv",
-            "Cgl0aW1lc3RhbXAYayABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1w",
-            "SAASGwoIb3JkZXJpbmcYBSABKAsyCS5PcmRlcmluZ0IHCgV2YWx1ZSInCgZQ",
-            "YWdpbmcSDQoFbGltaXQYASABKAQSDgoGb2Zmc2V0GAIgASgEIjAKCE9yZGVy",
-            "aW5nEhAKCHByaW9yaXR5GAEgASgNEhIKCmRlc2NlbmRpbmcYAiABKAgqoQEK",
-            "CkNvbXBhcmF0b3ISFgoSVU5LTk9XTl9DT01QQVJBVE9SEAASCQoFRVFVQUwQ",
-            "ARIPCgtGVVpaWV9FUVVBTBACEhAKDEdSRUFURVJfVEhBThADEg0KCUxFU1Nf",
-            "VEhBThAEEhkKFUdSRUFURVJfVEhBTl9PUl9FUVVBTBAFEhYKEkxFU1NfVEhB",
-            "Tl9PUl9FUVVBTBAGEgsKB0lTX05VTEwQBypECg1Hcm91cE9wZXJhdG9yEhkK",
-            "FVVOS05PV05fR1JPVVBPUEVSQVRPUhAAEgcKA0FORBABEgYKAk9SEAISBwoD",
-            "WE9SEANCOVogZ2l0aHViLmNvbS9sbGtlbm5lZHkvbHNxbC9nb2xzcWyqAhRM",
-            "dWtlS2VubmVkeS5MU1FMLk5ldGIGcHJvdG8z"));
+            "Cgpib29sX3ZhbHVlGGkgASgISAASFQoLYnl0ZXNfdmFsdWUYaiABKAxIABIw",
+            "Cgp0aW1lX3ZhbHVlGGsgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFt",
+            "cEgAEhsKCG9yZGVyaW5nGAUgASgLMgkuT3JkZXJpbmdCBwoFdmFsdWUiJwoG",
+            "UGFnaW5nEg0KBWxpbWl0GAEgASgEEg4KBm9mZnNldBgCIAEoBCIwCghPcmRl",
+            "cmluZxIQCghwcmlvcml0eRgBIAEoDRISCgpkZXNjZW5kaW5nGAIgASgIKqEB",
+            "CgpDb21wYXJhdG9yEhYKElVOS05PV05fQ09NUEFSQVRPUhAAEgkKBUVRVUFM",
+            "EAESDwoLRlVaWllfRVFVQUwQAhIQCgxHUkVBVEVSX1RIQU4QAxINCglMRVNT",
+            "X1RIQU4QBBIZChVHUkVBVEVSX1RIQU5fT1JfRVFVQUwQBRIWChJMRVNTX1RI",
+            "QU5fT1JfRVFVQUwQBhILCgdJU19OVUxMEAcqRAoNR3JvdXBPcGVyYXRvchIZ",
+            "ChVVTktOT1dOX0dST1VQT1BFUkFUT1IQABIHCgNBTkQQARIGCgJPUhACEgcK",
+            "A1hPUhADQjlaIGdpdGh1Yi5jb20vbGxrZW5uZWR5L2xzcWwvZ29sc3FsqgIU",
+            "THVrZUtlbm5lZHkuTFNRTC5OZXRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LukeKennedy.LSQL.Net.Comparator), typeof(global::LukeKennedy.LSQL.Net.GroupOperator), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -56,7 +56,7 @@ namespace LukeKennedy.LSQL.Net {
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.DomainJoins), global::LukeKennedy.LSQL.Net.DomainJoins.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.WhereGroup), global::LukeKennedy.LSQL.Net.WhereGroup.Parser, new[]{ "Elements", "NegateOperator", "Operator" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.WhereGroupElement), global::LukeKennedy.LSQL.Net.WhereGroupElement.Parser, new[]{ "Field", "Group" }, new[]{ "Element" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.WhereField), global::LukeKennedy.LSQL.Net.WhereField.Parser, new[]{ "FieldName", "NegateComparator", "Comparator", "DomainName", "StringValue", "Int64Value", "Uint64Value", "DoubleValue", "BoolValue", "BytesValue", "Timestamp", "Ordering" }, new[]{ "Value" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.WhereField), global::LukeKennedy.LSQL.Net.WhereField.Parser, new[]{ "FieldName", "NegateComparator", "Comparator", "DomainName", "StringValue", "Int64Value", "Uint64Value", "DoubleValue", "BoolValue", "BytesValue", "TimeValue", "Ordering" }, new[]{ "Value" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Paging), global::LukeKennedy.LSQL.Net.Paging.Parser, new[]{ "Limit", "Offset" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Ordering), global::LukeKennedy.LSQL.Net.Ordering.Parser, new[]{ "Priority", "Descending" }, null, null, null, null)
           }));
@@ -1116,8 +1116,8 @@ namespace LukeKennedy.LSQL.Net {
         case ValueOneofCase.BytesValue:
           BytesValue = other.BytesValue;
           break;
-        case ValueOneofCase.Timestamp:
-          Timestamp = other.Timestamp.Clone();
+        case ValueOneofCase.TimeValue:
+          TimeValue = other.TimeValue.Clone();
           break;
       }
 
@@ -1242,17 +1242,17 @@ namespace LukeKennedy.LSQL.Net {
       }
     }
 
-    /// <summary>Field number for the "timestamp" field.</summary>
-    public const int TimestampFieldNumber = 107;
+    /// <summary>Field number for the "time_value" field.</summary>
+    public const int TimeValueFieldNumber = 107;
     /// <summary>
     /// TODO: other basic types I'm forgetting?
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp Timestamp {
-      get { return valueCase_ == ValueOneofCase.Timestamp ? (global::Google.Protobuf.WellKnownTypes.Timestamp) value_ : null; }
+    public global::Google.Protobuf.WellKnownTypes.Timestamp TimeValue {
+      get { return valueCase_ == ValueOneofCase.TimeValue ? (global::Google.Protobuf.WellKnownTypes.Timestamp) value_ : null; }
       set {
         value_ = value;
-        valueCase_ = value == null ? ValueOneofCase.None : ValueOneofCase.Timestamp;
+        valueCase_ = value == null ? ValueOneofCase.None : ValueOneofCase.TimeValue;
       }
     }
 
@@ -1281,7 +1281,7 @@ namespace LukeKennedy.LSQL.Net {
       DoubleValue = 104,
       BoolValue = 105,
       BytesValue = 106,
-      Timestamp = 107,
+      TimeValue = 107,
     }
     private ValueOneofCase valueCase_ = ValueOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1318,7 +1318,7 @@ namespace LukeKennedy.LSQL.Net {
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(DoubleValue, other.DoubleValue)) return false;
       if (BoolValue != other.BoolValue) return false;
       if (BytesValue != other.BytesValue) return false;
-      if (!object.Equals(Timestamp, other.Timestamp)) return false;
+      if (!object.Equals(TimeValue, other.TimeValue)) return false;
       if (!object.Equals(Ordering, other.Ordering)) return false;
       if (ValueCase != other.ValueCase) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -1337,7 +1337,7 @@ namespace LukeKennedy.LSQL.Net {
       if (valueCase_ == ValueOneofCase.DoubleValue) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(DoubleValue);
       if (valueCase_ == ValueOneofCase.BoolValue) hash ^= BoolValue.GetHashCode();
       if (valueCase_ == ValueOneofCase.BytesValue) hash ^= BytesValue.GetHashCode();
-      if (valueCase_ == ValueOneofCase.Timestamp) hash ^= Timestamp.GetHashCode();
+      if (valueCase_ == ValueOneofCase.TimeValue) hash ^= TimeValue.GetHashCode();
       if (ordering_ != null) hash ^= Ordering.GetHashCode();
       hash ^= (int) valueCase_;
       if (_unknownFields != null) {
@@ -1400,9 +1400,9 @@ namespace LukeKennedy.LSQL.Net {
         output.WriteRawTag(210, 6);
         output.WriteBytes(BytesValue);
       }
-      if (valueCase_ == ValueOneofCase.Timestamp) {
+      if (valueCase_ == ValueOneofCase.TimeValue) {
         output.WriteRawTag(218, 6);
-        output.WriteMessage(Timestamp);
+        output.WriteMessage(TimeValue);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1457,9 +1457,9 @@ namespace LukeKennedy.LSQL.Net {
         output.WriteRawTag(210, 6);
         output.WriteBytes(BytesValue);
       }
-      if (valueCase_ == ValueOneofCase.Timestamp) {
+      if (valueCase_ == ValueOneofCase.TimeValue) {
         output.WriteRawTag(218, 6);
-        output.WriteMessage(Timestamp);
+        output.WriteMessage(TimeValue);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1500,8 +1500,8 @@ namespace LukeKennedy.LSQL.Net {
       if (valueCase_ == ValueOneofCase.BytesValue) {
         size += 2 + pb::CodedOutputStream.ComputeBytesSize(BytesValue);
       }
-      if (valueCase_ == ValueOneofCase.Timestamp) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(Timestamp);
+      if (valueCase_ == ValueOneofCase.TimeValue) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(TimeValue);
       }
       if (ordering_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Ordering);
@@ -1554,11 +1554,11 @@ namespace LukeKennedy.LSQL.Net {
         case ValueOneofCase.BytesValue:
           BytesValue = other.BytesValue;
           break;
-        case ValueOneofCase.Timestamp:
-          if (Timestamp == null) {
-            Timestamp = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        case ValueOneofCase.TimeValue:
+          if (TimeValue == null) {
+            TimeValue = new global::Google.Protobuf.WellKnownTypes.Timestamp();
           }
-          Timestamp.MergeFrom(other.Timestamp);
+          TimeValue.MergeFrom(other.TimeValue);
           break;
       }
 
@@ -1625,11 +1625,11 @@ namespace LukeKennedy.LSQL.Net {
           }
           case 858: {
             global::Google.Protobuf.WellKnownTypes.Timestamp subBuilder = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            if (valueCase_ == ValueOneofCase.Timestamp) {
-              subBuilder.MergeFrom(Timestamp);
+            if (valueCase_ == ValueOneofCase.TimeValue) {
+              subBuilder.MergeFrom(TimeValue);
             }
             input.ReadMessage(subBuilder);
-            Timestamp = subBuilder;
+            TimeValue = subBuilder;
             break;
           }
         }
@@ -1695,11 +1695,11 @@ namespace LukeKennedy.LSQL.Net {
           }
           case 858: {
             global::Google.Protobuf.WellKnownTypes.Timestamp subBuilder = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            if (valueCase_ == ValueOneofCase.Timestamp) {
-              subBuilder.MergeFrom(Timestamp);
+            if (valueCase_ == ValueOneofCase.TimeValue) {
+              subBuilder.MergeFrom(TimeValue);
             }
             input.ReadMessage(subBuilder);
-            Timestamp = subBuilder;
+            TimeValue = subBuilder;
             break;
           }
         }

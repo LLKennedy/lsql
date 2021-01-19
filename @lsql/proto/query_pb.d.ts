@@ -38,7 +38,7 @@ export namespace Query {
     where?: WhereGroup.AsObject,
   }
 
-  export enum DomainSpaceCase {
+  export enum DomainSpaceCase { 
     DOMAIN_SPACE_NOT_SET = 0,
     DOMAIN = 101,
   }
@@ -113,7 +113,7 @@ export namespace WhereGroupElement {
     group?: WhereGroup.AsObject,
   }
 
-  export enum ElementCase {
+  export enum ElementCase { 
     ELEMENT_NOT_SET = 0,
     FIELD = 101,
     GROUP = 102,
@@ -153,10 +153,10 @@ export class WhereField extends jspb.Message {
   getBytesValue_asB64(): string;
   setBytesValue(value: Uint8Array | string): WhereField;
 
-  getTimestamp(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setTimestamp(value?: google_protobuf_timestamp_pb.Timestamp): WhereField;
-  hasTimestamp(): boolean;
-  clearTimestamp(): WhereField;
+  getTimeValue(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setTimeValue(value?: google_protobuf_timestamp_pb.Timestamp): WhereField;
+  hasTimeValue(): boolean;
+  clearTimeValue(): WhereField;
 
   getOrdering(): Ordering | undefined;
   setOrdering(value?: Ordering): WhereField;
@@ -185,11 +185,11 @@ export namespace WhereField {
     doubleValue: number,
     boolValue: boolean,
     bytesValue: Uint8Array | string,
-    timestamp?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    timeValue?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     ordering?: Ordering.AsObject,
   }
 
-  export enum ValueCase {
+  export enum ValueCase { 
     VALUE_NOT_SET = 0,
     STRING_VALUE = 101,
     INT64_VALUE = 102,
@@ -197,7 +197,7 @@ export namespace WhereField {
     DOUBLE_VALUE = 104,
     BOOL_VALUE = 105,
     BYTES_VALUE = 106,
-    TIMESTAMP = 107,
+    TIME_VALUE = 107,
   }
 }
 
@@ -245,7 +245,7 @@ export namespace Ordering {
   }
 }
 
-export enum Comparator {
+export enum Comparator { 
   UNKNOWN_COMPARATOR = 0,
   EQUAL = 1,
   FUZZY_EQUAL = 2,
@@ -255,7 +255,7 @@ export enum Comparator {
   LESS_THAN_OR_EQUAL = 6,
   IS_NULL = 7,
 }
-export enum GroupOperator {
+export enum GroupOperator { 
   UNKNOWN_GROUPOPERATOR = 0,
   AND = 1,
   OR = 2,
