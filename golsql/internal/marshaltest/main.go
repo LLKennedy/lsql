@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/LLKennedy/lsql/golsql"
+	"github.com/llkennedy/lsql/golsql"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
