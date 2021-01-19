@@ -1,5 +1,6 @@
 import * as proto from "@lsql/proto/query_pb";
 import * as uuid from 'uuid';
+import * as googleproto from 'google-protobuf/google/protobuf/timestamp_pb';
 
 export type WhereElement = Field | Group
 
@@ -263,17 +264,17 @@ export function fieldsAreEqual(first: Field, second: Field): boolean {
 }
 
 /** ToProto converts the query to a proto Query, paging must still be set after this for full results. */
-export function ToProto(group: Group): proto.Query {
+export function ToGRPCWeb(group: Group): proto.Query {
 	let q = new proto.Query();
 	// Generate new ID for this query
 	q.setId(uuid.v4());
 	// q.setDomain // TODO: domains
-	let topGroup = groupToProto(group);
+	let topGroup = groupToGRPCWeb(group);
 	q.setWhere(topGroup);
 	return q;
 }
 
-function groupToProto(group: Group): proto.WhereGroup {
+function groupToGRPCWeb(group: Group): proto.WhereGroup {
 	let g = new proto.WhereGroup();
 	g.setNegateOperator(group.negateOperator);
 	g.setOperator(mapOperator(group.operator));
@@ -284,11 +285,11 @@ function groupToProto(group: Group): proto.WhereGroup {
 			let newElement = new proto.WhereGroupElement();
 			switch (anElement.whereType) {
 				case fieldWhereType:
-					newElement.setField(fieldToProto(anElement));
+					newElement.setField(fieldToGRPCWeb(anElement));
 					break;
 				case groupWhereType:
 				default:
-					newElement.setGroup(groupToProto(anElement));
+					newElement.setGroup(groupToGRPCWeb(anElement));
 					break;
 			}
 			e.push(newElement);
@@ -298,7 +299,7 @@ function groupToProto(group: Group): proto.WhereGroup {
 	return g;
 }
 
-function fieldToProto(field: Field): proto.WhereField {
+function fieldToGRPCWeb(field: Field): proto.WhereField {
 	let f = new proto.WhereField();
 	if (field.domainName !== undefined) {
 		f.setDomainName(field.domainName)
@@ -325,6 +326,18 @@ function fieldToProto(field: Field): proto.WhereField {
 			break;
 		case PropertyType.STRING:
 			f.setStringValue(field.value);
+			break;
+		case PropertyType.TIME:
+			let ts = new googleproto.Timestamp();
+			let millisUTC = field.value.getTime() - (field.value.getTimezoneOffset() * 60 * 1000);
+			let seconds = Math.floor(millisUTC / 1000);
+			let nanos = (millisUTC - (seconds * 1000)) * 1000 * 1000;
+			ts.setSeconds(seconds);
+			ts.setNanos(nanos);
+			f.setTimeValue(ts);
+			break;
+		case PropertyType.UINT64:
+			f.setUint64Value(field.value);
 			break;
 	}
 	return f;

@@ -1,7 +1,8 @@
+import { WhereField } from '@lsql/proto/query_pb';
 import React from 'react';
 import './App.css';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { CopyGroup, NewGroup, PropertyType } from './query/where';
+import { CopyGroup, NewGroup, PropertyType, ToGRPCWeb } from './query/where';
 
 class MyModel {
 	Name: string = "";
@@ -63,6 +64,7 @@ class App extends React.Component<{}, AppState> {
 	render() {
 		let model = createMyModel();
 		let propsList = model.getPropertyList();
+		let proto = ToGRPCWeb(this.state.queryState.where);
 		return <div className="App">
 			<div className="App-body">
 				<div className="App-header">
@@ -80,7 +82,9 @@ class App extends React.Component<{}, AppState> {
 					propertyList={propsList}
 				/>
 				<pre>
-					{JSON.stringify(this.state.queryState.where, null, 4)}
+					{
+						JSON.stringify(proto.toObject(), null, 2)
+					}
 				</pre>
 			</div>
 		</div>

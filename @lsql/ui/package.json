@@ -2,12 +2,14 @@
   "name": "@lsql/ui",
   "version": "0.1.0",
   "dependencies": {
-    "@lsql/proto": "^0.4.0",
+    "@lsql/proto": "^0.6.0",
+    "@types/google-protobuf": "^3.7.4",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.19.12",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
     "@types/uuid": "^8.3.0",
+    "google-protobuf": "^3.14.0",
     "rfc4648": "^1.4.0",
     "uuid": "^8.3.2"
   },
