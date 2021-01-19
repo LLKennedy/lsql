@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/llkennedy/lsql/golsql"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func main() {
@@ -105,6 +106,20 @@ func main() {
 													},
 												},
 											},
+											{
+												Element: &golsql.WhereGroupElement_Field{
+													Field: &golsql.WhereField{
+														FieldName:  "Created",
+														Comparator: golsql.Comparator_LESS_THAN_OR_EQUAL,
+														Value: &golsql.WhereField_TimeValue{
+															TimeValue: &timestamppb.Timestamp{
+																Seconds: 1000,
+																Nanos:   999,
+															},
+														},
+													},
+												},
+											},
 										},
 									},
 								},
@@ -119,5 +134,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	log.Printf("%s", data)
+	log.Printf("%s\n\n", data)
 }

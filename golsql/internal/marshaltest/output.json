@@ -1,5 +1,5 @@
 {
-	"id": "7fdeb56c-fdbb-470c-83b3-d931cab484a3",
+	"id": "7a8c33a6-918b-4301-ba94-0cdb453d66c2",
 	"paging": {
 		"limit": "100",
 		"offset": "1000"
@@ -61,6 +61,13 @@
 												}
 											],
 											"operator": "XOR"
+										}
+									},
+									{
+										"field": {
+											"fieldName": "Created",
+											"comparator": "LESS_THAN_OR_EQUAL",
+											"timeValue": "1970-01-01T00:16:40.000000999Z"
 										}
 									}
 								],
