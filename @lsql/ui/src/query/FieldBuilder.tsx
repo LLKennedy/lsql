@@ -140,7 +140,7 @@ class FieldComparatorSelector extends React.Component<ComparatorProps> {
 		let comparatorMap = typeComparatorMap.get(this.props.propertyType);
 		return <select
 			className={ClassDefs.fieldDropdown}
-			onChange={e => { this.props.update(parseInt(e.target.value) as Comparator) }}
+			onChange={e => { this.props.update(e.target.value as Comparator) }}
 			value={this.props.comparator}
 		>
 			{allComparatorList.map((comparator, i) => {

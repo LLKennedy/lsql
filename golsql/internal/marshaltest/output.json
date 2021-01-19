@@ -1,5 +1,5 @@
 {
-	"id": "7a8c33a6-918b-4301-ba94-0cdb453d66c2",
+	"id": "d145cba9-0ec9-4286-9f81-cdb5b0df3f82",
 	"paging": {
 		"limit": "100",
 		"offset": "1000"
@@ -52,7 +52,6 @@
 												{
 													"field": {
 														"fieldName": "Width",
-														"comparator": "GREATER_THAN",
 														"doubleValue": 889.531,
 														"ordering": {
 															"priority": 3
@@ -71,8 +70,7 @@
 										}
 									}
 								],
-								"negateOperator": true,
-								"operator": "OR"
+								"negateOperator": true
 							}
 						}
 					],

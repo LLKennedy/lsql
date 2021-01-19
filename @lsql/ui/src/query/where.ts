@@ -5,22 +5,22 @@ export const groupWhereType = "group";
 
 export enum GroupOperator {
 	/** Invalid, only used as a default in error states */
-	UNKNOWN_GROUPOPERATOR = 0,
-	AND = 1,
-	OR = 2,
-	XOR = 3
+	UNKNOWN_GROUPOPERATOR = "",
+	AND = "AND",
+	OR = "OR",
+	XOR = "XOR"
 }
 
 export enum Comparator {
 	/** Invalid, only used as a default in error states */
-	UNKNOWN_COMPARATOR = 0,
-	EQUAL = 1,
-	FUZZY_EQUAL = 2,
-	GREATER_THAN = 3,
-	LESS_THAN = 4,
-	GREATER_THAN_OR_EQUAL = 5,
-	LESS_THAN_OR_EQUAL = 6,
-	IS_NULL = 7
+	UNKNOWN_COMPARATOR = "",
+	EQUAL = "EQUAL",
+	FUZZY_EQUAL = "FUZZY_EQUAL",
+	GREATER_THAN = "GREATER_THAN",
+	LESS_THAN = "LESS_THAN",
+	GREATER_THAN_OR_EQUAL = "GREATER_THAN_OR_EQUAL",
+	LESS_THAN_OR_EQUAL = "LESS_THAN_OR_EQUAL",
+	IS_NULL = "IS_NULL"
 }
 
 export enum PropertyType {

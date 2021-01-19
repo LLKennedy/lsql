@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { ToProto } from './query/grpc-web';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
 import { CopyUIGroup, NewUIGroup, PropertyType } from './query/where';
+import { ToProto } from './query/protojson';
 
 class MyModel {
 	Name: string = "";
@@ -83,7 +83,7 @@ class App extends React.Component<{}, AppState> {
 				/>
 				<pre>
 					{
-						JSON.stringify(proto.toObject(), null, 2)
+						JSON.stringify(proto, null, 2)
 					}
 				</pre>
 			</div>

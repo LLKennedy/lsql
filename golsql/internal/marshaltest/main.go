@@ -62,7 +62,7 @@ func main() {
 								Element: &golsql.WhereGroupElement_Group{
 									Group: &golsql.WhereGroup{
 										NegateOperator: true,
-										Operator:       golsql.GroupOperator_OR,
+										Operator:       golsql.GroupOperator_UNKNOWN_GROUPOPERATOR,
 										Elements: []*golsql.WhereGroupElement{
 											{
 												Element: &golsql.WhereGroupElement_Field{
@@ -91,7 +91,7 @@ func main() {
 																	Field: &golsql.WhereField{
 																		FieldName:        "Width",
 																		NegateComparator: false,
-																		Comparator:       golsql.Comparator_GREATER_THAN,
+																		Comparator:       golsql.Comparator_UNKNOWN_COMPARATOR,
 																		Value: &golsql.WhereField_DoubleValue{
 																			DoubleValue: 889.531,
 																		},

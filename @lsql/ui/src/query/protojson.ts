@@ -82,10 +82,11 @@ export function ToProto(group: UIGroup, paging?: Paging): Query {
 }
 
 function groupToProto(group: UIGroup): Group {
-	let g: Group = {
-		operator: group.operator,
-		negateOperator: group.negateOperator
-	};
+	let g: Group = {};
+	if (group.operator !== GroupOperator.UNKNOWN_GROUPOPERATOR) {
+		g.operator = group.operator;
+		g.negateOperator = group.negateOperator;
+	}
 	if (group.elements?.length > 0) {
 		g.elements = [];
 		for (let i = 0; i < group.elements.length; i++) {
@@ -110,7 +111,6 @@ function groupToProto(group: UIGroup): Group {
 
 function fieldToProto(field: UIField): Field {
 	let f: BaseField = {
-		comparator: field.comparator,
 		negateComparator: field.negateComparator,
 		fieldName: field.fieldName,
 		ordering: {
@@ -118,6 +118,9 @@ function fieldToProto(field: UIField): Field {
 			priority: field.ordering.priority
 		}
 	};
+	if (field.comparator !== Comparator.UNKNOWN_COMPARATOR) {
+		f.comparator = field.comparator;
+	}
 	let value: FieldValues;
 	switch (field.type) {
 		case PropertyType.BOOL:
