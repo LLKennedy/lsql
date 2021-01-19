@@ -1,16 +1,14 @@
 import React from "react";
 import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { BooleanField, BytesField, Comparator, CopyField, Field, NumericField, PropertyType, StringField, TimeField } from "./where";
+import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "./where";
 import { base64 } from 'rfc4648';
 
-type FieldValue = NumericField | StringField | BooleanField | BytesField | TimeField;
-
 export interface FieldProps {
-	data: Field;
+	data: UIField;
 	elementIndex: number[];
 	propertyList: ReadonlyMap<string, PropertyType>;
-	update(data: Field | undefined): void;
+	update(data: UIField | undefined): void;
 }
 
 export class FieldBuilder extends React.Component<FieldProps> {
@@ -60,7 +58,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 	}
 	updateFieldName(e: React.ChangeEvent<HTMLSelectElement>) {
 		let newValue = e.target.value;
-		let newField = CopyField(this.props.data);
+		let newField = CopyUIField(this.props.data);
 		newField.fieldName = newValue;
 		let newType = this.props.propertyList.get(newValue);
 		if (newType === undefined) {
@@ -100,20 +98,20 @@ export class FieldBuilder extends React.Component<FieldProps> {
 		this.props.update(newField);
 	}
 	updateComparator(comparator: Comparator) {
-		let newField = CopyField(this.props.data);
+		let newField = CopyUIField(this.props.data);
 		newField.comparator = comparator;
 		this.props.update(newField);
 	}
 	updateNegateComparator(negateComparator: boolean) {
-		let newField = CopyField(this.props.data);
+		let newField = CopyUIField(this.props.data);
 		newField.negateComparator = negateComparator;
 		this.props.update(newField);
 	}
-	updateValue(value: FieldValue) {
+	updateValue(value: UIFieldValue) {
 		if (this.props.data.type !== value.type) {
 			throw new Error("Invalid value update, mismatched types")
 		}
-		let newField = CopyField(this.props.data);
+		let newField = CopyUIField(this.props.data);
 		newField.value = value.value;
 		this.props.update(newField);
 	}
@@ -158,9 +156,9 @@ class FieldComparatorSelector extends React.Component<ComparatorProps> {
 }
 
 interface InputProps {
-	data: FieldValue
+	data: UIFieldValue
 	elementIndex: number[];
-	update(newValue: FieldValue): void;
+	update(newValue: UIFieldValue): void;
 }
 
 // InputState is necessary to cleanly handle temporary invalid states
@@ -249,7 +247,7 @@ class FieldInput extends React.Component<InputProps, InputState> {
 			valid: false,
 		})
 		try {
-			let newData: FieldValue = { ...this.props.data };
+			let newData: UIFieldValue = { ...this.props.data };
 			switch (newData.type) {
 				case PropertyType.BYTES:
 					newData.value = base64.parse(newValRaw, {

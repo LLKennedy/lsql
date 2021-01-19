@@ -1,8 +1,8 @@
-import { WhereField } from '@lsql/proto/query_pb';
 import React from 'react';
 import './App.css';
+import { ToProto } from './query/grpc-web';
 import { QueryBuilder, QueryBuilderState } from './query/QueryBuilder';
-import { CopyGroup, NewGroup, PropertyType, ToGRPCWeb } from './query/where';
+import { CopyUIGroup, NewUIGroup, PropertyType } from './query/where';
 
 class MyModel {
 	Name: string = "";
@@ -57,14 +57,14 @@ class App extends React.Component<{}, AppState> {
 		let propsList = model.getPropertyList();
 		this.state = {
 			queryState: {
-				where: NewGroup(propsList)
+				where: NewUIGroup(propsList)
 			}
 		}
 	}
 	render() {
 		let model = createMyModel();
 		let propsList = model.getPropertyList();
-		let proto = ToGRPCWeb(this.state.queryState.where);
+		let proto = ToProto(this.state.queryState.where);
 		return <div className="App">
 			<div className="App-body">
 				<div className="App-header">
@@ -74,7 +74,7 @@ class App extends React.Component<{}, AppState> {
 					update={newState => {
 						this.setState({
 							queryState: {
-								where: CopyGroup(newState.where ?? this.state.queryState.where)
+								where: CopyUIGroup(newState.where ?? this.state.queryState.where)
 							}
 						})
 					}}

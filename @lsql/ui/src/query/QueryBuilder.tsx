@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
-import { Group, groupsAreEqual, PropertyType } from "./where";
+import { UIGroup, UIGroupsAreEqual, PropertyType } from "./where";
 
 export interface QueryBuilderProps extends QueryBuilderState {
 	propertyList: ReadonlyMap<string, PropertyType>;
@@ -11,7 +11,7 @@ export interface QueryBuilderProps extends QueryBuilderState {
 }
 
 export interface QueryBuilderState {
-	where: Group;
+	where: UIGroup;
 }
 
 /**
@@ -25,9 +25,9 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 		};
 	}
 	componentDidUpdate(prevProps: Readonly<QueryBuilderProps>, prevState: Readonly<QueryBuilderState>) {
-		if (!groupsAreEqual(prevState.where, this.state.where)) {
+		if (!UIGroupsAreEqual(prevState.where, this.state.where)) {
 		}
-		if (!groupsAreEqual(prevProps.where, this.props.where)) {
+		if (!UIGroupsAreEqual(prevProps.where, this.props.where)) {
 			// Updated query from props, set in state
 			this.setState({
 				where: this.props.where
@@ -45,7 +45,7 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 			/>
 		</div>
 	}
-	update(data: Group | undefined) {
+	update(data: UIGroup | undefined) {
 		this.props.update({
 			where: data
 		})

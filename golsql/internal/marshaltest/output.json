@@ -1,0 +1,79 @@
+{
+	"id": "7fdeb56c-fdbb-470c-83b3-d931cab484a3",
+	"paging": {
+		"limit": "100",
+		"offset": "1000"
+	},
+	"where": {
+		"elements": [
+			{
+				"field": {
+					"fieldName": "Name",
+					"negateComparator": true,
+					"comparator": "FUZZY_EQUAL",
+					"stringValue": "abcd",
+					"ordering": {
+						"priority": 1,
+						"descending": true
+					}
+				}
+			},
+			{
+				"group": {
+					"elements": [
+						{
+							"field": {
+								"fieldName": "Width",
+								"comparator": "GREATER_THAN",
+								"doubleValue": 889.531,
+								"ordering": {
+									"priority": 3
+								}
+							}
+						},
+						{
+							"group": {
+								"elements": [
+									{
+										"field": {
+											"fieldName": "Name",
+											"negateComparator": true,
+											"comparator": "FUZZY_EQUAL",
+											"stringValue": "abcd",
+											"ordering": {
+												"priority": 1,
+												"descending": true
+											}
+										}
+									},
+									{
+										"group": {
+											"elements": [
+												{
+													"field": {
+														"fieldName": "Width",
+														"comparator": "GREATER_THAN",
+														"doubleValue": 889.531,
+														"ordering": {
+															"priority": 3
+														}
+													}
+												}
+											],
+											"operator": "XOR"
+										}
+									}
+								],
+								"negateOperator": true,
+								"operator": "OR"
+							}
+						}
+					],
+					"operator": "XOR"
+				}
+			}
+		],
+		"negateOperator": true,
+		"operator": "OR"
+	}
+}

@@ -1,8 +1,4 @@
-import * as proto from "@lsql/proto/query_pb";
-import * as uuid from 'uuid';
-import * as googleproto from 'google-protobuf/google/protobuf/timestamp_pb';
-
-export type WhereElement = Field | Group
+export type UIWhereElement = UIField | UIGroup
 
 export const fieldWhereType = "field";
 export const groupWhereType = "group";
@@ -42,30 +38,32 @@ export interface Ordering {
 	descending: boolean;
 }
 
-export interface NumericField {
+export interface NumericUIField {
 	type: PropertyType.DOUBLE | PropertyType.INT64 | PropertyType.UINT64;
 	value: number;
 }
 
-export interface StringField {
+export interface StringUIField {
 	type: PropertyType.STRING;
 	value: string;
 }
 
-export interface BooleanField {
+export interface BooleanUIField {
 	type: PropertyType.BOOL;
 	value: boolean;
 }
 
-export interface BytesField {
+export interface BytesUIField {
 	type: PropertyType.BYTES;
 	value: Uint8Array;
 }
 
-export interface TimeField {
+export interface TimeUIField {
 	type: PropertyType.TIME;
 	value: Date;
 }
+
+export type UIFieldValue = NumericUIField | StringUIField | BooleanUIField | BytesUIField | TimeUIField;
 
 export interface FieldWithoutValue {
 	whereType: typeof fieldWhereType;
@@ -77,19 +75,19 @@ export interface FieldWithoutValue {
 	ordering: Ordering;
 }
 
-export type Field = FieldWithoutValue & (NumericField | StringField | BooleanField | BytesField | TimeField)
+export type UIField = FieldWithoutValue & (NumericUIField | StringUIField | BooleanUIField | BytesUIField | TimeUIField)
 
 /** Top level query structure, but may also be nested arbitrarily deep within the structure. */
-export interface Group {
+export interface UIGroup {
 	whereType: typeof groupWhereType;
-	elements: WhereElement[];
+	elements: UIWhereElement[];
 	operator: GroupOperator;
 	negateOperator: boolean;
 }
 
-export function NewGroup(propertyList: ReadonlyMap<string, PropertyType>): Group {
-	let group: Group = {
-		elements: [NewField(propertyList)],
+export function NewUIGroup(propertyList: ReadonlyMap<string, PropertyType>): UIGroup {
+	let group: UIGroup = {
+		elements: [NewUIField(propertyList)],
 		negateOperator: false,
 		operator: GroupOperator.UNKNOWN_GROUPOPERATOR,
 		whereType: "group"
@@ -97,7 +95,7 @@ export function NewGroup(propertyList: ReadonlyMap<string, PropertyType>): Group
 	return group;
 }
 
-export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?: string): Field {
+export function NewUIField(propertyList: ReadonlyMap<string, PropertyType>, name?: string): UIField {
 	if (!(propertyList.size > 0)) {
 		throw new Error("No properties on provided model, cannot create field");
 	}
@@ -111,7 +109,7 @@ export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?:
 	} else {
 		name = firstName;
 	}
-	let newField: Partial<Field> = {
+	let newField: Partial<UIField> = {
 		comparator: Comparator.EQUAL,
 		// domainName: // TODO
 		fieldName: name,
@@ -145,11 +143,11 @@ export function NewField(propertyList: ReadonlyMap<string, PropertyType>, name?:
 			newField.value = "";
 			break;
 	}
-	return newField as Field;
+	return newField as UIField;
 }
 
-export function CopyGroup(group: Group): Group {
-	let newGroup: Group = {
+export function CopyUIGroup(group: UIGroup): UIGroup {
+	let newGroup: UIGroup = {
 		negateOperator: group?.negateOperator,
 		operator: group?.operator,
 		whereType: group?.whereType,
@@ -159,17 +157,17 @@ export function CopyGroup(group: Group): Group {
 		let element = group.elements[i];
 		switch (element.whereType) {
 			case groupWhereType:
-				newGroup.elements.push(CopyGroup(element));
+				newGroup.elements.push(CopyUIGroup(element));
 				break;
 			case fieldWhereType:
-				newGroup.elements.push(CopyField(element));
+				newGroup.elements.push(CopyUIField(element));
 		}
 	}
 	return newGroup;
 }
 
-export function CopyField(field: Field): Field {
-	let newField: Partial<Field> = {
+export function CopyUIField(field: UIField): UIField {
+	let newField: Partial<UIField> = {
 		comparator: field.comparator,
 		fieldName: field.fieldName,
 		negateComparator: field.negateComparator,
@@ -200,11 +198,11 @@ export function CopyField(field: Field): Field {
 			newField.value = field.value as any;
 			break;
 	}
-	return newField as Field;
+	return newField as UIField;
 }
 
 /**Recursively checks all groups and fields within this group */
-export function groupsAreEqual(first: Group, second: Group): boolean {
+export function UIGroupsAreEqual(first: UIGroup, second: UIGroup): boolean {
 	// Check for both null/undefined
 	let firstIsEmpty = first === undefined || first === null;
 	let secondIsEmpty = second === undefined || second === null;
@@ -231,11 +229,11 @@ export function groupsAreEqual(first: Group, second: Group): boolean {
 		}
 		switch (first.elements[i].whereType) {
 			case fieldWhereType:
-				if (!fieldsAreEqual(first.elements[i] as Field, second.elements[i] as Field)) return false;
+				if (!UIFieldsAreEqual(first.elements[i] as UIField, second.elements[i] as UIField)) return false;
 				break;
 			case groupWhereType:
 				// Recurse here - this will be a problem if you have an obscenely deeply nested query, but there's no real use case for that.
-				if (!groupsAreEqual(first.elements[i] as Group, second.elements[i] as Group)) return false;
+				if (!UIGroupsAreEqual(first.elements[i] as UIGroup, second.elements[i] as UIGroup)) return false;
 				break;
 			default:
 				throw new Error(`Cannot compare query elements of type ${first.elements[i].whereType}, must be "${fieldWhereType}" or "${groupWhereType}"`);
@@ -245,7 +243,7 @@ export function groupsAreEqual(first: Group, second: Group): boolean {
 	return true;
 }
 
-export function fieldsAreEqual(first: Field, second: Field): boolean {
+export function UIFieldsAreEqual(first: UIField, second: UIField): boolean {
 	// Check for both null/undefined
 	let firstIsEmpty = first === undefined || first === null;
 	let secondIsEmpty = second === undefined || second === null;
@@ -263,118 +261,3 @@ export function fieldsAreEqual(first: Field, second: Field): boolean {
 	return true;
 }
 
-/** ToProto converts the query to a proto Query, paging must still be set after this for full results. */
-export function ToGRPCWeb(group: Group): proto.Query {
-	let q = new proto.Query();
-	// Generate new ID for this query
-	q.setId(uuid.v4());
-	// q.setDomain // TODO: domains
-	let topGroup = groupToGRPCWeb(group);
-	q.setWhere(topGroup);
-	return q;
-}
-
-function groupToGRPCWeb(group: Group): proto.WhereGroup {
-	let g = new proto.WhereGroup();
-	g.setNegateOperator(group.negateOperator);
-	g.setOperator(mapOperator(group.operator));
-	if (group.elements?.length > 0) {
-		let e: proto.WhereGroupElement[] = [];
-		for (let i = 0; i < group.elements.length; i++) {
-			let anElement = group.elements[i];
-			let newElement = new proto.WhereGroupElement();
-			switch (anElement.whereType) {
-				case fieldWhereType:
-					newElement.setField(fieldToGRPCWeb(anElement));
-					break;
-				case groupWhereType:
-				default:
-					newElement.setGroup(groupToGRPCWeb(anElement));
-					break;
-			}
-			e.push(newElement);
-		}
-		g.setElementsList(e);
-	}
-	return g;
-}
-
-function fieldToGRPCWeb(field: Field): proto.WhereField {
-	let f = new proto.WhereField();
-	if (field.domainName !== undefined) {
-		f.setDomainName(field.domainName)
-	}
-	f.setComparator(mapComparator(field.comparator));
-	f.setFieldName(field.fieldName);
-	f.setNegateComparator(field.negateComparator);
-	let o = new proto.Ordering();
-	o.setDescending(field.ordering.descending);
-	o.setPriority(field.ordering.priority);
-	f.setOrdering(o);
-	switch (field.type) {
-		case PropertyType.BOOL:
-			f.setBoolValue(field.value);
-			break;
-		case PropertyType.BYTES:
-			f.setBytesValue(field.value);
-			break;
-		case PropertyType.DOUBLE:
-			f.setDoubleValue(field.value);
-			break;
-		case PropertyType.INT64:
-			f.setInt64Value(field.value);
-			break;
-		case PropertyType.STRING:
-			f.setStringValue(field.value);
-			break;
-		case PropertyType.TIME:
-			let ts = new googleproto.Timestamp();
-			let millisUTC = field.value.getTime() - (field.value.getTimezoneOffset() * 60 * 1000);
-			let seconds = Math.floor(millisUTC / 1000);
-			let nanos = (millisUTC - (seconds * 1000)) * 1000 * 1000;
-			ts.setSeconds(seconds);
-			ts.setNanos(nanos);
-			f.setTimeValue(ts);
-			break;
-		case PropertyType.UINT64:
-			f.setUint64Value(field.value);
-			break;
-	}
-	return f;
-}
-
-function mapOperator(operator: GroupOperator): proto.GroupOperator {
-	switch (operator) {
-		case GroupOperator.AND:
-			return proto.GroupOperator.AND;
-		case GroupOperator.OR:
-			return proto.GroupOperator.OR;
-		case GroupOperator.XOR:
-			return proto.GroupOperator.XOR;
-		case GroupOperator.UNKNOWN_GROUPOPERATOR:
-		default:
-			return proto.GroupOperator.UNKNOWN_GROUPOPERATOR;
-	}
-}
-
-function mapComparator(comparator: Comparator): proto.Comparator {
-	switch (comparator) {
-		case Comparator.EQUAL:
-			return proto.Comparator.EQUAL;
-		case Comparator.FUZZY_EQUAL:
-			return proto.Comparator.FUZZY_EQUAL;
-		case Comparator.GREATER_THAN:
-			return proto.Comparator.GREATER_THAN;
-		case Comparator.GREATER_THAN_OR_EQUAL:
-			return proto.Comparator.GREATER_THAN_OR_EQUAL;
-		case Comparator.IS_NULL:
-			return proto.Comparator.IS_NULL;
-		case Comparator.LESS_THAN:
-			return proto.Comparator.LESS_THAN;
-		case Comparator.LESS_THAN_OR_EQUAL:
-			return proto.Comparator.LESS_THAN_OR_EQUAL;
-		case Comparator.UNKNOWN_COMPARATOR:
-		default:
-			return proto.Comparator.UNKNOWN_COMPARATOR;
-	}
-}

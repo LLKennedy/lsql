@@ -2,14 +2,14 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { fieldWhereType, Group, GroupOperator, groupWhereType, NewField, NewGroup, PropertyType, WhereElement } from "./where";
+import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "./where";
 
 export interface GroupProps {
 	elementIndex: number[];
-	data: Group;
+	data: UIGroup;
 	isRootGroup: boolean;
 	propertyList: ReadonlyMap<string, PropertyType>;
-	update(data: Group | undefined): void;
+	update(data: UIGroup | undefined): void;
 }
 
 export class GroupBuilder extends React.Component<GroupProps> {
@@ -54,7 +54,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							data={element}
 							update={data => {
 								let newProps = Object.assign({}, this.props.data);
-								let newElements: WhereElement[] = [];
+								let newElements: UIWhereElement[] = [];
 								for (let j = 0; j < newProps.elements.length; j++) {
 									if (j !== i) {
 										newElements.push(newProps.elements[j]);
@@ -77,7 +77,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							data={element}
 							update={data => {
 								let newProps = Object.assign({}, this.props.data);
-								let newElements: WhereElement[] = [];
+								let newElements: UIWhereElement[] = [];
 								for (let j = 0; j < newProps.elements.length; j++) {
 									if (j !== i) {
 										newElements.push(newProps.elements[j]);
@@ -97,8 +97,8 @@ export class GroupBuilder extends React.Component<GroupProps> {
 			})}
 		</div>
 	}
-	copyGroup(group: Group): Group {
-		return Object.assign<{}, Group>({}, { ...group });
+	copyGroup(group: UIGroup): UIGroup {
+		return Object.assign<{}, UIGroup>({}, { ...group });
 	}
 	toggleNegateOperator() {
 		let newProps = this.copyGroup(this.props.data);
@@ -113,7 +113,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 		}
 		this.props.update(newProps);
 	}
-	addElement(newElement: WhereElement) {
+	addElement(newElement: UIWhereElement) {
 		let newProps = this.copyGroup(this.props.data);
 		newProps.elements.push(newElement);
 		if (newProps.operator === GroupOperator.UNKNOWN_GROUPOPERATOR) {
@@ -167,7 +167,7 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
 interface AddButtonProps {
 	propertyList: ReadonlyMap<string, PropertyType>;
 	addElement: "field" | "group";
-	add(newComponent: WhereElement): void;
+	add(newComponent: UIWhereElement): void;
 }
 
 class GroupAddButton extends React.Component<AddButtonProps> {
@@ -182,13 +182,13 @@ class GroupAddButton extends React.Component<AddButtonProps> {
 			case "field":
 				return <div
 					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
-					onMouseDown={e => this.props.add(NewField(this.props.propertyList))}
+					onMouseDown={e => this.props.add(NewUIField(this.props.propertyList))}
 				/>;
 			case "group":
 			default:
 				return <div
 					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
-					onMouseDown={e => this.props.add(NewGroup(this.props.propertyList))}
+					onMouseDown={e => this.props.add(NewUIGroup(this.props.propertyList))}
 				/>;
 		}
 
