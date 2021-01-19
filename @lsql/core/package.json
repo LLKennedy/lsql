@@ -4,6 +4,7 @@
   "description": "Luke's \"Silly\" Query Language",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "private": false,
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsc",
