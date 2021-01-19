@@ -42,7 +42,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				/>
 				{
 					// Hide the value input if we're comparing to IS NULL or NOT IS NULL
-					this.props.data.comparator === Comparator.IS_NULL ? null :
+					this.props.data.comparator === Comparator.IS_NULL ? <div className={ClassDefs.fieldDropdown} /> :
 						<FieldInput
 							data={this.props.data}
 							elementIndex={this.props.elementIndex}
