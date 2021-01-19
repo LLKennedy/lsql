@@ -3,6 +3,8 @@ syntax = "proto3";
 option go_package = "github.com/llkennedy/lsql/golsql";
 option csharp_namespace = "LukeKennedy.LSQL.Net";
 
+import "google/protobuf/timestamp.proto";
+
 enum Comparator {
     // Invalid, only used as a default in error states
     UNKNOWN_COMPARATOR = 0;
@@ -66,7 +68,7 @@ message WhereField {
         double double_value = 104;
         bool bool_value = 105;
         bytes bytes_value = 106;
-        // TODO: time
+        google.protobuf.Timestamp timestamp = 107;
         // TODO: other basic types I'm forgetting?
     }
     // Ordering is optional, unless the RDBMS on the other end requires it,

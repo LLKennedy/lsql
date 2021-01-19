@@ -12,6 +12,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
+goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.Comparator', null, global);
 goog.exportSymbol('proto.DomainJoins', null, global);
 goog.exportSymbol('proto.GroupOperator', null, global);
@@ -1034,7 +1036,7 @@ proto.WhereGroupElement.prototype.hasGroup = function() {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.WhereField.oneofGroups_ = [[101,102,103,104,105,106]];
+proto.WhereField.oneofGroups_ = [[101,102,103,104,105,106,107]];
 
 /**
  * @enum {number}
@@ -1046,7 +1048,8 @@ proto.WhereField.ValueCase = {
   UINT64_VALUE: 103,
   DOUBLE_VALUE: 104,
   BOOL_VALUE: 105,
-  BYTES_VALUE: 106
+  BYTES_VALUE: 106,
+  TIMESTAMP: 107
 };
 
 /**
@@ -1097,6 +1100,7 @@ proto.WhereField.toObject = function(includeInstance, msg) {
     doubleValue: jspb.Message.getFloatingPointFieldWithDefault(msg, 104, 0.0),
     boolValue: jspb.Message.getBooleanFieldWithDefault(msg, 105, false),
     bytesValue: msg.getBytesValue_asB64(),
+    timestamp: (f = msg.getTimestamp()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     ordering: (f = msg.getOrdering()) && proto.Ordering.toObject(includeInstance, f)
   };
 
@@ -1173,6 +1177,11 @@ proto.WhereField.deserializeBinaryFromReader = function(msg, reader) {
     case 106:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setBytesValue(value);
+      break;
+    case 107:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setTimestamp(value);
       break;
     case 5:
       var value = new proto.Ordering;
@@ -1276,6 +1285,14 @@ proto.WhereField.serializeBinaryToWriter = function(message, writer) {
     writer.writeBytes(
       106,
       f
+    );
+  }
+  f = message.getTimestamp();
+  if (f != null) {
+    writer.writeMessage(
+      107,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
   f = message.getOrdering();
@@ -1598,6 +1615,43 @@ proto.WhereField.prototype.clearBytesValue = function() {
  */
 proto.WhereField.prototype.hasBytesValue = function() {
   return jspb.Message.getField(this, 106) != null;
+};
+
+
+/**
+ * optional google.protobuf.Timestamp timestamp = 107;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.WhereField.prototype.getTimestamp = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 107));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.WhereField} returns this
+*/
+proto.WhereField.prototype.setTimestamp = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 107, proto.WhereField.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.WhereField} returns this
+ */
+proto.WhereField.prototype.clearTimestamp = function() {
+  return this.setTimestamp(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.WhereField.prototype.hasTimestamp = function() {
+  return jspb.Message.getField(this, 107) != null;
 };
 
 

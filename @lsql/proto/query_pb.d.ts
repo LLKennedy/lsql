@@ -1,5 +1,6 @@
 import * as jspb from 'google-protobuf'
 
+import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
 
 
 export class Query extends jspb.Message {
@@ -37,7 +38,7 @@ export namespace Query {
     where?: WhereGroup.AsObject,
   }
 
-  export enum DomainSpaceCase { 
+  export enum DomainSpaceCase {
     DOMAIN_SPACE_NOT_SET = 0,
     DOMAIN = 101,
   }
@@ -66,8 +67,8 @@ export class WhereGroup extends jspb.Message {
   getNegateOperator(): boolean;
   setNegateOperator(value: boolean): WhereGroup;
 
-  getOperator(): roupOperator;
-  setOperator(value: roupOperator): WhereGroup;
+  getOperator(): GroupOperator;
+  setOperator(value: GroupOperator): WhereGroup;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): WhereGroup.AsObject;
@@ -81,7 +82,7 @@ export namespace WhereGroup {
   export type AsObject = {
     elementsList: Array<WhereGroupElement.AsObject>,
     negateOperator: boolean,
-    operator: roupOperator,
+    operator: GroupOperator,
   }
 }
 
@@ -112,7 +113,7 @@ export namespace WhereGroupElement {
     group?: WhereGroup.AsObject,
   }
 
-  export enum ElementCase { 
+  export enum ElementCase {
     ELEMENT_NOT_SET = 0,
     FIELD = 101,
     GROUP = 102,
@@ -126,8 +127,8 @@ export class WhereField extends jspb.Message {
   getNegateComparator(): boolean;
   setNegateComparator(value: boolean): WhereField;
 
-  getComparator(): omparator;
-  setComparator(value: omparator): WhereField;
+  getComparator(): Comparator;
+  setComparator(value: Comparator): WhereField;
 
   getDomainName(): string;
   setDomainName(value: string): WhereField;
@@ -152,6 +153,11 @@ export class WhereField extends jspb.Message {
   getBytesValue_asB64(): string;
   setBytesValue(value: Uint8Array | string): WhereField;
 
+  getTimestamp(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setTimestamp(value?: google_protobuf_timestamp_pb.Timestamp): WhereField;
+  hasTimestamp(): boolean;
+  clearTimestamp(): WhereField;
+
   getOrdering(): Ordering | undefined;
   setOrdering(value?: Ordering): WhereField;
   hasOrdering(): boolean;
@@ -171,7 +177,7 @@ export namespace WhereField {
   export type AsObject = {
     fieldName: string,
     negateComparator: boolean,
-    comparator: omparator,
+    comparator: Comparator,
     domainName: string,
     stringValue: string,
     int64Value: number,
@@ -179,10 +185,11 @@ export namespace WhereField {
     doubleValue: number,
     boolValue: boolean,
     bytesValue: Uint8Array | string,
+    timestamp?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     ordering?: Ordering.AsObject,
   }
 
-  export enum ValueCase { 
+  export enum ValueCase {
     VALUE_NOT_SET = 0,
     STRING_VALUE = 101,
     INT64_VALUE = 102,
@@ -190,6 +197,7 @@ export namespace WhereField {
     DOUBLE_VALUE = 104,
     BOOL_VALUE = 105,
     BYTES_VALUE = 106,
+    TIMESTAMP = 107,
   }
 }
 
@@ -237,7 +245,7 @@ export namespace Ordering {
   }
 }
 
-export enum Comparator { 
+export enum Comparator {
   UNKNOWN_COMPARATOR = 0,
   EQUAL = 1,
   FUZZY_EQUAL = 2,
@@ -247,7 +255,7 @@ export enum Comparator {
   LESS_THAN_OR_EQUAL = 6,
   IS_NULL = 7,
 }
-export enum GroupOperator { 
+export enum GroupOperator {
   UNKNOWN_GROUPOPERATOR = 0,
   AND = 1,
   OR = 2,
