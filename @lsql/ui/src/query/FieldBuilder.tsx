@@ -170,10 +170,17 @@ interface InputState {
 class FieldInput extends React.Component<InputProps, InputState> {
 	constructor(props: InputProps) {
 		super(props);
-		this.state = {
-			raw: this.valueToString(),
-			valid: true
-		};
+		if (props.data.type !== PropertyType.BOOL) {
+			this.state = {
+				raw: this.valueToString(),
+				valid: true
+			};
+		} else {
+			this.state = {
+				raw: "",
+				valid: true
+			}
+		}
 	}
 	render() {
 		let pattern: string | undefined = undefined;
@@ -215,9 +222,15 @@ class FieldInput extends React.Component<InputProps, InputState> {
 	}
 	componentDidUpdate(prevProps: InputProps, prevState: InputState) {
 		if (this.props.data.value !== prevProps.data.value) {
-			this.setState({
-				raw: this.valueToString()
-			})
+			if (this.props.data.type !== PropertyType.BOOL) {
+				this.setState({
+					raw: this.valueToString()
+				})
+			} else {
+				this.setState({
+					raw: ""
+				})
+			}
 		}
 		if (this.state.raw !== prevState.raw) {
 			this.updateInputValue(this.state.raw);

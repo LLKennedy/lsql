@@ -10,7 +10,6 @@ export interface GroupProps {
 	isRootGroup: boolean;
 	propertyList: ReadonlyMap<string, PropertyType>;
 	update(data: UIGroup | undefined): void;
-
 }
 
 export class GroupBuilder extends React.Component<GroupProps> {
