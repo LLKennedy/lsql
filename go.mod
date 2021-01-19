@@ -1,4 +1,4 @@
-module github.com/llkennedy/lsql
+module github.com/LLKennedy/lsql
 
 go 1.15
 
