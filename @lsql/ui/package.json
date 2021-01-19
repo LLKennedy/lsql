@@ -30,13 +30,10 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "tsc && npm run copy-files",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css lib/",
-    "prepublishOnly": "npm run ts-build",
-    "ts-build": "tsc && npm run copy-files"
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {
     "extends": [
