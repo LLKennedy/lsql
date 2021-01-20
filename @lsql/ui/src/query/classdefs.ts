@@ -6,6 +6,7 @@ export enum ClassDefs {
 	circle = "lsql-circle",
 	contextMenu = "lsql-context-menu",
 	queryBuilderContainer = "lsql-querybuilder-container",
+	queryBuilderInnerContainer = "lsql-querybuilder-innercontainer",
 	groupContainer = "lsql-group-container",
 	groupHeader = "lsql-group-header",
 	groupOperatorContainer = "lsql-groupoperator-container",

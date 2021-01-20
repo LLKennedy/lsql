@@ -36,13 +36,15 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 	}
 	render() {
 		return <div className={ClassDefs.queryBuilderContainer}>
-			<GroupBuilder
-				elementIndex={[0]}
-				isRootGroup={true}
-				data={this.state.where}
-				update={this.update.bind(this)}
-				propertyList={this.props.propertyList}
-			/>
+			<div className={ClassDefs.queryBuilderInnerContainer}>
+				<GroupBuilder
+					elementIndex={[0]}
+					isRootGroup={true}
+					data={this.state.where}
+					update={this.update.bind(this)}
+					propertyList={this.props.propertyList}
+				/>
+			</div>
 		</div>
 	}
 	update(data: UIGroup | undefined) {

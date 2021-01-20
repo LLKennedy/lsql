@@ -6,7 +6,6 @@
     "@babel/core": "7.12.3",
     "@lsql/core": "^0.3.0",
     "@lsql/proto": "^0.6.0",
-    "@lsql/ui": "^0.3.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
     "@svgr/webpack": "5.4.0",
     "@testing-library/jest-dom": "^5.11.9",
@@ -61,7 +60,6 @@
     "react-dev-utils": "^11.0.1",
     "react-dom": "^17.0.1",
     "react-refresh": "^0.8.3",
-    "relative-deps": "^1.0.6",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "8.0.2",
@@ -76,9 +74,6 @@
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "5.1.4"
-  },
-  "relativeDependencies": {
-    "@lsql/ui": "../ui"
   },
   "scripts": {
     "link": "relative-deps",
