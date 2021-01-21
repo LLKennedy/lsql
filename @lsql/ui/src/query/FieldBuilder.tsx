@@ -211,7 +211,7 @@ class FieldInput extends React.Component<InputProps, InputState> {
 				break;
 		}
 		return <input
-			className={ClassDefs.fieldDropdown}
+			className={ClassDefs.fieldText}
 			value={this.state.raw}
 			type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
 			pattern={pattern}

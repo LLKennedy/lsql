@@ -1,23 +1,30 @@
 .lsql-field-inputs {
     display: inline-flex;
-    justify-content: flex-start;
-    width: 100px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding-right: 0.2em;
 }
 
 .lsql-field-container {
-    width: 100px;
     flex-shrink: 1;
-    margin: 0.2em;
-    margin-left: 1em;
+    flex-grow: 1;
+    flex-direction: row;
+    margin: 0.2em 0 0.2em 2em;
     display: inline-flex;
-    justify-content: flex-start;
+    justify-content: stretch;
 }
 
 .lsql-field-dropdown {
-    width: 20em;
+    flex-basis: 10px;
     flex-grow: 1;
+    flex-shrink: 8;
 }
 
 .lsql-field-text {
-    margin: 0 0.2em;
+    flex-basis: 10px;
+    flex-grow: 3;
+    flex-shrink: 2;
 }

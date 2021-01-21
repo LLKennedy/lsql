@@ -1,20 +1,12 @@
 .lsql-querybuilder-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
-}
-
-.lsql-querybuilder-innercontainer {
     color: black;
     background-color: cadetblue;
-    width: 0;
     flex-grow: 1;
     flex-shrink: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
     margin: 0.5em 0.5em;
     border-radius: 10px;
 }

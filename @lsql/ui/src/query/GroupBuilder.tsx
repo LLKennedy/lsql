@@ -47,7 +47,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 				let elementString = `lsql-group-element-${indexString(subElementIndex)}`;
 				switch (element.whereType) {
 					case groupWhereType:
-						return <GroupBuilder
+						return <div className={ClassDefs.groupElement}><GroupBuilder
 							key={elementString}
 							elementIndex={subElementIndex}
 							propertyList={this.props.propertyList}
@@ -69,8 +69,10 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							}}
 							isRootGroup={false}
 						/>
+						</div>
+
 					case fieldWhereType:
-						return <FieldBuilder
+						return <div className={ClassDefs.groupElement}><FieldBuilder
 							key={elementString}
 							elementIndex={subElementIndex}
 							propertyList={this.props.propertyList}
@@ -90,7 +92,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 								newProps.elements = newElements;
 								this.props.update(newProps);
 							}}
-						/>
+						/></div>
 					default:
 						throw new Error(`Invalid element type: ${(element as any).whereType}`)
 				}
