@@ -1,7 +1,7 @@
 import React from "react";
 import { ClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
-import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "@lsql/core";
+import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue, UIFieldsAreEqual } from "@lsql/core";
 import { base64 } from 'rfc4648';
 
 export interface FieldProps {
@@ -12,6 +12,24 @@ export interface FieldProps {
 }
 
 export class FieldBuilder extends React.Component<FieldProps> {
+	// TODO: fix performance issues
+	// shouldComponentUpdate(nextProps: FieldProps, nextState: {}, nextContext: any): boolean {
+	// 	if (this.props.propertyList !== nextProps.propertyList) {
+	// 		return true;
+	// 	}
+	// 	if (this.props.elementIndex.length !== nextProps.elementIndex.length) {
+	// 		return true;
+	// 	}
+	// 	for (let i = 0; i < this.props.elementIndex.length; i++) {
+	// 		if (this.props.elementIndex[i] !== nextProps.elementIndex[i]) {
+	// 			return true;
+	// 		}
+	// 	}
+	// 	if (!UIFieldsAreEqual(this.props.data, nextProps.data)) {
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
 	render() {
 		return <div className={ClassDefs.fieldInputs}>
 			<div className={ClassDefs.fieldContainer}>

@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "@lsql/core";
+import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement, UIGroupsAreEqual } from "@lsql/core";
 
 export interface GroupProps {
 	elementIndex: number[];
@@ -13,6 +13,27 @@ export interface GroupProps {
 }
 
 export class GroupBuilder extends React.Component<GroupProps> {
+	// TODO: fix performance issues
+	// shouldComponentUpdate(nextProps: GroupProps, nextState: {}, nextContext: any): boolean {
+	// 	if (this.props.propertyList !== nextProps.propertyList) {
+	// 		return true;
+	// 	}
+	// 	if (this.props.isRootGroup !== nextProps.isRootGroup) {
+	// 		return true;
+	// 	}
+	// 	if (this.props.elementIndex.length !== nextProps.elementIndex.length) {
+	// 		return true;
+	// 	}
+	// 	for (let i = 0; i < this.props.elementIndex.length; i++) {
+	// 		if (this.props.elementIndex[i] !== nextProps.elementIndex[i]) {
+	// 			return true;
+	// 		}
+	// 	}
+	// 	if (!UIGroupsAreEqual(this.props.data, nextProps.data)) {
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
 	render() {
 		return <div className={ClassDefs.groupContainer}>
 			<div className={ClassDefs.groupHeader}>

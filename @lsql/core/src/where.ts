@@ -223,16 +223,21 @@ export function UIGroupsAreEqual(first: UIGroup, second: UIGroup): boolean {
 		return false;
 	}
 	for (let i = 0; i < first.elements.length; i++) {
-		if (first.elements[i]?.whereType !== second.elements[i]?.whereType) {
-			return false;
-		}
-		switch (first.elements[i].whereType) {
+		let firstElement = first.elements[i];
+		let secondElement = second.elements[i];
+		switch (firstElement.whereType) {
 			case fieldWhereType:
-				if (!UIFieldsAreEqual(first.elements[i] as UIField, second.elements[i] as UIField)) return false;
+				if (secondElement.whereType !== fieldWhereType) {
+					return false;
+				}
+				if (!UIFieldsAreEqual(firstElement, secondElement)) return false;
 				break;
 			case groupWhereType:
+				if (secondElement.whereType !== groupWhereType) {
+					return false;
+				}
 				// Recurse here - this will be a problem if you have an obscenely deeply nested query, but there's no real use case for that.
-				if (!UIGroupsAreEqual(first.elements[i] as UIGroup, second.elements[i] as UIGroup)) return false;
+				if (!UIGroupsAreEqual(firstElement, secondElement)) return false;
 				break;
 			default:
 				throw new Error(`Cannot compare query elements of type ${first.elements[i].whereType}, must be "${fieldWhereType}" or "${groupWhereType}"`);

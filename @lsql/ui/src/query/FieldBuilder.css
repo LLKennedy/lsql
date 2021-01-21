@@ -25,6 +25,6 @@
 
 .lsql-field-text {
     flex-basis: 10px;
-    flex-grow: 3;
+    flex-grow: 5;
     flex-shrink: 2;
 }

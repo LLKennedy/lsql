@@ -47,7 +47,8 @@ function createMyModel(): MyModel {
 }
 
 interface AppState {
-	queryState: QueryBuilderState
+	queryState: QueryBuilderState;
+	propList: ReadonlyMap<string, PropertyType>;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -58,12 +59,11 @@ class App extends React.Component<{}, AppState> {
 		this.state = {
 			queryState: {
 				where: NewUIGroup(propsList)
-			}
+			},
+			propList: propsList
 		}
 	}
 	render() {
-		let model = createMyModel();
-		let propsList = model.getPropertyList();
 		let proto = json.ToProto(this.state.queryState.where);
 		return <div className="App">
 			<div className="App-body">
@@ -79,7 +79,7 @@ class App extends React.Component<{}, AppState> {
 						})
 					}}
 					where={this.state.queryState.where}
-					propertyList={propsList}
+					propertyList={this.state.propList}
 				/>
 				<pre>
 					{
