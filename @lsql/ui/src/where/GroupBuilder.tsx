@@ -2,7 +2,7 @@ import React from "react";
 import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
-import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement, UIGroupsAreEqual } from "@lsql/core";
+import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "@lsql/core";
 
 export interface GroupProps {
 	elementIndex: number[];
