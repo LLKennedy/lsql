@@ -16,5 +16,6 @@ export enum ClassDefs {
 	fieldContainer = "lsql-field-container",
 	fieldDropdown = "lsql-field-dropdown",
 	fieldText = "lsql-field-text",
+	fieldTextInvalid = "lsql-field-text-invalid",
 	fieldInputs = "lsql-field-inputs"
 }

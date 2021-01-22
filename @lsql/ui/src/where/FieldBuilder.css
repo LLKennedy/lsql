@@ -28,3 +28,7 @@
     flex-grow: 5;
     flex-shrink: 2;
 }
+
+.lsql-field-text-invalid {
+    background-color: khaki;
+}

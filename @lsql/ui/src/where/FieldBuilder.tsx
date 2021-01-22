@@ -183,30 +183,35 @@ interface InputProps {
 interface InputState {
 	raw: string;
 	valid: boolean;
+	ref: React.RefObject<HTMLInputElement>;
 }
 
 class FieldInput extends React.Component<InputProps, InputState> {
 	constructor(props: InputProps) {
 		super(props);
+		let ref = React.createRef<HTMLInputElement>();
 		if (props.data.type !== PropertyType.BOOL) {
 			this.state = {
 				raw: this.valueToString(),
-				valid: true
+				valid: true,
+				ref: ref
 			};
 		} else {
 			this.state = {
 				raw: "",
-				valid: true
+				valid: true,
+				ref: ref
 			}
 		}
 	}
 	render() {
 		let pattern: string | undefined = undefined;
+		let title: string | undefined = undefined;
 		switch (this.props.data.type) {
 			case PropertyType.BOOL:
 				return <select
 					value={`${this.props.data.value}`}
-					className={ClassDefs.fieldDropdown}
+					className={ClassDefs.fieldText}
 					onChange={e => this.props.update({ type: PropertyType.BOOL, value: e.target.value === `${true}` })}
 				>
 					<option key={`lsql-field-value-${indexString(this.props.elementIndex)}-true`} value={`${true}`}>TRUE</option>
@@ -214,35 +219,44 @@ class FieldInput extends React.Component<InputProps, InputState> {
 				</select>
 			case PropertyType.BYTES:
 				pattern = "[a-zA-Z0-9/+=]*";
+				title = "Base 64 (standard encoding)";
 				break;
 			case PropertyType.DOUBLE:
 				pattern = "-{0,1}[0-9]+(\\.[0-9]*){0,1}-{0,1}";
+				title = "Number (negatives and decimals allowed)";
 				break;
 			case PropertyType.INT64:
 				pattern = "-{0,1}[0-9]+-{0,1}";
+				title = "Integer (negatives allowed)";
 				break;
 			case PropertyType.UINT64:
 				pattern = "[0-9]+";
+				title = "Positive Integer";
 				break;
 			case PropertyType.STRING:
 				pattern = ".*";
+				title = "String";
 				break;
 		}
-		return <input
-			className={ClassDefs.fieldText}
+		let input = <input
+			ref={this.state.ref}
+			className={ClassDefs.fieldText + (this.state.valid ? "" : ` ${ClassDefs.fieldTextInvalid}`)}
 			value={this.state.raw}
 			type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
 			pattern={pattern}
+			title={title}
 			onChange={e => this.setState({
 				raw: e.target.value
 			})}
-		/>
+		/>;
+		return input;
 	}
 	componentDidUpdate(prevProps: InputProps, prevState: InputState) {
 		if (this.props.data.value !== prevProps.data.value) {
 			if (this.props.data.type !== PropertyType.BOOL) {
 				this.setState({
-					raw: this.valueToString()
+					raw: this.valueToString(),
+					valid: true
 				})
 			} else {
 				this.setState({
@@ -270,13 +284,16 @@ class FieldInput extends React.Component<InputProps, InputState> {
 			case PropertyType.UINT64:
 			case PropertyType.STRING:
 			default:
-				return this.props.data.value as string;
+				return this.props.data.value.toString();
 		}
 	}
 	updateInputValue(newValRaw: string) {
-		this.setState({
-			valid: false,
-		})
+		if (!this.state.ref.current?.checkValidity()) {
+			this.state.ref.current?.reportValidity();
+			this.setState({
+				valid: false,
+			})
+		}
 		try {
 			let newData: UIFieldValue = { ...this.props.data };
 			switch (newData.type) {
@@ -316,10 +333,10 @@ class FieldInput extends React.Component<InputProps, InputState> {
 					newData.value = localTime;
 					break;
 			}
-			this.setState({
-				valid: true,
-			})
 			this.props.update(newData);
+			this.setState({
+				valid: true
+			})
 		} catch (err) {
 			console.warn(`Invalid input state: ${err}`)
 		}
