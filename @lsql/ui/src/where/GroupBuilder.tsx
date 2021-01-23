@@ -3,6 +3,7 @@ import { ClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
 import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "@lsql/core";
+import { indexString } from "./indices";
 
 export interface GroupProps {
 	elementIndex: number[];
@@ -146,17 +147,6 @@ export class GroupBuilder extends React.Component<GroupProps> {
 		}
 		this.props.update(newProps);
 	}
-}
-
-function indexString(elementIndex: number[]): string {
-	let str = "";
-	for (let i = 0; i < elementIndex?.length; i++) {
-		if (i !== 0) {
-			str += "-";
-		}
-		str += `${elementIndex[i]}`;
-	}
-	return str;
 }
 
 interface SelectorProps {

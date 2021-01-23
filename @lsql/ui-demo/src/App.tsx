@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { QueryBuilder, QueryBuilderState } from '../../ui/src';
+import { QueryBuilder, QueryBuilderState, Select, Results } from '../../ui/src';
 import { CopyUIGroup, NewUIGroup, PropertyType } from '@lsql/core';
 import { json } from '@lsql/core';
 
@@ -70,6 +70,10 @@ class App extends React.Component<{}, AppState> {
 				<div className="App-header">
 					LSQL Query Builder Demo
 				</div>
+				{/* Select columns to return from query */}
+				<Select
+				/>
+				{/* Terms of the query, where X = Y etc. */}
 				<QueryBuilder
 					update={newState => {
 						this.setState({
@@ -80,6 +84,9 @@ class App extends React.Component<{}, AppState> {
 					}}
 					where={this.state.queryState.where}
 					propertyList={this.state.propList}
+				/>
+				{/* Results table */}
+				<Results
 				/>
 				<pre>
 					{
