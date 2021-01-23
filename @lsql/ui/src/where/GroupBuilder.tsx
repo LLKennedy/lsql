@@ -1,9 +1,9 @@
 import React from "react";
-import { ClassDefs } from "./classdefs";
+import { WhereClassDefs } from "./classdefs";
 import { FieldBuilder } from "./FieldBuilder";
 import "./GroupBuilder.css";
 import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "@lsql/core";
-import { indexString } from "./indices";
+import { indexString } from "../common";
 
 export interface GroupProps {
 	elementIndex: number[];
@@ -36,8 +36,8 @@ export class GroupBuilder extends React.Component<GroupProps> {
 	// 	return false;
 	// }
 	render() {
-		return <div className={ClassDefs.groupContainer}>
-			<div className={ClassDefs.groupHeader}>
+		return <div className={WhereClassDefs.groupContainer}>
+			<div className={WhereClassDefs.groupHeader}>
 				{
 					this.props.data.elements?.length > 1 ? [
 						<GroupOperatorSelector
@@ -47,7 +47,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 							update={this.updateOperator.bind(this)}
 						/>,
 						<div key={`lsql-group-${indexString(this.props.elementIndex)}-negate-operator-selector`}
-							className={`${ClassDefs.circle} ${ClassDefs.toggleable + ((this.props.data.negateOperator && (" " + ClassDefs.toggled)) || "")} fa fa-exclamation`}
+							className={`${WhereClassDefs.circle} ${WhereClassDefs.toggleable + ((this.props.data.negateOperator && (" " + WhereClassDefs.toggled)) || "")} fa fa-exclamation`}
 							onMouseDown={e => this.toggleNegateOperator()}
 						/>
 					] : null
@@ -62,14 +62,14 @@ export class GroupBuilder extends React.Component<GroupProps> {
 					propertyList={this.props.propertyList}
 					addElement="group"
 				/>
-				{this.props.isRootGroup ? null : <div className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`} onMouseDown={e => this.props.update(undefined)}></div>} {/*TODO: delete*/}
+				{this.props.isRootGroup ? null : <div className={`${WhereClassDefs.circle} ${WhereClassDefs.clickable} fa fa-times`} onMouseDown={e => this.props.update(undefined)}></div>} {/*TODO: delete*/}
 			</div>
 			{this.props.data.elements?.map((element, i) => {
 				let subElementIndex = [...this.props.elementIndex, i];
 				let elementString = `lsql-group-element-${indexString(subElementIndex)}`;
 				switch (element.whereType) {
 					case groupWhereType:
-						return <div className={ClassDefs.groupElement}><GroupBuilder
+						return <div className={WhereClassDefs.groupElement}><GroupBuilder
 							key={elementString}
 							elementIndex={subElementIndex}
 							propertyList={this.props.propertyList}
@@ -94,7 +94,7 @@ export class GroupBuilder extends React.Component<GroupProps> {
 						</div>
 
 					case fieldWhereType:
-						return <div className={ClassDefs.groupElement}><FieldBuilder
+						return <div className={WhereClassDefs.groupElement}><FieldBuilder
 							key={elementString}
 							elementIndex={subElementIndex}
 							propertyList={this.props.propertyList}
@@ -157,7 +157,7 @@ interface SelectorProps {
 
 const GroupOperatorSelector: React.FunctionComponent<SelectorProps> = function (props: SelectorProps) {
 	let operators: [GroupOperator, string][] = [[GroupOperator.AND, "AND"], [GroupOperator.OR, "OR"], [GroupOperator.XOR, "XOR"]]
-	return <div className={ClassDefs.groupOperatorContainer}>
+	return <div className={WhereClassDefs.groupOperatorContainer}>
 		{operators.map(op => {
 			let [opVal, str] = op;
 			return makeGroupOperatorDiv(opVal, props.operator, str, indexString(props.elementIndex), props.update)
@@ -166,9 +166,9 @@ const GroupOperatorSelector: React.FunctionComponent<SelectorProps> = function (
 }
 
 function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, strRep: string, elementString: string, update: (newOperator: GroupOperator) => void) {
-	let classString: string = ClassDefs.clickable;
+	let classString: string = WhereClassDefs.clickable;
 	if (operator === current) {
-		classString += " " + ClassDefs.clicked;
+		classString += " " + WhereClassDefs.clicked;
 	}
 	return <div
 		key={`lsql-groupoperator-${elementString}-${operator}`}
@@ -194,13 +194,13 @@ class GroupAddButton extends React.Component<AddButtonProps> {
 		switch (this.props.addElement) {
 			case "field":
 				return <div
-					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+					className={`${WhereClassDefs.circle} ${WhereClassDefs.clickable} fa fa-plus`}
 					onMouseDown={e => this.props.add(NewUIField(this.props.propertyList))}
 				/>;
 			case "group":
 			default:
 				return <div
-					className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-plus`}
+					className={`${WhereClassDefs.circle} ${WhereClassDefs.clickable} fa fa-plus`}
 					onMouseDown={e => this.props.add(NewUIGroup(this.props.propertyList))}
 				/>;
 		}

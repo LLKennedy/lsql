@@ -1,11 +1,11 @@
 import React from "react";
-import { ClassDefs } from "./classdefs";
+import { WhereClassDefs } from "./classdefs";
 import "./FieldBuilder.css";
 import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "@lsql/core";
 import { FieldInput } from "./FieldInput";
-import { typeComparatorMap } from "./comparators";
+import { typeComparatorMap } from "../common";
 import { FieldComparatorSelector } from "./FieldComparator";
-import { indexString } from "./indices";
+import { indexString } from "../common";
 
 export interface FieldProps {
 	data: UIField;
@@ -34,12 +34,12 @@ export class FieldBuilder extends React.Component<FieldProps> {
 	// 	return false;
 	// }
 	render() {
-		return <div className={ClassDefs.fieldInputs}>
-			<div className={ClassDefs.fieldContainer}>
+		return <div className={WhereClassDefs.fieldInputs}>
+			<div className={WhereClassDefs.fieldContainer}>
 				<select
 					value={this.props.data.fieldName}
 					onChange={this.updateFieldName.bind(this)}
-					className={ClassDefs.fieldDropdown}
+					className={WhereClassDefs.fieldDropdown}
 				>
 					{(Array.from(this.props.propertyList)).map(([name,], i) => {
 						let subElementIndex = [...this.props.elementIndex, i];
@@ -49,7 +49,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				</select>
 				<select
 					value={`${this.props.data.negateComparator}`}
-					className={ClassDefs.fieldDropdown}
+					className={WhereClassDefs.fieldDropdown}
 					onChange={e => this.updateNegateComparator(e.target.value === `${true}`)}
 				>
 					<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>IS</option>
@@ -63,7 +63,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				/>
 				{
 					// Hide the value input if we're comparing to IS NULL or NOT IS NULL
-					this.props.data.comparator === Comparator.IS_NULL ? <div className={ClassDefs.fieldText} /> :
+					this.props.data.comparator === Comparator.IS_NULL ? <div className={WhereClassDefs.fieldText} /> :
 						<FieldInput
 							data={this.props.data}
 							elementIndex={this.props.elementIndex}
@@ -72,7 +72,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				}
 			</div>
 			<div
-				className={`${ClassDefs.circle} ${ClassDefs.clickable} fa fa-times`}
+				className={`${WhereClassDefs.circle} ${WhereClassDefs.clickable} fa fa-times`}
 				onMouseDown={e => this.props.update(undefined)}
 			/>
 		</div>

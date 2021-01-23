@@ -1,5 +1,5 @@
 import React from "react";
-import { ClassDefs } from "./classdefs";
+import { WhereClassDefs } from "./classdefs";
 import { GroupBuilder } from "./GroupBuilder";
 import "./QueryBuilder.css";
 import { UIGroup, UIGroupsAreEqual, PropertyType } from "@lsql/core";
@@ -35,7 +35,7 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 		}
 	}
 	render() {
-		return <div className={ClassDefs.queryBuilderContainer}>
+		return <div className={WhereClassDefs.queryBuilderContainer}>
 			<GroupBuilder
 				elementIndex={[0]}
 				isRootGroup={true}

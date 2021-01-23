@@ -1,4 +1,4 @@
-export enum ClassDefs {
+export enum WhereClassDefs {
 	toggleable = "lsql-toggleable",
 	toggled = "lsql-toggled",
 	clickable = "lsql-clickable",
@@ -19,3 +19,5 @@ export enum ClassDefs {
 	fieldTextInvalid = "lsql-field-text-invalid",
 	fieldInputs = "lsql-field-inputs"
 }
+
+export default WhereClassDefs;

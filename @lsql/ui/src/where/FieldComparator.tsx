@@ -1,8 +1,8 @@
 import { Comparator, PropertyType } from "@lsql/core";
 import React from "react";
-import { ClassDefs } from "./classdefs";
-import { allComparatorList, typeComparatorMap } from "./comparators";
-import { indexString } from "./indices";
+import { WhereClassDefs } from "./classdefs";
+import { allComparatorList, typeComparatorMap } from "../common";
+import { indexString } from "../common";
 
 interface ComparatorProps {
 	propertyType: PropertyType;
@@ -15,7 +15,7 @@ export class FieldComparatorSelector extends React.Component<ComparatorProps> {
 	render() {
 		let comparatorMap = typeComparatorMap.get(this.props.propertyType);
 		return <select
-			className={ClassDefs.fieldDropdown}
+			className={WhereClassDefs.fieldDropdown}
 			onChange={e => { this.props.update(e.target.value as Comparator) }}
 			value={this.props.comparator}
 		>
