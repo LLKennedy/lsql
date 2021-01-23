@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { QueryBuilder, QueryBuilderState } from '../../ui/src/exports';
+import { QueryBuilder, QueryBuilderState } from '../../ui/src';
 import { CopyUIGroup, NewUIGroup, PropertyType } from '@lsql/core';
 import { json } from '@lsql/core';
 
