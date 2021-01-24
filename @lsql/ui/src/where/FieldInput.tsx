@@ -120,8 +120,8 @@ export class FieldInput extends React.Component<InputProps, InputState> {
 			let newValid = false;
 			let polarity = 1;
 			if (newValRaw.length > 1 && newValRaw[newValRaw.length - 1] === "-") {
-				newValRaw = newValRaw.slice(0, newValRaw.length - 1);
 				polarity = -1;
+				if (this.props.data.type === PropertyType.INT64 || this.props.data.type === PropertyType.DOUBLE) newValRaw = newValRaw.slice(0, newValRaw.length - 1);
 			}
 			switch (newData.type) {
 				case PropertyType.BYTES:

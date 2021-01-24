@@ -16,88 +16,107 @@ func main() {
 		Limit:  100,
 		Offset: 1000,
 	}
-	msg.Where = &golsql.WhereGroup{
+	msg.Select = &golsql.Select{
+		Columns: []*golsql.ColumnID{
+			{
+				FieldName:  "Name",
+				DomainName: "stuff",
+			},
+			{
+				FieldName: "Width",
+			},
+		},
+		Ordering: map[uint32]*golsql.Ordering{
+			138: {
+				Column: &golsql.ColumnID{
+					FieldName:  "Name",
+					DomainName: "stuff",
+				},
+				Descending: true,
+			},
+			12: {
+				Column: &golsql.ColumnID{
+					FieldName:  "Width",
+					DomainName: "otherStuff",
+				},
+				Descending: false,
+			},
+		},
+	}
+	msg.Where = &golsql.Group{
 		NegateOperator: true,
 		Operator:       golsql.GroupOperator_OR,
-		Elements: []*golsql.WhereGroupElement{
+		Elements: []*golsql.GroupElement{
 			{
-				Element: &golsql.WhereGroupElement_Field{
-					Field: &golsql.WhereField{
-						FieldName:        "Name",
+				Element: &golsql.GroupElement_Field{
+					Field: &golsql.Field{
+						Column: &golsql.ColumnID{
+							FieldName: "Name",
+						},
 						NegateComparator: true,
 						Comparator:       golsql.Comparator_FUZZY_EQUAL,
-						Value: &golsql.WhereField_StringValue{
+						Value: &golsql.Field_StringValue{
 							StringValue: "abcd",
-						},
-						Ordering: &golsql.Ordering{
-							Priority:   1,
-							Descending: true,
 						},
 					},
 				},
 			},
 			{
-				Element: &golsql.WhereGroupElement_Group{
-					Group: &golsql.WhereGroup{
+				Element: &golsql.GroupElement_Group{
+					Group: &golsql.Group{
 						NegateOperator: false,
 						Operator:       golsql.GroupOperator_XOR,
-						Elements: []*golsql.WhereGroupElement{
+						Elements: []*golsql.GroupElement{
 							{
-								Element: &golsql.WhereGroupElement_Field{
-									Field: &golsql.WhereField{
-										FieldName:        "Width",
+								Element: &golsql.GroupElement_Field{
+									Field: &golsql.Field{
+										Column: &golsql.ColumnID{
+											FieldName: "Width",
+										},
 										NegateComparator: false,
 										Comparator:       golsql.Comparator_GREATER_THAN,
-										Value: &golsql.WhereField_DoubleValue{
+										Value: &golsql.Field_DoubleValue{
 											DoubleValue: 889.531,
-										},
-										Ordering: &golsql.Ordering{
-											Priority:   3,
-											Descending: false,
 										},
 									},
 								},
 							},
 							{
-								Element: &golsql.WhereGroupElement_Group{
-									Group: &golsql.WhereGroup{
+								Element: &golsql.GroupElement_Group{
+									Group: &golsql.Group{
 										NegateOperator: true,
 										Operator:       golsql.GroupOperator_UNKNOWN_GROUPOPERATOR,
-										Elements: []*golsql.WhereGroupElement{
+										Elements: []*golsql.GroupElement{
 											{
-												Element: &golsql.WhereGroupElement_Field{
-													Field: &golsql.WhereField{
-														FieldName:        "Name",
+												Element: &golsql.GroupElement_Field{
+													Field: &golsql.Field{
+														Column: &golsql.ColumnID{
+															FieldName: "Name",
+														},
 														NegateComparator: true,
 														Comparator:       golsql.Comparator_FUZZY_EQUAL,
-														Value: &golsql.WhereField_StringValue{
+														Value: &golsql.Field_StringValue{
 															StringValue: "abcd",
-														},
-														Ordering: &golsql.Ordering{
-															Priority:   1,
-															Descending: true,
 														},
 													},
 												},
 											},
 											{
-												Element: &golsql.WhereGroupElement_Group{
-													Group: &golsql.WhereGroup{
+												Element: &golsql.GroupElement_Group{
+													Group: &golsql.Group{
 														NegateOperator: false,
 														Operator:       golsql.GroupOperator_XOR,
-														Elements: []*golsql.WhereGroupElement{
+														Elements: []*golsql.GroupElement{
 															{
-																Element: &golsql.WhereGroupElement_Field{
-																	Field: &golsql.WhereField{
-																		FieldName:        "Width",
+																Element: &golsql.GroupElement_Field{
+																	Field: &golsql.Field{
+																		Column: &golsql.ColumnID{
+																			FieldName: "Width",
+																		},
 																		NegateComparator: false,
 																		Comparator:       golsql.Comparator_UNKNOWN_COMPARATOR,
-																		Value: &golsql.WhereField_DoubleValue{
+																		Value: &golsql.Field_DoubleValue{
 																			DoubleValue: 889.531,
-																		},
-																		Ordering: &golsql.Ordering{
-																			Priority:   3,
-																			Descending: false,
 																		},
 																	},
 																},
@@ -107,11 +126,13 @@ func main() {
 												},
 											},
 											{
-												Element: &golsql.WhereGroupElement_Field{
-													Field: &golsql.WhereField{
-														FieldName:  "Created",
+												Element: &golsql.GroupElement_Field{
+													Field: &golsql.Field{
+														Column: &golsql.ColumnID{
+															FieldName: "Created",
+														},
 														Comparator: golsql.Comparator_LESS_THAN_OR_EQUAL,
-														Value: &golsql.WhereField_TimeValue{
+														Value: &golsql.Field_TimeValue{
 															TimeValue: &timestamppb.Timestamp{
 																Seconds: 1000,
 																Nanos:   999,

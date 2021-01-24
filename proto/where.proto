@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option go_package = "github.com/llkennedy/lsql/golsql";
+option csharp_namespace = "LukeKennedy.LSQL.Net";
+
+import "google/protobuf/timestamp.proto";
+import "select.proto";
+
+enum Comparator {
+    // Invalid, only used as a default in error states
+    UNKNOWN_COMPARATOR = 0;
+    EQUAL = 1;
+    FUZZY_EQUAL = 2;
+    GREATER_THAN = 3;
+    LESS_THAN = 4;
+    GREATER_THAN_OR_EQUAL = 5;
+    LESS_THAN_OR_EQUAL = 6;
+    IS_NULL = 7;
+}
+
+enum GroupOperator {
+    // Invalid, only used as a default in error states
+    UNKNOWN_GROUPOPERATOR = 0;
+    AND = 1;
+    OR = 2;
+    XOR = 3;
+}
+
+message Group {
+    repeated GroupElement elements = 1;
+    bool negate_operator = 2;
+    GroupOperator operator = 3;
+}
+
+message GroupElement {
+    oneof element {
+        Field field = 101;
+        Group group = 102;
+    }
+}
+
+message Field {
+    ColumnID column = 1;
+    bool negate_comparator = 2;
+    Comparator comparator = 3;
+    oneof value {
+        string string_value = 101;
+        int64 int64_value = 102;
+        uint64 uint64_value = 103;
+        double double_value = 104;
+        bool bool_value = 105;
+        bytes bytes_value = 106;
+        google.protobuf.Timestamp time_value = 107;
+        // TODO: other basic types I'm forgetting?
+    }
+}

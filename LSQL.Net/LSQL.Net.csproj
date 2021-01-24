@@ -14,6 +14,8 @@
   <ItemGroup>
     <Protobuf Include="../proto/query.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
     <Protobuf Include="../proto/result.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
+    <Protobuf Include="../proto/where.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
+    <Protobuf Include="../proto/select.proto" GrpcServices="None" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
     <Protobuf Include="../proto/service.proto" GrpcServices="Both" OutputDir="%(RelativePath)" ProtoRoot="../proto" CompileOutputs="true" />
   </ItemGroup>
 </Project>

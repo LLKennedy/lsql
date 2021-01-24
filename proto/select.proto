@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "github.com/llkennedy/lsql/golsql";
+option csharp_namespace = "LukeKennedy.LSQL.Net";
+
+message Select {
+	// Columns are the columns to return in the results table.
+	repeated ColumnID columns = 1;
+	// Ordering indicates the order by which to sort the results before paging. The key is the priority of the sort, magnitude doesn't matter but relative greater/lesser does. Highest number gets sorted first.
+	// Optional, unless the RDBMS on the other end requires it,
+	// but it is the responsibility of the server directly interfacing with the RDBMS to understand the requirements of its data source.
+	map<uint32, Ordering> ordering = 2;
+}
+
+message ColumnID {
+	string field_name = 1;
+    // DomainName is optional if only one domain is present, but mandatory if multiple domains are present
+	string domain_name = 2;
+}
+
+message Ordering {
+	ColumnID column = 1;
+	// Descending indicates this column should be sorted in descending order instead of the default ascending.
+	bool descending = 2;
+}

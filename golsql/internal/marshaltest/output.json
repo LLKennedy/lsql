@@ -1,5 +1,31 @@
 {
-	"id": "d145cba9-0ec9-4286-9f81-cdb5b0df3f82",
+	"id": "5703ba8a-07c3-4b50-bb54-88393016391e",
+	"select": {
+		"columns": [
+			{
+				"fieldName": "Name",
+				"domainName": "stuff"
+			},
+			{
+				"fieldName": "Width"
+			}
+		],
+		"ordering": {
+			"12": {
+				"column": {
+					"fieldName": "Width",
+					"domainName": "otherStuff"
+				}
+			},
+			"138": {
+				"column": {
+					"fieldName": "Name",
+					"domainName": "stuff"
+				},
+				"descending": true
+			}
+		}
+	},
 	"paging": {
 		"limit": "100",
 		"offset": "1000"
@@ -8,14 +34,12 @@
 		"elements": [
 			{
 				"field": {
-					"fieldName": "Name",
+					"column": {
+						"fieldName": "Name"
+					},
 					"negateComparator": true,
 					"comparator": "FUZZY_EQUAL",
-					"stringValue": "abcd",
-					"ordering": {
-						"priority": 1,
-						"descending": true
-					}
+					"stringValue": "abcd"
 				}
 			},
 			{
@@ -23,12 +47,11 @@
 					"elements": [
 						{
 							"field": {
-								"fieldName": "Width",
+								"column": {
+									"fieldName": "Width"
+								},
 								"comparator": "GREATER_THAN",
-								"doubleValue": 889.531,
-								"ordering": {
-									"priority": 3
-								}
+								"doubleValue": 889.531
 							}
 						},
 						{
@@ -36,14 +59,12 @@
 								"elements": [
 									{
 										"field": {
-											"fieldName": "Name",
+											"column": {
+												"fieldName": "Name"
+											},
 											"negateComparator": true,
 											"comparator": "FUZZY_EQUAL",
-											"stringValue": "abcd",
-											"ordering": {
-												"priority": 1,
-												"descending": true
-											}
+											"stringValue": "abcd"
 										}
 									},
 									{
@@ -51,11 +72,10 @@
 											"elements": [
 												{
 													"field": {
-														"fieldName": "Width",
-														"doubleValue": 889.531,
-														"ordering": {
-															"priority": 3
-														}
+														"column": {
+															"fieldName": "Width"
+														},
+														"doubleValue": 889.531
 													}
 												}
 											],
@@ -64,7 +84,9 @@
 									},
 									{
 										"field": {
-											"fieldName": "Created",
+											"column": {
+												"fieldName": "Created"
+											},
 											"comparator": "LESS_THAN_OR_EQUAL",
 											"timeValue": "1970-01-01T00:16:40.000000999Z"
 										}

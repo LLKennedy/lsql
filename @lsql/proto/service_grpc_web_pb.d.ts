@@ -1,7 +1,7 @@
 import * as grpcWeb from 'grpc-web';
 
-import * as query_pb from './query_pb';
 import * as result_pb from './result_pb';
+import * as query_pb from './query_pb';
 
 
 export class DataSourceClient {

@@ -8,7 +8,6 @@ package golsql
 
 import (
 	proto "github.com/golang/protobuf/proto"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -26,124 +25,6 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-type Comparator int32
-
-const (
-	// Invalid, only used as a default in error states
-	Comparator_UNKNOWN_COMPARATOR    Comparator = 0
-	Comparator_EQUAL                 Comparator = 1
-	Comparator_FUZZY_EQUAL           Comparator = 2
-	Comparator_GREATER_THAN          Comparator = 3
-	Comparator_LESS_THAN             Comparator = 4
-	Comparator_GREATER_THAN_OR_EQUAL Comparator = 5
-	Comparator_LESS_THAN_OR_EQUAL    Comparator = 6
-	Comparator_IS_NULL               Comparator = 7
-)
-
-// Enum value maps for Comparator.
-var (
-	Comparator_name = map[int32]string{
-		0: "UNKNOWN_COMPARATOR",
-		1: "EQUAL",
-		2: "FUZZY_EQUAL",
-		3: "GREATER_THAN",
-		4: "LESS_THAN",
-		5: "GREATER_THAN_OR_EQUAL",
-		6: "LESS_THAN_OR_EQUAL",
-		7: "IS_NULL",
-	}
-	Comparator_value = map[string]int32{
-		"UNKNOWN_COMPARATOR":    0,
-		"EQUAL":                 1,
-		"FUZZY_EQUAL":           2,
-		"GREATER_THAN":          3,
-		"LESS_THAN":             4,
-		"GREATER_THAN_OR_EQUAL": 5,
-		"LESS_THAN_OR_EQUAL":    6,
-		"IS_NULL":               7,
-	}
-)
-
-func (x Comparator) Enum() *Comparator {
-	p := new(Comparator)
-	*p = x
-	return p
-}
-
-func (x Comparator) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Comparator) Descriptor() protoreflect.EnumDescriptor {
-	return file_query_proto_enumTypes[0].Descriptor()
-}
-
-func (Comparator) Type() protoreflect.EnumType {
-	return &file_query_proto_enumTypes[0]
-}
-
-func (x Comparator) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Comparator.Descriptor instead.
-func (Comparator) EnumDescriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{0}
-}
-
-type GroupOperator int32
-
-const (
-	// Invalid, only used as a default in error states
-	GroupOperator_UNKNOWN_GROUPOPERATOR GroupOperator = 0
-	GroupOperator_AND                   GroupOperator = 1
-	GroupOperator_OR                    GroupOperator = 2
-	GroupOperator_XOR                   GroupOperator = 3
-)
-
-// Enum value maps for GroupOperator.
-var (
-	GroupOperator_name = map[int32]string{
-		0: "UNKNOWN_GROUPOPERATOR",
-		1: "AND",
-		2: "OR",
-		3: "XOR",
-	}
-	GroupOperator_value = map[string]int32{
-		"UNKNOWN_GROUPOPERATOR": 0,
-		"AND":                   1,
-		"OR":                    2,
-		"XOR":                   3,
-	}
-)
-
-func (x GroupOperator) Enum() *GroupOperator {
-	p := new(GroupOperator)
-	*p = x
-	return p
-}
-
-func (x GroupOperator) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (GroupOperator) Descriptor() protoreflect.EnumDescriptor {
-	return file_query_proto_enumTypes[1].Descriptor()
-}
-
-func (GroupOperator) Type() protoreflect.EnumType {
-	return &file_query_proto_enumTypes[1]
-}
-
-func (x GroupOperator) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use GroupOperator.Descriptor instead.
-func (GroupOperator) EnumDescriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{1}
-}
-
 type Query struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -152,12 +33,13 @@ type Query struct {
 	// A UUID generated for this query for idempotence and caching reasons, must be non-empty.
 	// Repeated values may have their contents ignored by the server if it chooses to return cached content.
 	// Servers must still correctly obey authC and authZ logic when choosing to return cached content based on ID.
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id     string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Select *Select `protobuf:"bytes,2,opt,name=select,proto3" json:"select,omitempty"`
 	// Types that are assignable to DomainSpace:
 	//	*Query_Domain
 	DomainSpace isQuery_DomainSpace `protobuf_oneof:"domain_space"`
-	Paging      *Paging             `protobuf:"bytes,2,opt,name=paging,proto3" json:"paging,omitempty"`
-	Where       *WhereGroup         `protobuf:"bytes,3,opt,name=where,proto3" json:"where,omitempty"`
+	Paging      *Paging             `protobuf:"bytes,3,opt,name=paging,proto3" json:"paging,omitempty"`
+	Where       *Group              `protobuf:"bytes,4,opt,name=where,proto3" json:"where,omitempty"`
 }
 
 func (x *Query) Reset() {
@@ -199,6 +81,13 @@ func (x *Query) GetId() string {
 	return ""
 }
 
+func (x *Query) GetSelect() *Select {
+	if x != nil {
+		return x.Select
+	}
+	return nil
+}
+
 func (m *Query) GetDomainSpace() isQuery_DomainSpace {
 	if m != nil {
 		return m.DomainSpace
@@ -220,7 +109,7 @@ func (x *Query) GetPaging() *Paging {
 	return nil
 }
 
-func (x *Query) GetWhere() *WhereGroup {
+func (x *Query) GetWhere() *Group {
 	if x != nil {
 		return x.Where
 	}
@@ -237,380 +126,6 @@ type Query_Domain struct {
 
 func (*Query_Domain) isQuery_DomainSpace() {}
 
-type DomainJoins struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *DomainJoins) Reset() {
-	*x = DomainJoins{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DomainJoins) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DomainJoins) ProtoMessage() {}
-
-func (x *DomainJoins) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DomainJoins.ProtoReflect.Descriptor instead.
-func (*DomainJoins) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{1}
-}
-
-type WhereGroup struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Elements       []*WhereGroupElement `protobuf:"bytes,1,rep,name=elements,proto3" json:"elements,omitempty"`
-	NegateOperator bool                 `protobuf:"varint,2,opt,name=negate_operator,json=negateOperator,proto3" json:"negate_operator,omitempty"`
-	Operator       GroupOperator        `protobuf:"varint,3,opt,name=operator,proto3,enum=GroupOperator" json:"operator,omitempty"`
-}
-
-func (x *WhereGroup) Reset() {
-	*x = WhereGroup{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *WhereGroup) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WhereGroup) ProtoMessage() {}
-
-func (x *WhereGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WhereGroup.ProtoReflect.Descriptor instead.
-func (*WhereGroup) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *WhereGroup) GetElements() []*WhereGroupElement {
-	if x != nil {
-		return x.Elements
-	}
-	return nil
-}
-
-func (x *WhereGroup) GetNegateOperator() bool {
-	if x != nil {
-		return x.NegateOperator
-	}
-	return false
-}
-
-func (x *WhereGroup) GetOperator() GroupOperator {
-	if x != nil {
-		return x.Operator
-	}
-	return GroupOperator_UNKNOWN_GROUPOPERATOR
-}
-
-type WhereGroupElement struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Element:
-	//	*WhereGroupElement_Field
-	//	*WhereGroupElement_Group
-	Element isWhereGroupElement_Element `protobuf_oneof:"element"`
-}
-
-func (x *WhereGroupElement) Reset() {
-	*x = WhereGroupElement{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *WhereGroupElement) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WhereGroupElement) ProtoMessage() {}
-
-func (x *WhereGroupElement) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WhereGroupElement.ProtoReflect.Descriptor instead.
-func (*WhereGroupElement) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{3}
-}
-
-func (m *WhereGroupElement) GetElement() isWhereGroupElement_Element {
-	if m != nil {
-		return m.Element
-	}
-	return nil
-}
-
-func (x *WhereGroupElement) GetField() *WhereField {
-	if x, ok := x.GetElement().(*WhereGroupElement_Field); ok {
-		return x.Field
-	}
-	return nil
-}
-
-func (x *WhereGroupElement) GetGroup() *WhereGroup {
-	if x, ok := x.GetElement().(*WhereGroupElement_Group); ok {
-		return x.Group
-	}
-	return nil
-}
-
-type isWhereGroupElement_Element interface {
-	isWhereGroupElement_Element()
-}
-
-type WhereGroupElement_Field struct {
-	Field *WhereField `protobuf:"bytes,101,opt,name=field,proto3,oneof"`
-}
-
-type WhereGroupElement_Group struct {
-	Group *WhereGroup `protobuf:"bytes,102,opt,name=group,proto3,oneof"`
-}
-
-func (*WhereGroupElement_Field) isWhereGroupElement_Element() {}
-
-func (*WhereGroupElement_Group) isWhereGroupElement_Element() {}
-
-type WhereField struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	FieldName        string     `protobuf:"bytes,1,opt,name=field_name,json=fieldName,proto3" json:"field_name,omitempty"`
-	NegateComparator bool       `protobuf:"varint,2,opt,name=negate_comparator,json=negateComparator,proto3" json:"negate_comparator,omitempty"`
-	Comparator       Comparator `protobuf:"varint,3,opt,name=comparator,proto3,enum=Comparator" json:"comparator,omitempty"`
-	// DomainName is optional if only one domain is present, but mandatory if multiple domains are present
-	DomainName string `protobuf:"bytes,4,opt,name=domain_name,json=domainName,proto3" json:"domain_name,omitempty"`
-	// Types that are assignable to Value:
-	//	*WhereField_StringValue
-	//	*WhereField_Int64Value
-	//	*WhereField_Uint64Value
-	//	*WhereField_DoubleValue
-	//	*WhereField_BoolValue
-	//	*WhereField_BytesValue
-	//	*WhereField_TimeValue
-	Value isWhereField_Value `protobuf_oneof:"value"`
-	// Ordering is optional, unless the RDBMS on the other end requires it,
-	// but it is the responsibility of the server directly interfacing with the RDBMS to understand the requirements of its data source.
-	Ordering *Ordering `protobuf:"bytes,5,opt,name=ordering,proto3" json:"ordering,omitempty"`
-}
-
-func (x *WhereField) Reset() {
-	*x = WhereField{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *WhereField) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WhereField) ProtoMessage() {}
-
-func (x *WhereField) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WhereField.ProtoReflect.Descriptor instead.
-func (*WhereField) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *WhereField) GetFieldName() string {
-	if x != nil {
-		return x.FieldName
-	}
-	return ""
-}
-
-func (x *WhereField) GetNegateComparator() bool {
-	if x != nil {
-		return x.NegateComparator
-	}
-	return false
-}
-
-func (x *WhereField) GetComparator() Comparator {
-	if x != nil {
-		return x.Comparator
-	}
-	return Comparator_UNKNOWN_COMPARATOR
-}
-
-func (x *WhereField) GetDomainName() string {
-	if x != nil {
-		return x.DomainName
-	}
-	return ""
-}
-
-func (m *WhereField) GetValue() isWhereField_Value {
-	if m != nil {
-		return m.Value
-	}
-	return nil
-}
-
-func (x *WhereField) GetStringValue() string {
-	if x, ok := x.GetValue().(*WhereField_StringValue); ok {
-		return x.StringValue
-	}
-	return ""
-}
-
-func (x *WhereField) GetInt64Value() int64 {
-	if x, ok := x.GetValue().(*WhereField_Int64Value); ok {
-		return x.Int64Value
-	}
-	return 0
-}
-
-func (x *WhereField) GetUint64Value() uint64 {
-	if x, ok := x.GetValue().(*WhereField_Uint64Value); ok {
-		return x.Uint64Value
-	}
-	return 0
-}
-
-func (x *WhereField) GetDoubleValue() float64 {
-	if x, ok := x.GetValue().(*WhereField_DoubleValue); ok {
-		return x.DoubleValue
-	}
-	return 0
-}
-
-func (x *WhereField) GetBoolValue() bool {
-	if x, ok := x.GetValue().(*WhereField_BoolValue); ok {
-		return x.BoolValue
-	}
-	return false
-}
-
-func (x *WhereField) GetBytesValue() []byte {
-	if x, ok := x.GetValue().(*WhereField_BytesValue); ok {
-		return x.BytesValue
-	}
-	return nil
-}
-
-func (x *WhereField) GetTimeValue() *timestamp.Timestamp {
-	if x, ok := x.GetValue().(*WhereField_TimeValue); ok {
-		return x.TimeValue
-	}
-	return nil
-}
-
-func (x *WhereField) GetOrdering() *Ordering {
-	if x != nil {
-		return x.Ordering
-	}
-	return nil
-}
-
-type isWhereField_Value interface {
-	isWhereField_Value()
-}
-
-type WhereField_StringValue struct {
-	StringValue string `protobuf:"bytes,101,opt,name=string_value,json=stringValue,proto3,oneof"`
-}
-
-type WhereField_Int64Value struct {
-	Int64Value int64 `protobuf:"varint,102,opt,name=int64_value,json=int64Value,proto3,oneof"`
-}
-
-type WhereField_Uint64Value struct {
-	Uint64Value uint64 `protobuf:"varint,103,opt,name=uint64_value,json=uint64Value,proto3,oneof"`
-}
-
-type WhereField_DoubleValue struct {
-	DoubleValue float64 `protobuf:"fixed64,104,opt,name=double_value,json=doubleValue,proto3,oneof"`
-}
-
-type WhereField_BoolValue struct {
-	BoolValue bool `protobuf:"varint,105,opt,name=bool_value,json=boolValue,proto3,oneof"`
-}
-
-type WhereField_BytesValue struct {
-	BytesValue []byte `protobuf:"bytes,106,opt,name=bytes_value,json=bytesValue,proto3,oneof"`
-}
-
-type WhereField_TimeValue struct {
-	TimeValue *timestamp.Timestamp `protobuf:"bytes,107,opt,name=time_value,json=timeValue,proto3,oneof"` // TODO: other basic types I'm forgetting?
-}
-
-func (*WhereField_StringValue) isWhereField_Value() {}
-
-func (*WhereField_Int64Value) isWhereField_Value() {}
-
-func (*WhereField_Uint64Value) isWhereField_Value() {}
-
-func (*WhereField_DoubleValue) isWhereField_Value() {}
-
-func (*WhereField_BoolValue) isWhereField_Value() {}
-
-func (*WhereField_BytesValue) isWhereField_Value() {}
-
-func (*WhereField_TimeValue) isWhereField_Value() {}
-
 type Paging struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -623,7 +138,7 @@ type Paging struct {
 func (x *Paging) Reset() {
 	*x = Paging{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[5]
+		mi := &file_query_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -636,7 +151,7 @@ func (x *Paging) String() string {
 func (*Paging) ProtoMessage() {}
 
 func (x *Paging) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[5]
+	mi := &file_query_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -649,7 +164,7 @@ func (x *Paging) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Paging.ProtoReflect.Descriptor instead.
 func (*Paging) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{5}
+	return file_query_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Paging) GetLimit() uint64 {
@@ -666,33 +181,29 @@ func (x *Paging) GetOffset() uint64 {
 	return 0
 }
 
-type Ordering struct {
+type DomainJoins struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	// Priority must be set to a unique value if ordering is present for an item, duplicate priorities within a request is considered an error
-	Priority   uint32 `protobuf:"varint,1,opt,name=priority,proto3" json:"priority,omitempty"`
-	Descending bool   `protobuf:"varint,2,opt,name=descending,proto3" json:"descending,omitempty"`
 }
 
-func (x *Ordering) Reset() {
-	*x = Ordering{}
+func (x *DomainJoins) Reset() {
+	*x = DomainJoins{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_query_proto_msgTypes[6]
+		mi := &file_query_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *Ordering) String() string {
+func (x *DomainJoins) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Ordering) ProtoMessage() {}
+func (*DomainJoins) ProtoMessage() {}
 
-func (x *Ordering) ProtoReflect() protoreflect.Message {
-	mi := &file_query_proto_msgTypes[6]
+func (x *DomainJoins) ProtoReflect() protoreflect.Message {
+	mi := &file_query_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -703,114 +214,36 @@ func (x *Ordering) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Ordering.ProtoReflect.Descriptor instead.
-func (*Ordering) Descriptor() ([]byte, []int) {
-	return file_query_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *Ordering) GetPriority() uint32 {
-	if x != nil {
-		return x.Priority
-	}
-	return 0
-}
-
-func (x *Ordering) GetDescending() bool {
-	if x != nil {
-		return x.Descending
-	}
-	return false
+// Deprecated: Use DomainJoins.ProtoReflect.Descriptor instead.
+func (*DomainJoins) Descriptor() ([]byte, []int) {
+	return file_query_proto_rawDescGZIP(), []int{2}
 }
 
 var File_query_proto protoreflect.FileDescriptor
 
 var file_query_proto_rawDesc = []byte{
-	0x0a, 0x0b, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74,
-	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x85,
-	0x01, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x18, 0x0a, 0x06, 0x64, 0x6f, 0x6d, 0x61,
-	0x69, 0x6e, 0x18, 0x65, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x64, 0x6f, 0x6d, 0x61,
-	0x69, 0x6e, 0x12, 0x1f, 0x0a, 0x06, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x07, 0x2e, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x67, 0x12, 0x21, 0x0a, 0x05, 0x77, 0x68, 0x65, 0x72, 0x65, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x57, 0x68, 0x65, 0x72, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52,
-	0x05, 0x77, 0x68, 0x65, 0x72, 0x65, 0x42, 0x0e, 0x0a, 0x0c, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e,
-	0x5f, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0x0d, 0x0a, 0x0b, 0x44, 0x6f, 0x6d, 0x61, 0x69, 0x6e,
-	0x4a, 0x6f, 0x69, 0x6e, 0x73, 0x22, 0x91, 0x01, 0x0a, 0x0a, 0x57, 0x68, 0x65, 0x72, 0x65, 0x47,
-	0x72, 0x6f, 0x75, 0x70, 0x12, 0x2e, 0x0a, 0x08, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73,
-	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x57, 0x68, 0x65, 0x72, 0x65, 0x47, 0x72,
-	0x6f, 0x75, 0x70, 0x45, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x65, 0x6c, 0x65, 0x6d,
-	0x65, 0x6e, 0x74, 0x73, 0x12, 0x27, 0x0a, 0x0f, 0x6e, 0x65, 0x67, 0x61, 0x74, 0x65, 0x5f, 0x6f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e, 0x6e,
-	0x65, 0x67, 0x61, 0x74, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x2a, 0x0a,
-	0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32,
-	0x0e, 0x2e, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x52,
-	0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x68, 0x0a, 0x11, 0x57, 0x68, 0x65,
-	0x72, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x45, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x23,
-	0x0a, 0x05, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x65, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e,
-	0x57, 0x68, 0x65, 0x72, 0x65, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x48, 0x00, 0x52, 0x05, 0x66, 0x69,
-	0x65, 0x6c, 0x64, 0x12, 0x23, 0x0a, 0x05, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x18, 0x66, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x57, 0x68, 0x65, 0x72, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x48,
-	0x00, 0x52, 0x05, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x42, 0x09, 0x0a, 0x07, 0x65, 0x6c, 0x65, 0x6d,
-	0x65, 0x6e, 0x74, 0x22, 0xe9, 0x03, 0x0a, 0x0a, 0x57, 0x68, 0x65, 0x72, 0x65, 0x46, 0x69, 0x65,
-	0x6c, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4e, 0x61, 0x6d,
-	0x65, 0x12, 0x2b, 0x0a, 0x11, 0x6e, 0x65, 0x67, 0x61, 0x74, 0x65, 0x5f, 0x63, 0x6f, 0x6d, 0x70,
-	0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x10, 0x6e, 0x65,
-	0x67, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x2b,
-	0x0a, 0x0a, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0e, 0x32, 0x0b, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x52,
-	0x0a, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x1f, 0x0a, 0x0b, 0x64,
-	0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0a, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x0c,
-	0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x65, 0x20, 0x01,
-	0x28, 0x09, 0x48, 0x00, 0x52, 0x0b, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75,
-	0x65, 0x12, 0x21, 0x0a, 0x0b, 0x69, 0x6e, 0x74, 0x36, 0x34, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x18, 0x66, 0x20, 0x01, 0x28, 0x03, 0x48, 0x00, 0x52, 0x0a, 0x69, 0x6e, 0x74, 0x36, 0x34, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x12, 0x23, 0x0a, 0x0c, 0x75, 0x69, 0x6e, 0x74, 0x36, 0x34, 0x5f, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x18, 0x67, 0x20, 0x01, 0x28, 0x04, 0x48, 0x00, 0x52, 0x0b, 0x75, 0x69,
-	0x6e, 0x74, 0x36, 0x34, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x23, 0x0a, 0x0c, 0x64, 0x6f, 0x75,
-	0x62, 0x6c, 0x65, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x68, 0x20, 0x01, 0x28, 0x01, 0x48,
-	0x00, 0x52, 0x0b, 0x64, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x1f,
-	0x0a, 0x0a, 0x62, 0x6f, 0x6f, 0x6c, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x69, 0x20, 0x01,
-	0x28, 0x08, 0x48, 0x00, 0x52, 0x09, 0x62, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
-	0x21, 0x0a, 0x0b, 0x62, 0x79, 0x74, 0x65, 0x73, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x6a,
-	0x20, 0x01, 0x28, 0x0c, 0x48, 0x00, 0x52, 0x0a, 0x62, 0x79, 0x74, 0x65, 0x73, 0x56, 0x61, 0x6c,
-	0x75, 0x65, 0x12, 0x3b, 0x0a, 0x0a, 0x74, 0x69, 0x6d, 0x65, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x18, 0x6b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
-	0x6d, 0x70, 0x48, 0x00, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12,
-	0x25, 0x0a, 0x08, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x09, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x72,
-	0x64, 0x65, 0x72, 0x69, 0x6e, 0x67, 0x42, 0x07, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22,
-	0x36, 0x0a, 0x06, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d,
-	0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12,
-	0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0x46, 0x0a, 0x08, 0x4f, 0x72, 0x64, 0x65, 0x72,
-	0x69, 0x6e, 0x67, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x08, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x12,
-	0x1e, 0x0a, 0x0a, 0x64, 0x65, 0x73, 0x63, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x0a, 0x64, 0x65, 0x73, 0x63, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x2a,
-	0xa1, 0x01, 0x0a, 0x0a, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x16,
-	0x0a, 0x12, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x5f, 0x43, 0x4f, 0x4d, 0x50, 0x41, 0x52,
-	0x41, 0x54, 0x4f, 0x52, 0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x45, 0x51, 0x55, 0x41, 0x4c, 0x10,
-	0x01, 0x12, 0x0f, 0x0a, 0x0b, 0x46, 0x55, 0x5a, 0x5a, 0x59, 0x5f, 0x45, 0x51, 0x55, 0x41, 0x4c,
-	0x10, 0x02, 0x12, 0x10, 0x0a, 0x0c, 0x47, 0x52, 0x45, 0x41, 0x54, 0x45, 0x52, 0x5f, 0x54, 0x48,
-	0x41, 0x4e, 0x10, 0x03, 0x12, 0x0d, 0x0a, 0x09, 0x4c, 0x45, 0x53, 0x53, 0x5f, 0x54, 0x48, 0x41,
-	0x4e, 0x10, 0x04, 0x12, 0x19, 0x0a, 0x15, 0x47, 0x52, 0x45, 0x41, 0x54, 0x45, 0x52, 0x5f, 0x54,
-	0x48, 0x41, 0x4e, 0x5f, 0x4f, 0x52, 0x5f, 0x45, 0x51, 0x55, 0x41, 0x4c, 0x10, 0x05, 0x12, 0x16,
-	0x0a, 0x12, 0x4c, 0x45, 0x53, 0x53, 0x5f, 0x54, 0x48, 0x41, 0x4e, 0x5f, 0x4f, 0x52, 0x5f, 0x45,
-	0x51, 0x55, 0x41, 0x4c, 0x10, 0x06, 0x12, 0x0b, 0x0a, 0x07, 0x49, 0x53, 0x5f, 0x4e, 0x55, 0x4c,
-	0x4c, 0x10, 0x07, 0x2a, 0x44, 0x0a, 0x0d, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4f, 0x70, 0x65, 0x72,
-	0x61, 0x74, 0x6f, 0x72, 0x12, 0x19, 0x0a, 0x15, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x5f,
-	0x47, 0x52, 0x4f, 0x55, 0x50, 0x4f, 0x50, 0x45, 0x52, 0x41, 0x54, 0x4f, 0x52, 0x10, 0x00, 0x12,
-	0x07, 0x0a, 0x03, 0x41, 0x4e, 0x44, 0x10, 0x01, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x52, 0x10, 0x02,
-	0x12, 0x07, 0x0a, 0x03, 0x58, 0x4f, 0x52, 0x10, 0x03, 0x42, 0x39, 0x5a, 0x20, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6c, 0x6c, 0x6b, 0x65, 0x6e, 0x6e, 0x65, 0x64,
-	0x79, 0x2f, 0x6c, 0x73, 0x71, 0x6c, 0x2f, 0x67, 0x6f, 0x6c, 0x73, 0x71, 0x6c, 0xaa, 0x02, 0x14,
-	0x4c, 0x75, 0x6b, 0x65, 0x4b, 0x65, 0x6e, 0x6e, 0x65, 0x64, 0x79, 0x2e, 0x4c, 0x53, 0x51, 0x4c,
-	0x2e, 0x4e, 0x65, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x0b, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0b, 0x77,
+	0x68, 0x65, 0x72, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0c, 0x73, 0x65, 0x6c, 0x65,
+	0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xa1, 0x01, 0x0a, 0x05, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x69, 0x64, 0x12, 0x1f, 0x0a, 0x06, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x07, 0x2e, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x52, 0x06, 0x73, 0x65, 0x6c,
+	0x65, 0x63, 0x74, 0x12, 0x18, 0x0a, 0x06, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x18, 0x65, 0x20,
+	0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x12, 0x1f, 0x0a,
+	0x06, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x07, 0x2e,
+	0x50, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x12, 0x1c,
+	0x0a, 0x05, 0x77, 0x68, 0x65, 0x72, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x06, 0x2e,
+	0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x05, 0x77, 0x68, 0x65, 0x72, 0x65, 0x42, 0x0e, 0x0a, 0x0c,
+	0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x5f, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0x36, 0x0a, 0x06,
+	0x50, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06,
+	0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x6f, 0x66,
+	0x66, 0x73, 0x65, 0x74, 0x22, 0x0d, 0x0a, 0x0b, 0x44, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x4a, 0x6f,
+	0x69, 0x6e, 0x73, 0x42, 0x39, 0x5a, 0x20, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x6c, 0x6c, 0x6b, 0x65, 0x6e, 0x6e, 0x65, 0x64, 0x79, 0x2f, 0x6c, 0x73, 0x71, 0x6c,
+	0x2f, 0x67, 0x6f, 0x6c, 0x73, 0x71, 0x6c, 0xaa, 0x02, 0x14, 0x4c, 0x75, 0x6b, 0x65, 0x4b, 0x65,
+	0x6e, 0x6e, 0x65, 0x64, 0x79, 0x2e, 0x4c, 0x53, 0x51, 0x4c, 0x2e, 0x4e, 0x65, 0x74, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -825,35 +258,23 @@ func file_query_proto_rawDescGZIP() []byte {
 	return file_query_proto_rawDescData
 }
 
-var file_query_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_query_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_query_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_query_proto_goTypes = []interface{}{
-	(Comparator)(0),             // 0: Comparator
-	(GroupOperator)(0),          // 1: GroupOperator
-	(*Query)(nil),               // 2: Query
-	(*DomainJoins)(nil),         // 3: DomainJoins
-	(*WhereGroup)(nil),          // 4: WhereGroup
-	(*WhereGroupElement)(nil),   // 5: WhereGroupElement
-	(*WhereField)(nil),          // 6: WhereField
-	(*Paging)(nil),              // 7: Paging
-	(*Ordering)(nil),            // 8: Ordering
-	(*timestamp.Timestamp)(nil), // 9: google.protobuf.Timestamp
+	(*Query)(nil),       // 0: Query
+	(*Paging)(nil),      // 1: Paging
+	(*DomainJoins)(nil), // 2: DomainJoins
+	(*Select)(nil),      // 3: Select
+	(*Group)(nil),       // 4: Group
 }
 var file_query_proto_depIdxs = []int32{
-	7, // 0: Query.paging:type_name -> Paging
-	4, // 1: Query.where:type_name -> WhereGroup
-	5, // 2: WhereGroup.elements:type_name -> WhereGroupElement
-	1, // 3: WhereGroup.operator:type_name -> GroupOperator
-	6, // 4: WhereGroupElement.field:type_name -> WhereField
-	4, // 5: WhereGroupElement.group:type_name -> WhereGroup
-	0, // 6: WhereField.comparator:type_name -> Comparator
-	9, // 7: WhereField.time_value:type_name -> google.protobuf.Timestamp
-	8, // 8: WhereField.ordering:type_name -> Ordering
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	3, // 0: Query.select:type_name -> Select
+	1, // 1: Query.paging:type_name -> Paging
+	4, // 2: Query.where:type_name -> Group
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_query_proto_init() }
@@ -861,6 +282,8 @@ func file_query_proto_init() {
 	if File_query_proto != nil {
 		return
 	}
+	file_where_proto_init()
+	file_select_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_query_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Query); i {
@@ -875,54 +298,6 @@ func file_query_proto_init() {
 			}
 		}
 		file_query_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DomainJoins); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WhereGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_query_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WhereGroupElement); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WhereField); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Paging); i {
 			case 0:
 				return &v.state
@@ -934,8 +309,8 @@ func file_query_proto_init() {
 				return nil
 			}
 		}
-		file_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Ordering); i {
+		file_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DomainJoins); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -950,32 +325,18 @@ func file_query_proto_init() {
 	file_query_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*Query_Domain)(nil),
 	}
-	file_query_proto_msgTypes[3].OneofWrappers = []interface{}{
-		(*WhereGroupElement_Field)(nil),
-		(*WhereGroupElement_Group)(nil),
-	}
-	file_query_proto_msgTypes[4].OneofWrappers = []interface{}{
-		(*WhereField_StringValue)(nil),
-		(*WhereField_Int64Value)(nil),
-		(*WhereField_Uint64Value)(nil),
-		(*WhereField_DoubleValue)(nil),
-		(*WhereField_BoolValue)(nil),
-		(*WhereField_BytesValue)(nil),
-		(*WhereField_TimeValue)(nil),
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_query_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   7,
+			NumEnums:      0,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_query_proto_goTypes,
 		DependencyIndexes: file_query_proto_depIdxs,
-		EnumInfos:         file_query_proto_enumTypes,
 		MessageInfos:      file_query_proto_msgTypes,
 	}.Build()
 	File_query_proto = out.File

@@ -1,11 +1,17 @@
 import * as jspb from 'google-protobuf'
 
-import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
+import * as where_pb from './where_pb';
+import * as select_pb from './select_pb';
 
 
 export class Query extends jspb.Message {
   getId(): string;
   setId(value: string): Query;
+
+  getSelect(): select_pb.Select | undefined;
+  setSelect(value?: select_pb.Select): Query;
+  hasSelect(): boolean;
+  clearSelect(): Query;
 
   getDomain(): string;
   setDomain(value: string): Query;
@@ -15,8 +21,8 @@ export class Query extends jspb.Message {
   hasPaging(): boolean;
   clearPaging(): Query;
 
-  getWhere(): WhereGroup | undefined;
-  setWhere(value?: WhereGroup): Query;
+  getWhere(): where_pb.Group | undefined;
+  setWhere(value?: where_pb.Group): Query;
   hasWhere(): boolean;
   clearWhere(): Query;
 
@@ -33,171 +39,15 @@ export class Query extends jspb.Message {
 export namespace Query {
   export type AsObject = {
     id: string,
+    select?: select_pb.Select.AsObject,
     domain: string,
     paging?: Paging.AsObject,
-    where?: WhereGroup.AsObject,
+    where?: where_pb.Group.AsObject,
   }
 
   export enum DomainSpaceCase { 
     DOMAIN_SPACE_NOT_SET = 0,
     DOMAIN = 101,
-  }
-}
-
-export class DomainJoins extends jspb.Message {
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DomainJoins.AsObject;
-  static toObject(includeInstance: boolean, msg: DomainJoins): DomainJoins.AsObject;
-  static serializeBinaryToWriter(message: DomainJoins, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DomainJoins;
-  static deserializeBinaryFromReader(message: DomainJoins, reader: jspb.BinaryReader): DomainJoins;
-}
-
-export namespace DomainJoins {
-  export type AsObject = {
-  }
-}
-
-export class WhereGroup extends jspb.Message {
-  getElementsList(): Array<WhereGroupElement>;
-  setElementsList(value: Array<WhereGroupElement>): WhereGroup;
-  clearElementsList(): WhereGroup;
-  addElements(value?: WhereGroupElement, index?: number): WhereGroupElement;
-
-  getNegateOperator(): boolean;
-  setNegateOperator(value: boolean): WhereGroup;
-
-  getOperator(): roupOperator;
-  setOperator(value: roupOperator): WhereGroup;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): WhereGroup.AsObject;
-  static toObject(includeInstance: boolean, msg: WhereGroup): WhereGroup.AsObject;
-  static serializeBinaryToWriter(message: WhereGroup, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): WhereGroup;
-  static deserializeBinaryFromReader(message: WhereGroup, reader: jspb.BinaryReader): WhereGroup;
-}
-
-export namespace WhereGroup {
-  export type AsObject = {
-    elementsList: Array<WhereGroupElement.AsObject>,
-    negateOperator: boolean,
-    operator: roupOperator,
-  }
-}
-
-export class WhereGroupElement extends jspb.Message {
-  getField(): WhereField | undefined;
-  setField(value?: WhereField): WhereGroupElement;
-  hasField(): boolean;
-  clearField(): WhereGroupElement;
-
-  getGroup(): WhereGroup | undefined;
-  setGroup(value?: WhereGroup): WhereGroupElement;
-  hasGroup(): boolean;
-  clearGroup(): WhereGroupElement;
-
-  getElementCase(): WhereGroupElement.ElementCase;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): WhereGroupElement.AsObject;
-  static toObject(includeInstance: boolean, msg: WhereGroupElement): WhereGroupElement.AsObject;
-  static serializeBinaryToWriter(message: WhereGroupElement, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): WhereGroupElement;
-  static deserializeBinaryFromReader(message: WhereGroupElement, reader: jspb.BinaryReader): WhereGroupElement;
-}
-
-export namespace WhereGroupElement {
-  export type AsObject = {
-    field?: WhereField.AsObject,
-    group?: WhereGroup.AsObject,
-  }
-
-  export enum ElementCase { 
-    ELEMENT_NOT_SET = 0,
-    FIELD = 101,
-    GROUP = 102,
-  }
-}
-
-export class WhereField extends jspb.Message {
-  getFieldName(): string;
-  setFieldName(value: string): WhereField;
-
-  getNegateComparator(): boolean;
-  setNegateComparator(value: boolean): WhereField;
-
-  getComparator(): omparator;
-  setComparator(value: omparator): WhereField;
-
-  getDomainName(): string;
-  setDomainName(value: string): WhereField;
-
-  getStringValue(): string;
-  setStringValue(value: string): WhereField;
-
-  getInt64Value(): number;
-  setInt64Value(value: number): WhereField;
-
-  getUint64Value(): number;
-  setUint64Value(value: number): WhereField;
-
-  getDoubleValue(): number;
-  setDoubleValue(value: number): WhereField;
-
-  getBoolValue(): boolean;
-  setBoolValue(value: boolean): WhereField;
-
-  getBytesValue(): Uint8Array | string;
-  getBytesValue_asU8(): Uint8Array;
-  getBytesValue_asB64(): string;
-  setBytesValue(value: Uint8Array | string): WhereField;
-
-  getTimeValue(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setTimeValue(value?: google_protobuf_timestamp_pb.Timestamp): WhereField;
-  hasTimeValue(): boolean;
-  clearTimeValue(): WhereField;
-
-  getOrdering(): Ordering | undefined;
-  setOrdering(value?: Ordering): WhereField;
-  hasOrdering(): boolean;
-  clearOrdering(): WhereField;
-
-  getValueCase(): WhereField.ValueCase;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): WhereField.AsObject;
-  static toObject(includeInstance: boolean, msg: WhereField): WhereField.AsObject;
-  static serializeBinaryToWriter(message: WhereField, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): WhereField;
-  static deserializeBinaryFromReader(message: WhereField, reader: jspb.BinaryReader): WhereField;
-}
-
-export namespace WhereField {
-  export type AsObject = {
-    fieldName: string,
-    negateComparator: boolean,
-    comparator: omparator,
-    domainName: string,
-    stringValue: string,
-    int64Value: number,
-    uint64Value: number,
-    doubleValue: number,
-    boolValue: boolean,
-    bytesValue: Uint8Array | string,
-    timeValue?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    ordering?: Ordering.AsObject,
-  }
-
-  export enum ValueCase { 
-    VALUE_NOT_SET = 0,
-    STRING_VALUE = 101,
-    INT64_VALUE = 102,
-    UINT64_VALUE = 103,
-    DOUBLE_VALUE = 104,
-    BOOL_VALUE = 105,
-    BYTES_VALUE = 106,
-    TIME_VALUE = 107,
   }
 }
 
@@ -223,41 +73,17 @@ export namespace Paging {
   }
 }
 
-export class Ordering extends jspb.Message {
-  getPriority(): number;
-  setPriority(value: number): Ordering;
-
-  getDescending(): boolean;
-  setDescending(value: boolean): Ordering;
-
+export class DomainJoins extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Ordering.AsObject;
-  static toObject(includeInstance: boolean, msg: Ordering): Ordering.AsObject;
-  static serializeBinaryToWriter(message: Ordering, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Ordering;
-  static deserializeBinaryFromReader(message: Ordering, reader: jspb.BinaryReader): Ordering;
+  toObject(includeInstance?: boolean): DomainJoins.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainJoins): DomainJoins.AsObject;
+  static serializeBinaryToWriter(message: DomainJoins, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainJoins;
+  static deserializeBinaryFromReader(message: DomainJoins, reader: jspb.BinaryReader): DomainJoins;
 }
 
-export namespace Ordering {
+export namespace DomainJoins {
   export type AsObject = {
-    priority: number,
-    descending: boolean,
   }
 }
 
-export enum Comparator { 
-  UNKNOWN_COMPARATOR = 0,
-  EQUAL = 1,
-  FUZZY_EQUAL = 2,
-  GREATER_THAN = 3,
-  LESS_THAN = 4,
-  GREATER_THAN_OR_EQUAL = 5,
-  LESS_THAN_OR_EQUAL = 6,
-  IS_NULL = 7,
-}
-export enum GroupOperator { 
-  UNKNOWN_GROUPOPERATOR = 0,
-  AND = 1,
-  OR = 2,
-  XOR = 3,
-}

@@ -1,5 +1,5 @@
 import { Component } from "../common";
-import styles from "./Results.module.css";
+// import styles from "./Results.module.css";
 
 export interface ResultsProps {
 
