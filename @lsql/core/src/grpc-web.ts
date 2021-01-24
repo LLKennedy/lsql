@@ -1,17 +1,21 @@
 import * as proto from "@lsql/proto/query_pb";
 import * as uuid from 'uuid';
 import * as googleproto from 'google-protobuf/google/protobuf/timestamp_pb';
-import { Comparator, UIField, fieldWhereType, UIGroup, GroupOperator, groupWhereType, PropertyType } from "./where";
+import { UIField, fieldWhereType, UIGroup, groupWhereType, PropertyType } from "./where";
+import { Select } from "./proto";
+import { json } from "./protojson";
 
-/** ToProto converts the query to a proto Query, paging must still be set after this for full results. */
-export function ToProto(group: UIGroup): proto.Query {
-	let q = new proto.Query();
-	// Generate new ID for this query
-	q.setId(uuid.v4());
-	// q.setDomain // TODO: domains
-	let topGroup = groupToProto(group);
-	q.setWhere(topGroup);
-	return q;
+export module grpcweb {
+	/** ToProto converts the query to a proto Query, paging must still be set after this for full results. */
+	export function ToProto(group: UIGroup, select: Select): proto.Query {
+		let q = new proto.Query();
+		// Generate new ID for this query
+		q.setId(uuid.v4());
+		// q.setDomain // TODO: domains
+		let topGroup = groupToProto(group);
+		q.setWhere(topGroup);
+		return q;
+	}
 }
 
 function groupToProto(group: UIGroup): proto.WhereGroup {
@@ -81,37 +85,37 @@ function fieldToProto(field: UIField): proto.WhereField {
 	return f;
 }
 
-function mapOperator(operator: GroupOperator): proto.GroupOperator {
+function mapOperator(operator: json.GroupOperator): proto.GroupOperator {
 	switch (operator) {
-		case GroupOperator.AND:
+		case json.GroupOperator.AND:
 			return proto.GroupOperator.AND;
-		case GroupOperator.OR:
+		case json.GroupOperator.OR:
 			return proto.GroupOperator.OR;
-		case GroupOperator.XOR:
+		case json.GroupOperator.XOR:
 			return proto.GroupOperator.XOR;
-		case GroupOperator.UNKNOWN_GROUPOPERATOR:
+		case json.GroupOperator.UNKNOWN_GROUPOPERATOR:
 		default:
 			return proto.GroupOperator.UNKNOWN_GROUPOPERATOR;
 	}
 }
 
-function mapComparator(comparator: Comparator): proto.Comparator {
+function mapComparator(comparator: json.Comparator): proto.Comparator {
 	switch (comparator) {
-		case Comparator.EQUAL:
+		case json.Comparator.EQUAL:
 			return proto.Comparator.EQUAL;
-		case Comparator.FUZZY_EQUAL:
+		case json.Comparator.FUZZY_EQUAL:
 			return proto.Comparator.FUZZY_EQUAL;
-		case Comparator.GREATER_THAN:
+		case json.Comparator.GREATER_THAN:
 			return proto.Comparator.GREATER_THAN;
-		case Comparator.GREATER_THAN_OR_EQUAL:
+		case json.Comparator.GREATER_THAN_OR_EQUAL:
 			return proto.Comparator.GREATER_THAN_OR_EQUAL;
-		case Comparator.IS_NULL:
+		case json.Comparator.IS_NULL:
 			return proto.Comparator.IS_NULL;
-		case Comparator.LESS_THAN:
+		case json.Comparator.LESS_THAN:
 			return proto.Comparator.LESS_THAN;
-		case Comparator.LESS_THAN_OR_EQUAL:
+		case json.Comparator.LESS_THAN_OR_EQUAL:
 			return proto.Comparator.LESS_THAN_OR_EQUAL;
-		case Comparator.UNKNOWN_COMPARATOR:
+		case json.Comparator.UNKNOWN_COMPARATOR:
 		default:
 			return proto.Comparator.UNKNOWN_COMPARATOR;
 	}

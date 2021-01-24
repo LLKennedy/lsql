@@ -1,4 +1,4 @@
-import { Comparator, GroupOperator } from "../where";
+import { json } from "../protojson";
 
 export interface GroupElement {
 	group: Group;
@@ -12,13 +12,13 @@ export type WhereElement = GroupElement | FieldElement;
 
 export interface Group {
 	elements?: WhereElement[];
-	operator?: GroupOperator;
+	operator?: json.GroupOperator;
 	negateOperator?: boolean;
 }
 
 export interface Group {
 	elements?: WhereElement[];
-	operator?: GroupOperator;
+	operator?: json.GroupOperator;
 	negateOperator?: boolean;
 }
 
@@ -54,7 +54,7 @@ export interface TimeValue {
 export interface BaseField {
 	fieldName?: string;
 	negateComparator?: boolean;
-	comparator?: Comparator;
+	comparator?: json.Comparator;
 }
 
 export type FieldValues = StringValue | Int64Value | Uint64Value | DoubleValue | BoolValue | BytesValue | TimeValue

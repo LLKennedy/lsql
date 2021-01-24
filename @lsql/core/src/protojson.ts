@@ -1,23 +1,44 @@
-import { UIGroup, Comparator, GroupOperator, UIField, fieldWhereType, groupWhereType, PropertyType } from './where';
+import { UIGroup, UIField, fieldWhereType, groupWhereType, PropertyType } from './where';
 import * as uuid from 'uuid';
 import { base64 } from 'rfc4648';
 import { BaseField, Field, FieldValues, Group, Paging, Query } from './proto';
 
-/** Format expected by protojson */
-export function ToProto(group: UIGroup, paging?: Paging): Query {
-	let q: Query = {
-		id: uuid.v4(),
-		where: groupToProto(group)
-	};
-	if (paging !== undefined) {
-		q.paging = paging;
+export module json {
+	/** Format expected by protojson */
+	export function ToProto(group: UIGroup, paging?: Paging): Query {
+		let q: Query = {
+			id: uuid.v4(),
+			where: groupToProto(group)
+		};
+		if (paging !== undefined) {
+			q.paging = paging;
+		}
+		return q;
 	}
-	return q;
-}
+	export enum GroupOperator {
+		/** Invalid, only used as a default in error states */
+		UNKNOWN_GROUPOPERATOR = "",
+		AND = "AND",
+		OR = "OR",
+		XOR = "XOR"
+	}
+
+	export enum Comparator {
+		/** Invalid, only used as a default in error states */
+		UNKNOWN_COMPARATOR = "",
+		EQUAL = "EQUAL",
+		FUZZY_EQUAL = "FUZZY_EQUAL",
+		GREATER_THAN = "GREATER_THAN",
+		LESS_THAN = "LESS_THAN",
+		GREATER_THAN_OR_EQUAL = "GREATER_THAN_OR_EQUAL",
+		LESS_THAN_OR_EQUAL = "LESS_THAN_OR_EQUAL",
+		IS_NULL = "IS_NULL"
+	}
+};
 
 function groupToProto(group: UIGroup): Group {
 	let g: Group = {};
-	if (group.operator !== GroupOperator.UNKNOWN_GROUPOPERATOR) {
+	if (group.operator !== json.GroupOperator.UNKNOWN_GROUPOPERATOR) {
 		g.operator = group.operator;
 		g.negateOperator = group.negateOperator;
 	}
@@ -48,7 +69,7 @@ function fieldToProto(field: UIField): Field {
 		negateComparator: field.negateComparator,
 		fieldName: field.fieldName,
 	};
-	if (field.comparator !== Comparator.UNKNOWN_COMPARATOR) {
+	if (field.comparator !== json.Comparator.UNKNOWN_COMPARATOR) {
 		f.comparator = field.comparator;
 	}
 	let value: FieldValues;

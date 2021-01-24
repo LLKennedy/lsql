@@ -1,27 +1,9 @@
+import { json } from "./protojson";
+
 export type UIWhereElement = UIField | UIGroup
 
 export const fieldWhereType = "field";
 export const groupWhereType = "group";
-
-export enum GroupOperator {
-	/** Invalid, only used as a default in error states */
-	UNKNOWN_GROUPOPERATOR = "",
-	AND = "AND",
-	OR = "OR",
-	XOR = "XOR"
-}
-
-export enum Comparator {
-	/** Invalid, only used as a default in error states */
-	UNKNOWN_COMPARATOR = "",
-	EQUAL = "EQUAL",
-	FUZZY_EQUAL = "FUZZY_EQUAL",
-	GREATER_THAN = "GREATER_THAN",
-	LESS_THAN = "LESS_THAN",
-	GREATER_THAN_OR_EQUAL = "GREATER_THAN_OR_EQUAL",
-	LESS_THAN_OR_EQUAL = "LESS_THAN_OR_EQUAL",
-	IS_NULL = "IS_NULL"
-}
 
 export enum PropertyType {
 	STRING,
@@ -68,7 +50,7 @@ export type UIFieldValue = NumericUIField | StringUIField | BooleanUIField | Byt
 export interface FieldWithoutValue {
 	whereType: typeof fieldWhereType;
 	fieldName: string;
-	comparator: Comparator;
+	comparator: json.Comparator;
 	negateComparator: boolean;
 	domainName?: string;
 }
@@ -79,7 +61,7 @@ export type UIField = FieldWithoutValue & (NumericUIField | StringUIField | Bool
 export interface UIGroup {
 	whereType: typeof groupWhereType;
 	elements: UIWhereElement[];
-	operator: GroupOperator;
+	operator: json.GroupOperator;
 	negateOperator: boolean;
 }
 
@@ -87,7 +69,7 @@ export function NewUIGroup(propertyList: ReadonlyMap<string, PropertyType>): UIG
 	let group: UIGroup = {
 		elements: [NewUIField(propertyList)],
 		negateOperator: false,
-		operator: GroupOperator.UNKNOWN_GROUPOPERATOR,
+		operator: json.GroupOperator.UNKNOWN_GROUPOPERATOR,
 		whereType: "group"
 	}
 	return group;
@@ -108,7 +90,7 @@ export function NewUIField(propertyList: ReadonlyMap<string, PropertyType>, name
 		name = firstName;
 	}
 	let newField: Partial<UIField> = {
-		comparator: Comparator.EQUAL,
+		comparator: json.Comparator.EQUAL,
 		// domainName: // TODO
 		fieldName: name,
 		negateComparator: false,
