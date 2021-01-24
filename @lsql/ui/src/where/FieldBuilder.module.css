@@ -1,4 +1,4 @@
-.lsql-field-inputs {
+.lsqlFieldInputs {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -8,7 +8,7 @@
     padding-right: 0.2em;
 }
 
-.lsql-field-container {
+.lsqlFieldContainer {
     flex-shrink: 1;
     flex-grow: 1;
     flex-direction: row;
@@ -17,18 +17,18 @@
     justify-content: stretch;
 }
 
-.lsql-field-dropdown {
+.lsqlFieldDropdown {
     flex-basis: 10px;
     flex-grow: 1;
     flex-shrink: 8;
 }
 
-.lsql-field-text {
+.lsqlFieldText {
     flex-basis: 10px;
     flex-grow: 5;
     flex-shrink: 2;
 }
 
-.lsql-field-text-invalid {
+.lsqlFieldTextInvalid {
     background-color: khaki;
 }

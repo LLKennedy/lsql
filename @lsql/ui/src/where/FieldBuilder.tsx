@@ -1,11 +1,10 @@
 import React from "react";
-import { WhereClassDefs } from "./classdefs";
-import "./FieldBuilder.css";
+import styles from "./FieldBuilder.module.css";
+import commonStyles from "../common/style.module.css";
 import { Comparator, CopyUIField, UIField, PropertyType, UIFieldValue } from "@lsql/core";
 import { FieldInput } from "./FieldInput";
-import { typeComparatorMap } from "../common";
 import { FieldComparatorSelector } from "./FieldComparator";
-import { indexString } from "../common";
+import { indexString, typeComparatorMap } from "../common";
 
 export interface FieldProps {
 	data: UIField;
@@ -34,12 +33,12 @@ export class FieldBuilder extends React.Component<FieldProps> {
 	// 	return false;
 	// }
 	render() {
-		return <div className={WhereClassDefs.fieldInputs}>
-			<div className={WhereClassDefs.fieldContainer}>
+		return <div className={styles.lsqlFieldInputs}>
+			<div className={styles.lsqlFieldContainer}>
 				<select
 					value={this.props.data.fieldName}
 					onChange={this.updateFieldName.bind(this)}
-					className={WhereClassDefs.fieldDropdown}
+					className={styles.lsqlFieldDropdown}
 				>
 					{(Array.from(this.props.propertyList)).map(([name,], i) => {
 						let subElementIndex = [...this.props.elementIndex, i];
@@ -49,7 +48,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				</select>
 				<select
 					value={`${this.props.data.negateComparator}`}
-					className={WhereClassDefs.fieldDropdown}
+					className={styles.lsqlFieldDropdown}
 					onChange={e => this.updateNegateComparator(e.target.value === `${true}`)}
 				>
 					<option key={`lsql-field-negateoperator-${indexString(this.props.elementIndex)}-false`} value={`${false}`}>IS</option>
@@ -63,7 +62,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				/>
 				{
 					// Hide the value input if we're comparing to IS NULL or NOT IS NULL
-					this.props.data.comparator === Comparator.IS_NULL ? <div className={WhereClassDefs.fieldText} /> :
+					this.props.data.comparator === Comparator.IS_NULL ? <div className={styles.lsqlFieldText} /> :
 						<FieldInput
 							data={this.props.data}
 							elementIndex={this.props.elementIndex}
@@ -72,7 +71,7 @@ export class FieldBuilder extends React.Component<FieldProps> {
 				}
 			</div>
 			<div
-				className={`${WhereClassDefs.circle} ${WhereClassDefs.clickable} fa fa-times`}
+				className={`${commonStyles.lsqlCircle} ${commonStyles.lsqlClickable} fa fa-times`}
 				onMouseDown={e => this.props.update(undefined)}
 			/>
 		</div>

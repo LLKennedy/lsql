@@ -1,7 +1,7 @@
 import { PropertyType, UIFieldValue } from "@lsql/core";
 import React from "react";
 import { base64 } from "rfc4648";
-import { WhereClassDefs } from "./classdefs";
+import styles from "./FieldBuilder.module.css";
 import { indexString } from "../common";
 
 interface InputProps {
@@ -34,7 +34,7 @@ export class FieldInput extends React.Component<InputProps, InputState> {
 			case PropertyType.BOOL:
 				return <select
 					value={`${this.props.data.value}`}
-					className={WhereClassDefs.fieldText}
+					className={styles.lsqlFieldText}
 					onChange={e => this.props.update({ type: PropertyType.BOOL, value: e.target.value === `${true}` })}
 				>
 					<option key={`lsql-field-value-${indexString(this.props.elementIndex)}-true`} value={`${true}`}>TRUE</option>
@@ -63,7 +63,7 @@ export class FieldInput extends React.Component<InputProps, InputState> {
 		}
 		let input = <input
 			ref={this.state.ref}
-			className={WhereClassDefs.fieldText + (this.state.valid ? "" : ` ${WhereClassDefs.fieldTextInvalid}`)}
+			className={styles.lsqlFieldText + (this.state.valid ? "" : ` ${styles.lsqlFieldTextInvalid}`)}
 			value={this.state.valid ? this.valueToString() : this.state.raw}
 			type={this.props.data.type === PropertyType.TIME ? "datetime-local" : "text"}
 			pattern={pattern}

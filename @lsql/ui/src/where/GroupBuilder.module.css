@@ -1,0 +1,36 @@
+.lsqlGroupContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+    flex-basis: 50px;
+    justify-content: center;
+    align-items: stretch;
+    border-radius: 10px;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.lsqlGroupElement {
+    display: flex;
+    flex-direction: row;
+}
+
+.lsqlGroupHeader {
+    display: inline-flex;
+    align-items: center;
+    justify-content: stretch;
+}
+
+.lsqlGroupOperatorContainer {
+    display: inline-flex;
+    margin-left: 1em;
+}
+
+.lsqlGroupOperatorContainer div {
+    border: 0.1em solid var(--button-border-colour);
+    width: 3em;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}

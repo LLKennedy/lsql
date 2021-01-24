@@ -1,5 +1,5 @@
 import { Component } from "../common";
-import "./Select.css";
+import styles from "./Select.module.css";
 
 export interface SelectProps {
 

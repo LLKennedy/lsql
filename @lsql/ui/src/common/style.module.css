@@ -1,0 +1,43 @@
+* {
+    /* Variables for everything in this component */
+    --hover-colour: aqua;
+    --good-hover-colour: green;
+    --bad-hover-colour: red;
+    --selected-button-colour: blue;
+    --unselected-button-colour: cornsilk;
+    --button-border-colour: black;
+}
+
+/* Clickable and toggleable elements */
+.lsqlToggleable, .lsqlClickable {
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--unselected-button-colour);
+}
+.lsqlToggleable:hover, .lsqlClickable:hover, .lsqlToggleable.lsqlToggled:hover {
+    background-color: var(--hover-colour);
+}
+.lsqlToggleable.lsqlToggled, .lsqlClickable.lsqlClicked {
+    background-color: var(--selected-button-colour);
+    color: white;
+}
+
+.lsqlCircle {
+    width: 1em;
+    height: 1em;
+    max-width: 1em;
+    max-height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.1em solid var(--button-border-colour);
+    border-radius: 100%;
+    margin-left: 0.2em;
+}
+
+/* Context menu */
+.lsqlContextMenu {
+    position: relative;
+    top: 1em;
+    border: 0.1em solid var(--button-border-colour);
+}
