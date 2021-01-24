@@ -3,8 +3,8 @@ syntax = "proto3";
 option go_package = "github.com/llkennedy/lsql/golsql";
 option csharp_namespace = "LukeKennedy.LSQL.Net";
 
-import "where.proto";
-import "select.proto";
+import "where.proto"; // -I "./where.proto"
+import "select.proto"; // -I "./select.proto"
 
 message Query {
     // A UUID generated for this query for idempotence and caching reasons, must be non-empty. 

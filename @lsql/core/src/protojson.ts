@@ -1,73 +1,7 @@
-import { Ordering, UIGroup, Comparator, GroupOperator, UIField, fieldWhereType, groupWhereType, PropertyType } from './where';
+import { UIGroup, Comparator, GroupOperator, UIField, fieldWhereType, groupWhereType, PropertyType } from './where';
 import * as uuid from 'uuid';
 import { base64 } from 'rfc4648';
-
-export interface Paging {
-	limit?: number;
-	offset?: number;
-}
-
-export interface Group {
-	elements?: Element[];
-	operator?: GroupOperator;
-	negateOperator?: boolean;
-}
-
-export interface StringValue {
-	stringValue?: string;
-}
-
-export interface Int64Value {
-	int64Value?: number;
-}
-
-export interface Uint64Value {
-	uint64Value?: number;
-}
-
-export interface DoubleValue {
-	doubleValue?: number;
-}
-
-export interface BoolValue {
-	boolValue?: boolean;
-}
-
-export interface BytesValue {
-	bytesValue?: string;
-}
-
-export interface TimeValue {
-	/**ISO string */
-	timeValue?: string;
-}
-
-export interface BaseField {
-	fieldName?: string;
-	negateComparator?: boolean;
-	comparator?: Comparator;
-	ordering?: Partial<Ordering>
-}
-
-export type FieldValues = StringValue | Int64Value | Uint64Value | DoubleValue | BoolValue | BytesValue | TimeValue
-
-export type Field = BaseField & FieldValues
-
-export interface GroupElement {
-	group: Group;
-}
-
-export interface FieldElement {
-	field: Field;
-}
-
-export type Element = GroupElement | FieldElement;
-
-export interface Query {
-	id?: string;
-	paging?: Paging;
-	where?: Group;
-}
+import { BaseField, Field, FieldValues, Group, Paging, Query } from './proto';
 
 /** Format expected by protojson */
 export function ToProto(group: UIGroup, paging?: Paging): Query {
@@ -113,10 +47,6 @@ function fieldToProto(field: UIField): Field {
 	let f: BaseField = {
 		negateComparator: field.negateComparator,
 		fieldName: field.fieldName,
-		ordering: {
-			descending: field.ordering.descending,
-			priority: field.ordering.priority
-		}
 	};
 	if (field.comparator !== Comparator.UNKNOWN_COMPARATOR) {
 		f.comparator = field.comparator;

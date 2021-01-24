@@ -33,10 +33,10 @@ export enum PropertyType {
 	TIME
 }
 
-export interface Ordering {
-	priority: number;
-	descending: boolean;
-}
+// export interface Ordering {
+// 	priority: number;
+// 	descending: boolean;
+// }
 
 export interface NumericUIField {
 	type: PropertyType.DOUBLE | PropertyType.INT64 | PropertyType.UINT64;
@@ -71,7 +71,6 @@ export interface FieldWithoutValue {
 	comparator: Comparator;
 	negateComparator: boolean;
 	domainName?: string;
-	ordering: Ordering;
 }
 
 export type UIField = FieldWithoutValue & (NumericUIField | StringUIField | BooleanUIField | BytesUIField | TimeUIField)
@@ -113,10 +112,6 @@ export function NewUIField(propertyList: ReadonlyMap<string, PropertyType>, name
 		// domainName: // TODO
 		fieldName: name,
 		negateComparator: false,
-		ordering: {
-			descending: false,
-			priority: 0,
-		},
 		type: propType,
 		whereType: fieldWhereType
 	};
@@ -170,7 +165,6 @@ export function CopyUIField(field: UIField): UIField {
 		comparator: field.comparator,
 		fieldName: field.fieldName,
 		negateComparator: field.negateComparator,
-		ordering: { ...field.ordering },
 		whereType: field.whereType,
 		domainName: field.domainName,
 		type: field.type
@@ -258,7 +252,7 @@ export function UIFieldsAreEqual(first: UIField, second: UIField): boolean {
 		// Only one is null
 		return false;
 	}
-	if (first.comparator !== second.comparator || first.domainName !== second.domainName || first.fieldName !== second.fieldName || first.negateComparator !== second.negateComparator || first.value !== second.value || first.whereType !== second.whereType || first.ordering?.descending !== second.ordering?.descending || first.ordering?.priority !== second.ordering?.priority) {
+	if (first.comparator !== second.comparator || first.domainName !== second.domainName || first.fieldName !== second.fieldName || first.negateComparator !== second.negateComparator || first.value !== second.value || first.whereType !== second.whereType) {
 		// Some mismatched property
 		return false;
 	}

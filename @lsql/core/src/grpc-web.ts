@@ -48,8 +48,6 @@ function fieldToProto(field: UIField): proto.WhereField {
 	f.setFieldName(field.fieldName);
 	f.setNegateComparator(field.negateComparator);
 	let o = new proto.Ordering();
-	o.setDescending(field.ordering.descending);
-	o.setPriority(field.ordering.priority);
 	f.setOrdering(o);
 	switch (field.type) {
 		case PropertyType.BOOL:
