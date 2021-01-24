@@ -1,4 +1,5 @@
 import { json } from "../protojson";
+import { ColumnID } from "./select";
 
 export interface GroupElement {
 	group: Group;
@@ -9,12 +10,6 @@ export interface FieldElement {
 }
 
 export type WhereElement = GroupElement | FieldElement;
-
-export interface Group {
-	elements?: WhereElement[];
-	operator?: json.GroupOperator;
-	negateOperator?: boolean;
-}
 
 export interface Group {
 	elements?: WhereElement[];
@@ -52,7 +47,7 @@ export interface TimeValue {
 }
 
 export interface BaseField {
-	fieldName?: string;
+	column?: ColumnID;
 	negateComparator?: boolean;
 	comparator?: json.Comparator;
 }
@@ -60,11 +55,3 @@ export interface BaseField {
 export type FieldValues = StringValue | Int64Value | Uint64Value | DoubleValue | BoolValue | BytesValue | TimeValue
 
 export type Field = BaseField & FieldValues
-
-export interface GroupElement {
-	group: Group;
-}
-
-export interface FieldElement {
-	field: Field;
-}

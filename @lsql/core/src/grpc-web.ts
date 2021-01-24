@@ -11,11 +11,15 @@ export module grpcweb {
 		let q = new proto.Query();
 		// Generate new ID for this query
 		q.setId(uuid.v4());
+
 		// q.setDomain // TODO: domains
 		let topGroup = groupToProto(group);
 		q.setWhere(topGroup);
 		return q;
 	}
+}
+
+function selectToProto(select: Select) { // TODO
 }
 
 function groupToProto(group: UIGroup): proto.WhereGroup {
