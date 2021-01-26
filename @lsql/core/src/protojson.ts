@@ -1,7 +1,7 @@
-import { UIGroup, UIField, fieldWhereType, groupWhereType, PropertyType } from './where';
-import * as uuid from 'uuid';
-import { base64 } from 'rfc4648';
-import { BaseField, Field, FieldValues, Group, Paging, Query } from './proto';
+import { UIGroup, UIField, fieldWhereType, groupWhereType, PropertyType } from "./builder";
+import * as uuid from "uuid";
+import { base64 } from "rfc4648";
+import { BaseField, Field, FieldValues, Group, Paging, Query } from "./proto";
 
 export module json {
 	/** Format expected by protojson */
@@ -67,7 +67,7 @@ function groupToProto(group: UIGroup): Group {
 function fieldToProto(field: UIField): Field {
 	let f: BaseField = {
 		negateComparator: field.negateComparator,
-		fieldName: field.fieldName,
+
 	};
 	if (field.comparator !== json.Comparator.UNKNOWN_COMPARATOR) {
 		f.comparator = field.comparator;

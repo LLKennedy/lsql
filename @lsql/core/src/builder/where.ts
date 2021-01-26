@@ -1,4 +1,4 @@
-import { json } from "./protojson";
+import { json } from "../protojson";
 
 export type UIWhereElement = UIField | UIGroup
 

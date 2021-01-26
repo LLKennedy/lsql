@@ -1,36 +1,68 @@
-import * as proto from "@lsql/proto/query_pb";
-import * as uuid from 'uuid';
-import * as googleproto from 'google-protobuf/google/protobuf/timestamp_pb';
-import { UIField, fieldWhereType, UIGroup, groupWhereType, PropertyType } from "./where";
-import { Select } from "./proto";
+import * as proto from "@lsql/proto";
+import * as uuid from "uuid";
+import * as googleproto from "google-protobuf/google/protobuf/timestamp_pb";
+import { UIField, fieldWhereType, UIGroup, groupWhereType, PropertyType } from "./builder";
+import { ColumnID, Paging, Select } from "./proto";
 import { json } from "./protojson";
 
 export module grpcweb {
 	/** ToProto converts the query to a proto Query, paging must still be set after this for full results. */
-	export function ToProto(group: UIGroup, select: Select): proto.Query {
+	export function ToProto(group: UIGroup, select?: Select, paging?: Paging): proto.Query {
 		let q = new proto.Query();
 		// Generate new ID for this query
 		q.setId(uuid.v4());
-
 		// q.setDomain // TODO: domains
+		if (select !== undefined) {
+			q.setSelect(selectToProto(select));
+		}
+		if (paging !== undefined) {
+			q.setPaging(pagingToProto(paging));
+		}
 		let topGroup = groupToProto(group);
 		q.setWhere(topGroup);
 		return q;
 	}
 }
 
-function selectToProto(select: Select) { // TODO
+function selectToProto(select: Select): proto.Select {
+	let s = new proto.Select();
+	if (select.columns !== undefined && select.columns.length > 0) {
+		let columnList: proto.ColumnID[] = [];
+		let aColumn: ColumnID;
+		for (let i = 0; i < select.columns.length; i++) {
+			aColumn = select.columns[i];
+			let protoColumn = new proto.ColumnID();
+			if (aColumn.fieldName !== undefined) {
+				protoColumn.setFieldName(aColumn.fieldName);
+			}
+			if (aColumn.domainName !== undefined) {
+				protoColumn.setDomainName(aColumn.domainName);
+			}
+		}
+		s.setColumnsList(columnList);
+	}
+	let orderingMap = s.getOrderingMap();
+	if (select.ordering !== undefined) {
+		// TODO
+	}
+	return s;
 }
 
-function groupToProto(group: UIGroup): proto.WhereGroup {
-	let g = new proto.WhereGroup();
+function pagingToProto(paging: Paging): proto.Paging {
+	let p = new proto.Paging();
+	// TODO
+	return p;
+}
+
+function groupToProto(group: UIGroup): proto.Group {
+	let g = new proto.Group();
 	g.setNegateOperator(group.negateOperator);
 	g.setOperator(mapOperator(group.operator));
 	if (group.elements?.length > 0) {
-		let e: proto.WhereGroupElement[] = [];
+		let e: proto.GroupElement[] = [];
 		for (let i = 0; i < group.elements.length; i++) {
 			let anElement = group.elements[i];
-			let newElement = new proto.WhereGroupElement();
+			let newElement = new proto.GroupElement();
 			switch (anElement.whereType) {
 				case fieldWhereType:
 					newElement.setField(fieldToProto(anElement));
@@ -47,16 +79,16 @@ function groupToProto(group: UIGroup): proto.WhereGroup {
 	return g;
 }
 
-function fieldToProto(field: UIField): proto.WhereField {
-	let f = new proto.WhereField();
+function fieldToProto(field: UIField): proto.Field {
+	let f = new proto.Field();
+	let c = new proto.ColumnID();
+	c.setFieldName(field.fieldName);
 	if (field.domainName !== undefined) {
-		f.setDomainName(field.domainName)
+		c.setDomainName(field.domainName)
 	}
+	f.setColumn(c);
 	f.setComparator(mapComparator(field.comparator));
-	f.setFieldName(field.fieldName);
 	f.setNegateComparator(field.negateComparator);
-	let o = new proto.Ordering();
-	f.setOrdering(o);
 	switch (field.type) {
 		case PropertyType.BOOL:
 			f.setBoolValue(field.value);
