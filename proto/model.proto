@@ -18,17 +18,6 @@ message Domain {
 	map<string, PropertyInformation> properties = 2;
 }
 
-enum LSQLPropertyType {
-	LSQLPropertyTypeUnknown = 0;
-	LSQLPropertyTypeString = 1;
-	LSQLPropertyTypeInt64 = 2;
-	LSQLPropertyTypeUint64 = 3;
-	LSQLPropertyTypeDouble = 4;
-	LSQLPropertyTypeBool = 5;
-	LSQLPropertyTypeBytes = 6;
-	LSQLPropertyTypeTimestamp = 7;
-}
-
 message PropertyInformation {
 	// DisplayName is a decorative name to make properties clearer to users.
 	string display_name = 1;
