@@ -1,44 +1,25 @@
 import React from 'react';
 import './App.css';
-import { QueryBuilder, QueryBuilderState } from '../../ui/src';
+import { jsonToMap, QueryBuilder, QueryBuilderState } from '../../ui/src';
 import { CopyUIGroup, NewUIGroup, PropertyType } from '@lsql/core';
 import { json } from '@lsql/core';
+
+const propsList = jsonToMap({
+	"Name": PropertyType.STRING,
+	"Stuff": PropertyType.BOOL,
+	"Width": PropertyType.DOUBLE,
+	"Height": PropertyType.INT64,
+	"Length": PropertyType.UINT64,
+	"Data": PropertyType.BYTES,
+	"Created": PropertyType.TIME
+})
 
 class MyModel {
 	Name: string = "";
 	Stuff: string = "";
 	Width: number = 0;
 	getPropertyList(): ReadonlyMap<string, PropertyType> {
-		return new Map<string, PropertyType>([
-			[
-				"Name",
-				PropertyType.STRING
-			],
-			[
-				"Stuff",
-				PropertyType.BOOL
-			],
-			[
-				"Width",
-				PropertyType.DOUBLE
-			],
-			[
-				"Height",
-				PropertyType.INT64
-			],
-			[
-				"Length",
-				PropertyType.UINT64
-			],
-			[
-				"Data",
-				PropertyType.BYTES
-			],
-			[
-				"Created",
-				PropertyType.TIME
-			]
-		])
+		return propsList
 	}
 }
 

@@ -9,25 +9,20 @@ export function indexString(elementIndex: number[]): string {
 	return str;
 }
 
-export function jsonToNumberMap<ValT>(json: { [key: string]: ValT }): Map<number, ValT> {
-	return jsonToMap<ValT, number>(json, "number");
+export interface keyMapper<T> {
+	(key: string): T
 }
 
-export function jsonToStringMap<ValT>(json: { [key: string]: ValT }): Map<string, ValT> {
-	return jsonToMap<ValT, string>(json, "string");
-}
-
-function jsonToMap<ValT, KeyT extends string | number>(json: { [key: string]: ValT }, type: "string" | "number"): Map<KeyT, ValT> {
+export function jsonToMap<ValT, KeyT = string>(json: { [key: string]: ValT } | string, keyMapFunc?: keyMapper<KeyT>): Map<KeyT, ValT> {
+	if (typeof json === "string") {
+		json = JSON.parse(json) as { [key: string]: ValT };
+	}
 	let m = new Map<KeyT, ValT>();
+	if (keyMapFunc === undefined) {
+		keyMapFunc = (key: string) => { return (key as unknown) as KeyT }
+	}
 	for (let k in json) {
-		switch (type) {
-			case "string":
-				m.set(k as KeyT, json[k]);
-			case "number":
-				m.set(Number(k) as KeyT, json[k]);
-			default:
-				throw new Error("invalid type converting JSON to map");
-		}
+		m.set(keyMapFunc(k), json[k]);
 	}
 	return m;
 }
