@@ -1,0 +1,49 @@
+{
+	"name": "TestModel",
+	"properties": {
+		"Created": {
+			"displayName": "Date Created",
+			"timestamp": {
+				"maximumValue": "3000-01-01T00:00:00Z"
+			}
+		},
+		"Data": {
+			"displayName": "Data",
+			"bytes": {
+				"lengthMaximum": 1000
+			}
+		},
+		"Height": {
+			"displayName": "Height",
+			"int64": {
+				"minimumValue": "-1000",
+				"maximumValue": "2000000000"
+			}
+		},
+		"Length": {
+			"displayName": "Length",
+			"uint64": {
+				"maximumValue": "1000"
+			}
+		},
+		"Name": {
+			"displayName": "Object Name",
+			"string": {
+				"lengthMaximum": 1000,
+				"characterSet": "*",
+				"queryValidationRegex": "[a-zA-Z0-9]*"
+			}
+		},
+		"Stuff": {
+			"displayName": "Is Stuff",
+			"bool": {}
+		},
+		"Width": {
+			"displayName": "Width",
+			"double": {
+				"minimumValue": -1000,
+				"maximumValue": 2000000000
+			}
+		}
+	}
+}
