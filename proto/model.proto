@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+option go_package = "github.com/llkennedy/lsql/golsql";
+option csharp_namespace = "LukeKennedy.LSQL.Net";
+
+import "google/protobuf/timestamp.proto";
+
+/*
+This file describes the data model used by this library, which defines the properties that can be selected/queried/returned.
+*/
+
+// Domain is a set of properties within a single logical surface,
+// which may represent any number of database tables at the end of eventual query execution.
+message Domain {
+	// Name is the name of the domain. This should be globally unique, but no central authority is enforcing this.
+	string name = 1;
+	// Properties maps property names (must be unique within a domain) to type information.
+	map<string, PropertyInformation> properties = 2;
+}
+
+enum LSQLPropertyType {
+	LSQLPropertyTypeUnknown = 0;
+	LSQLPropertyTypeString = 1;
+	LSQLPropertyTypeInt64 = 2;
+	LSQLPropertyTypeUint64 = 3;
+	LSQLPropertyTypeDouble = 4;
+	LSQLPropertyTypeBool = 5;
+	LSQLPropertyTypeBytes = 6;
+	LSQLPropertyTypeTimestamp = 7;
+}
+
+message PropertyInformation {
+	// DisplayName is a decorative name to make properties clearer to users.
+	string display_name = 1;
+	// TypeAndLimits are the type and limits of the property.
+	oneof type_and_limits {
+		StringPropertyType string = 101;
+		Int64PropertyType int64 = 102;
+		Uint64PropertyType uint64 = 103;
+		DoublePropertyType double = 104;
+		BoolPropertyType bool = 105;
+		BytesPropertyType bytes = 106;
+		TimestampPropertyType timestamp = 107;
+	}
+}
+
+message StringPropertyType {
+	// LengthMinimum sets a minimum length, 0 = no limit
+	uint32 length_minimum = 1;
+	// LengthMaximum sets a maximum length, 0 = no limit
+	uint32 length_maximum = 2;
+	// CharacterSet sets a limit on the characters expected to exist in the property, and therefore can be used to validate Select input.
+	string character_set = 3;
+	// QueryValidationRegex is a regular expresession which overrides character set and validates query input - it does not imply that real data values must obey this rule, only Select inputs.
+	string query_validation_regex = 4;
+}
+
+message Int64PropertyType {
+	// MinimumValue sets a minimum limit of the value, 0 = no limit
+	int64 minimum_value = 1;
+	// MaximumValue sets a maximum limit of the value, 0 = no limit
+	int64 maximum_value = 2;
+}
+
+message Uint64PropertyType {
+	// MinimumValue sets a minimum limit of the value, 0 = no limit
+	uint64 minimum_value = 1;
+	// MaximumValue sets a maximum limit of the value, 0 = no limit
+	uint64 maximum_value = 2;
+}
+
+message DoublePropertyType {
+	// MinimumValue sets a minimum limit of the value, 0 = no limit
+	double minimum_value = 1;
+	// MaximumValue sets a maximum limit of the value, 0 = no limit
+	double maximum_value = 2;
+}
+
+message BoolPropertyType {}
+
+message BytesPropertyType {
+	// LengthMinimum sets a minimum length, 0 = no limit
+	uint32 length_minimum = 1;
+	// LengthMaximum sets a maximum length, 0 = no limit
+	uint32 length_maximum = 2;
+}
+
+message TimestampPropertyType {
+	// MinimumValue sets a minimum limit of the value, 0 = no limit
+	google.protobuf.Timestamp minimum_value = 1;
+	// MaximumValue sets a maximum limit of the value, 0 = no limit
+	google.protobuf.Timestamp maximum_value = 2;
+}
