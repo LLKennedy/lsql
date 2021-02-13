@@ -2,9 +2,10 @@ import React from "react";
 import { GroupBuilder } from "./GroupBuilder";
 import styles from "./QueryBuilder.module.css";
 import { UIGroup, UIGroupsAreEqual, PropertyType } from "@lsql/core";
+import { DataModel } from "../common";
 
 export interface QueryBuilderProps extends QueryBuilderState {
-	propertyList: ReadonlyMap<string, PropertyType>;
+	model: DataModel;
 	/**Indicates to the parent that the internal state is ready to change */
 	update(newState: Partial<QueryBuilderState>): void;
 }
@@ -40,7 +41,7 @@ export class QueryBuilder extends React.Component<QueryBuilderProps, QueryBuilde
 				isRootGroup={true}
 				data={this.state.where}
 				update={this.update.bind(this)}
-				propertyList={this.props.propertyList}
+				model={this.props.model}
 			/>
 		</div>
 	}

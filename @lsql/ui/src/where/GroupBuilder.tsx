@@ -3,13 +3,13 @@ import { FieldBuilder } from "./FieldBuilder";
 import styles from "./GroupBuilder.module.css";
 import commonStyles from "../common/style.module.css";
 import { fieldWhereType, UIGroup, GroupOperator, groupWhereType, NewUIField, NewUIGroup, PropertyType, UIWhereElement } from "@lsql/core";
-import { indexString } from "../common";
+import { DataModel, indexString } from "../common";
 
 export interface GroupProps {
 	elementIndex: number[];
 	data: UIGroup;
 	isRootGroup: boolean;
-	propertyList: ReadonlyMap<string, PropertyType>;
+	model: DataModel;
 	update(data: UIGroup | undefined): void;
 }
 
@@ -178,7 +178,7 @@ function makeGroupOperatorDiv(operator: GroupOperator, current: GroupOperator, s
 }
 
 interface AddButtonProps {
-	propertyList: ReadonlyMap<string, PropertyType>;
+	model: DataModel;
 	addElement: "field" | "group";
 	add(newComponent: UIWhereElement): void;
 }
