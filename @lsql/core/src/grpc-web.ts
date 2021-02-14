@@ -2,8 +2,8 @@ import * as proto from "@lsql/proto";
 import * as uuid from "uuid";
 import * as googleproto from "google-protobuf/google/protobuf/timestamp_pb";
 import { UIField, fieldWhereType, UIGroup, groupWhereType, PropertyType } from "./builder";
-import { ColumnID, Paging, Select } from "./proto";
-import { json } from "./protojson";
+import { ColumnID, Paging, Select } from "./protojson";
+import { json } from "./conversions";
 
 export module grpcweb {
 	/** ToProto converts the query to a proto Query, paging must still be set after this for full results. */

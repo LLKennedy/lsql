@@ -1,3 +1,4 @@
 export * from "./grpc-web";
-export * from "./protojson";
-export * from "./builder";
+export * as protojson from "./protojson";
+export * from "./conversions";
+export * as native from "./native";
