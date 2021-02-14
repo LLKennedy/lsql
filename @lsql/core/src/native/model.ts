@@ -1,4 +1,4 @@
-import * as json from "../proto";
+import * as json from "../protojson";
 
 export function jsonDomainToNativeDomain(jsonDomain: json.Domain): Domain {
 	if (jsonDomain === undefined || jsonDomain === null) {

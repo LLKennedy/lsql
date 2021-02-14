@@ -1,7 +1,7 @@
 import { UIGroup, UIField, fieldWhereType, groupWhereType, PropertyType } from "./builder";
 import * as uuid from "uuid";
 import { base64 } from "rfc4648";
-import { BaseField, Field, FieldValues, Group, Paging, Query } from "./proto";
+import { BaseField, Field, FieldValues, Group, Paging, Query } from "./protojson";
 
 export module json {
 	/** Format expected by protojson */
