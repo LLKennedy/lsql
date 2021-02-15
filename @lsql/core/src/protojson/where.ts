@@ -1,4 +1,4 @@
-import { json } from "../protojson";
+import { Comparator, GroupOperator } from "./enums";
 import { ColumnID } from "./select";
 
 export interface GroupElement {
@@ -13,7 +13,7 @@ export type WhereElement = GroupElement | FieldElement | {};
 
 export interface Group {
 	elements?: WhereElement[];
-	operator?: json.GroupOperator;
+	operator?: GroupOperator;
 	negateOperator?: boolean;
 }
 
@@ -49,7 +49,7 @@ export interface TimeValue {
 export interface BaseField {
 	column?: ColumnID;
 	negateComparator?: boolean;
-	comparator?: json.Comparator;
+	comparator?: Comparator;
 }
 
 export type FieldValues = StringValue | Int64Value | Uint64Value | DoubleValue | BoolValue | BytesValue | TimeValue

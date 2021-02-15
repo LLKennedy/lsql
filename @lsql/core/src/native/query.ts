@@ -1,4 +1,5 @@
-import { json } from ".."
+import * as json from "../protojson";
+import * as grpcweb from "@lsql/proto";
 
 export abstract class WhereElement {
 	public abstract equalTo(other: Readonly<WhereElement>): boolean;
@@ -81,6 +82,18 @@ export class Field extends WhereElement {
 			&& this.negateComparator === other.negateComparator
 			&& this.domainName === other.domainName;
 	}
+	public to_ProtoJSON(): json.Field {
+		throw new Error("unimplemented");
+	}
+	public to_gRPCWeb(): grpcweb.Field {
+		throw new Error("unimplemented");
+	}
+	public static from_ProtoJSON(from: json.Field): Field {
+		throw new Error("unimplemented");
+	}
+	public static from_gRPCWeb(from: grpcweb.Field): Field {
+		throw new Error("unimplemented");
+	}
 }
 
 /** Top level query structure, but may also be nested arbitrarily deep within the structure. */
@@ -139,5 +152,44 @@ export class Group extends WhereElement {
 		}
 		// No issues, must be equal
 		return true;
+	}
+	public to_ProtoJSON(): json.Group {
+		throw new Error("unimplemented");
+	}
+	public to_gRPCWeb(): grpcweb.Group {
+		throw new Error("unimplemented");
+	}
+	public static from_ProtoJSON(from: json.Group): Group {
+		throw new Error("unimplemented");
+	}
+	public static from_gRPCWeb(from: grpcweb.Group): Group {
+		throw new Error("unimplemented");
+	}
+}
+
+export class Query {
+	constructor() {
+		throw new Error("unimplemented");
+	}
+	public modify(delta: Readonly<Partial<Query>>): Query {
+		throw new Error("unimplemented");
+	}
+	public copy(): Query {
+		throw new Error("unimplemented");
+	}
+	public equalTo(other: Readonly<Query>): boolean {
+		throw new Error("unimplemented");
+	}
+	public to_ProtoJSON(): json.Query {
+		throw new Error("unimplemented");
+	}
+	public to_gRPCWeb(): grpcweb.Query {
+		throw new Error("unimplemented");
+	}
+	public static from_ProtoJSON(from: json.Query): Query {
+		throw new Error("unimplemented");
+	}
+	public static from_gRPCWeb(from: grpcweb.Query): Query {
+		throw new Error("unimplemented");
 	}
 }
