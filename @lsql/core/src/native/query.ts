@@ -267,8 +267,11 @@ export class Group extends WhereElement {
 }
 
 export class Paging {
-	constructor() {
-		throw new Error("unimplemented");
+	readonly limit: number;
+	readonly offset: number;
+	constructor(limit: number = 100, offset: number = 0) {
+		this.limit = limit;
+		this.offset = offset;
 	}
 	public modify(delta: Readonly<Partial<Paging>>): Paging {
 		throw new Error("unimplemented");
