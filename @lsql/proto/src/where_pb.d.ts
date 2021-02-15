@@ -13,8 +13,8 @@ export class Group extends jspb.Message {
   getNegateOperator(): boolean;
   setNegateOperator(value: boolean): Group;
 
-  getOperator(): roupOperator;
-  setOperator(value: roupOperator): Group;
+  getOperator(): GroupOperator;
+  setOperator(value: GroupOperator): Group;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Group.AsObject;
@@ -28,7 +28,7 @@ export namespace Group {
   export type AsObject = {
     elementsList: Array<GroupElement.AsObject>,
     negateOperator: boolean,
-    operator: roupOperator,
+    operator: GroupOperator,
   }
 }
 
@@ -59,7 +59,7 @@ export namespace GroupElement {
     group?: Group.AsObject,
   }
 
-  export enum ElementCase { 
+  export enum ElementCase {
     ELEMENT_NOT_SET = 0,
     FIELD = 101,
     GROUP = 102,
@@ -75,8 +75,8 @@ export class Field extends jspb.Message {
   getNegateComparator(): boolean;
   setNegateComparator(value: boolean): Field;
 
-  getComparator(): omparator;
-  setComparator(value: omparator): Field;
+  getComparator(): Comparator;
+  setComparator(value: Comparator): Field;
 
   getStringValue(): string;
   setStringValue(value: string): Field;
@@ -117,7 +117,7 @@ export namespace Field {
   export type AsObject = {
     id?: select_pb.FieldID.AsObject,
     negateComparator: boolean,
-    comparator: omparator,
+    comparator: Comparator,
     stringValue: string,
     int64Value: number,
     uint64Value: number,
@@ -127,7 +127,7 @@ export namespace Field {
     timeValue?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }
 
-  export enum ValueCase { 
+  export enum ValueCase {
     VALUE_NOT_SET = 0,
     STRING_VALUE = 101,
     INT64_VALUE = 102,
@@ -139,7 +139,7 @@ export namespace Field {
   }
 }
 
-export enum Comparator { 
+export enum Comparator {
   UNKNOWN_COMPARATOR = 0,
   EQUAL = 1,
   FUZZY_EQUAL = 2,
@@ -149,7 +149,7 @@ export enum Comparator {
   LESS_THAN_OR_EQUAL = 6,
   IS_NULL = 7,
 }
-export enum GroupOperator { 
+export enum GroupOperator {
   UNKNOWN_GROUPOPERATOR = 0,
   AND = 1,
   OR = 2,
