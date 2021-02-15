@@ -1,5 +1,5 @@
 import { Comparator, GroupOperator } from "./enums";
-import { ColumnID } from "./select";
+import { FieldID } from "./select";
 
 export interface GroupElement {
 	group: Group;
@@ -22,11 +22,13 @@ export interface StringValue {
 }
 
 export interface Int64Value {
-	int64Value?: number;
+	/** Actually a number */
+	int64Value?: string;
 }
 
 export interface Uint64Value {
-	uint64Value?: number;
+	/** Actually a number */
+	uint64Value?: string;
 }
 
 export interface DoubleValue {
@@ -47,7 +49,7 @@ export interface TimeValue {
 }
 
 export interface BaseField {
-	column?: ColumnID;
+	id?: FieldID;
 	negateComparator?: boolean;
 	comparator?: Comparator;
 }

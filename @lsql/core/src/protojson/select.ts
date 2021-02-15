@@ -1,15 +1,15 @@
 export interface Select {
-	columns?: ColumnID[];
+	columns?: FieldID[];
 	ordering?: OrderingMap;
 }
 
-export interface ColumnID {
+export interface FieldID {
 	fieldName?: string;
 	domainName?: string;
 }
 
 export interface Ordering {
-	column?: ColumnID;
+	id?: FieldID;
 	descending?: boolean;
 }
 

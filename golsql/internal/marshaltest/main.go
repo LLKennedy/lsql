@@ -72,12 +72,12 @@ func main() {
 								Element: &golsql.GroupElement_Field{
 									Field: &golsql.Field{
 										Id: &golsql.FieldID{
-											FieldName: "Width",
+											FieldName: "Stuff",
 										},
 										NegateComparator: false,
 										Comparator:       golsql.Comparator_GREATER_THAN,
-										Value: &golsql.Field_DoubleValue{
-											DoubleValue: 889.531,
+										Value: &golsql.Field_BoolValue{
+											BoolValue: true,
 										},
 									},
 								},
@@ -92,12 +92,12 @@ func main() {
 												Element: &golsql.GroupElement_Field{
 													Field: &golsql.Field{
 														Id: &golsql.FieldID{
-															FieldName: "Name",
+															FieldName: "Width",
 														},
-														NegateComparator: true,
-														Comparator:       golsql.Comparator_FUZZY_EQUAL,
-														Value: &golsql.Field_StringValue{
-															StringValue: "abcd",
+														NegateComparator: false,
+														Comparator:       golsql.Comparator_UNKNOWN_COMPARATOR,
+														Value: &golsql.Field_DoubleValue{
+															DoubleValue: 889.531,
 														},
 													},
 												},
@@ -112,12 +112,40 @@ func main() {
 																Element: &golsql.GroupElement_Field{
 																	Field: &golsql.Field{
 																		Id: &golsql.FieldID{
-																			FieldName: "Width",
+																			FieldName: "Height",
 																		},
 																		NegateComparator: false,
-																		Comparator:       golsql.Comparator_UNKNOWN_COMPARATOR,
-																		Value: &golsql.Field_DoubleValue{
-																			DoubleValue: 889.531,
+																		Comparator:       golsql.Comparator_EQUAL,
+																		Value: &golsql.Field_Int64Value{
+																			Int64Value: -889,
+																		},
+																	},
+																},
+															},
+															{
+																Element: &golsql.GroupElement_Field{
+																	Field: &golsql.Field{
+																		Id: &golsql.FieldID{
+																			FieldName: "Length",
+																		},
+																		NegateComparator: false,
+																		Comparator:       golsql.Comparator_EQUAL,
+																		Value: &golsql.Field_Uint64Value{
+																			Uint64Value: 889,
+																		},
+																	},
+																},
+															},
+															{
+																Element: &golsql.GroupElement_Field{
+																	Field: &golsql.Field{
+																		Id: &golsql.FieldID{
+																			FieldName: "Data",
+																		},
+																		NegateComparator: false,
+																		Comparator:       golsql.Comparator_EQUAL,
+																		Value: &golsql.Field_BytesValue{
+																			BytesValue: []byte{0xAA, 0xBB, 0xCC},
 																		},
 																	},
 																},

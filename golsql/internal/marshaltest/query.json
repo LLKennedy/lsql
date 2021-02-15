@@ -1,5 +1,5 @@
 {
-	"id": "5703ba8a-07c3-4b50-bb54-88393016391e",
+	"id": "21d3a7a5-45e7-44fd-adf3-9af6c59010e7",
 	"select": {
 		"columns": [
 			{
@@ -12,13 +12,13 @@
 		],
 		"ordering": {
 			"12": {
-				"column": {
+				"id": {
 					"fieldName": "Width",
 					"domainName": "otherStuff"
 				}
 			},
 			"138": {
-				"column": {
+				"id": {
 					"fieldName": "Name",
 					"domainName": "stuff"
 				},
@@ -34,7 +34,7 @@
 		"elements": [
 			{
 				"field": {
-					"column": {
+					"id": {
 						"fieldName": "Name"
 					},
 					"negateComparator": true,
@@ -47,11 +47,11 @@
 					"elements": [
 						{
 							"field": {
-								"column": {
-									"fieldName": "Width"
+								"id": {
+									"fieldName": "Stuff"
 								},
 								"comparator": "GREATER_THAN",
-								"doubleValue": 889.531
+								"boolValue": true
 							}
 						},
 						{
@@ -59,12 +59,10 @@
 								"elements": [
 									{
 										"field": {
-											"column": {
-												"fieldName": "Name"
+											"id": {
+												"fieldName": "Width"
 											},
-											"negateComparator": true,
-											"comparator": "FUZZY_EQUAL",
-											"stringValue": "abcd"
+											"doubleValue": 889.531
 										}
 									},
 									{
@@ -72,10 +70,29 @@
 											"elements": [
 												{
 													"field": {
-														"column": {
-															"fieldName": "Width"
+														"id": {
+															"fieldName": "Height"
 														},
-														"doubleValue": 889.531
+														"comparator": "EQUAL",
+														"int64Value": "-889"
+													}
+												},
+												{
+													"field": {
+														"id": {
+															"fieldName": "Length"
+														},
+														"comparator": "EQUAL",
+														"uint64Value": "889"
+													}
+												},
+												{
+													"field": {
+														"id": {
+															"fieldName": "Data"
+														},
+														"comparator": "EQUAL",
+														"bytesValue": "qrvM"
 													}
 												}
 											],
@@ -84,7 +101,7 @@
 									},
 									{
 										"field": {
-											"column": {
+											"id": {
 												"fieldName": "Created"
 											},
 											"comparator": "LESS_THAN_OR_EQUAL",

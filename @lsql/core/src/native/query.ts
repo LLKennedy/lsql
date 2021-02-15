@@ -1,5 +1,6 @@
 import * as json from "../protojson";
 import * as grpcweb from "@lsql/proto";
+import { base64 } from "rfc4648";
 
 export abstract class WhereElement {
 	public abstract equalTo(other: Readonly<WhereElement>): boolean;
@@ -83,7 +84,60 @@ export class Field extends WhereElement {
 			&& this.domainName === other.domainName;
 	}
 	public to_ProtoJSON(): json.Field {
-		throw new Error("unimplemented");
+		let base: json.BaseField = {
+			id: {
+				domainName: this.domainName,
+				fieldName: this.fieldName
+			},
+			comparator: this.comparator,
+			negateComparator: this.negateComparator
+		};
+		let field: json.Field;
+		switch (this.typedValue.type) {
+			case PropertyType.BOOL:
+				field = {
+					...base,
+					boolValue: this.typedValue.value
+				}
+				break;
+			case PropertyType.BYTES:
+				field = {
+					...base,
+					bytesValue: base64.stringify(this.typedValue.value)
+				}
+				break;
+			case PropertyType.DOUBLE:
+				field = {
+					...base,
+					doubleValue: this.typedValue.value
+				}
+				break;
+			case PropertyType.INT64:
+				field = {
+					...base,
+					int64Value: this.typedValue.value.toString()
+				}
+				break;
+			case PropertyType.STRING:
+				field = {
+					...base,
+					stringValue: this.typedValue.value
+				}
+				break;
+			case PropertyType.TIME:
+				field = {
+					...base,
+					timeValue: this.typedValue.value.toISOString()
+				}
+				break;
+			case PropertyType.UINT64:
+				field = {
+					...base,
+					uint64Value: this.typedValue.value.toString()
+				}
+				break;
+		}
+		return field;
 	}
 	public to_gRPCWeb(): grpcweb.Field {
 		throw new Error("unimplemented");
