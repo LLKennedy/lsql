@@ -18,7 +18,7 @@ func main() {
 		Offset: 1000,
 	}
 	msg.Select = &golsql.Select{
-		Columns: []*golsql.ColumnID{
+		Columns: []*golsql.FieldID{
 			{
 				FieldName:  "Name",
 				DomainName: "stuff",
@@ -29,14 +29,14 @@ func main() {
 		},
 		Ordering: map[uint32]*golsql.Ordering{
 			138: {
-				Column: &golsql.ColumnID{
+				Id: &golsql.FieldID{
 					FieldName:  "Name",
 					DomainName: "stuff",
 				},
 				Descending: true,
 			},
 			12: {
-				Column: &golsql.ColumnID{
+				Id: &golsql.FieldID{
 					FieldName:  "Width",
 					DomainName: "otherStuff",
 				},
@@ -51,7 +51,7 @@ func main() {
 			{
 				Element: &golsql.GroupElement_Field{
 					Field: &golsql.Field{
-						Column: &golsql.ColumnID{
+						Id: &golsql.FieldID{
 							FieldName: "Name",
 						},
 						NegateComparator: true,
@@ -71,7 +71,7 @@ func main() {
 							{
 								Element: &golsql.GroupElement_Field{
 									Field: &golsql.Field{
-										Column: &golsql.ColumnID{
+										Id: &golsql.FieldID{
 											FieldName: "Width",
 										},
 										NegateComparator: false,
@@ -91,7 +91,7 @@ func main() {
 											{
 												Element: &golsql.GroupElement_Field{
 													Field: &golsql.Field{
-														Column: &golsql.ColumnID{
+														Id: &golsql.FieldID{
 															FieldName: "Name",
 														},
 														NegateComparator: true,
@@ -111,7 +111,7 @@ func main() {
 															{
 																Element: &golsql.GroupElement_Field{
 																	Field: &golsql.Field{
-																		Column: &golsql.ColumnID{
+																		Id: &golsql.FieldID{
 																			FieldName: "Width",
 																		},
 																		NegateComparator: false,
@@ -129,7 +129,7 @@ func main() {
 											{
 												Element: &golsql.GroupElement_Field{
 													Field: &golsql.Field{
-														Column: &golsql.ColumnID{
+														Id: &golsql.FieldID{
 															FieldName: "Created",
 														},
 														Comparator: golsql.Comparator_LESS_THAN_OR_EQUAL,

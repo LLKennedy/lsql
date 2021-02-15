@@ -29,26 +29,26 @@ namespace LukeKennedy.LSQL.Net {
             "R3JvdXBFbGVtZW50EhcKD25lZ2F0ZV9vcGVyYXRvchgCIAEoCBIgCghvcGVy",
             "YXRvchgDIAEoDjIOLkdyb3VwT3BlcmF0b3IiSwoMR3JvdXBFbGVtZW50EhcK",
             "BWZpZWxkGGUgASgLMgYuRmllbGRIABIXCgVncm91cBhmIAEoCzIGLkdyb3Vw",
-            "SABCCQoHZWxlbWVudCKlAgoFRmllbGQSGQoGY29sdW1uGAEgASgLMgkuQ29s",
-            "dW1uSUQSGQoRbmVnYXRlX2NvbXBhcmF0b3IYAiABKAgSHwoKY29tcGFyYXRv",
-            "chgDIAEoDjILLkNvbXBhcmF0b3ISFgoMc3RyaW5nX3ZhbHVlGGUgASgJSAAS",
-            "FQoLaW50NjRfdmFsdWUYZiABKANIABIWCgx1aW50NjRfdmFsdWUYZyABKARI",
-            "ABIWCgxkb3VibGVfdmFsdWUYaCABKAFIABIUCgpib29sX3ZhbHVlGGkgASgI",
-            "SAASFQoLYnl0ZXNfdmFsdWUYaiABKAxIABIwCgp0aW1lX3ZhbHVlGGsgASgL",
-            "MhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAQgcKBXZhbHVlKqEBCgpD",
-            "b21wYXJhdG9yEhYKElVOS05PV05fQ09NUEFSQVRPUhAAEgkKBUVRVUFMEAES",
-            "DwoLRlVaWllfRVFVQUwQAhIQCgxHUkVBVEVSX1RIQU4QAxINCglMRVNTX1RI",
-            "QU4QBBIZChVHUkVBVEVSX1RIQU5fT1JfRVFVQUwQBRIWChJMRVNTX1RIQU5f",
-            "T1JfRVFVQUwQBhILCgdJU19OVUxMEAcqRAoNR3JvdXBPcGVyYXRvchIZChVV",
-            "TktOT1dOX0dST1VQT1BFUkFUT1IQABIHCgNBTkQQARIGCgJPUhACEgcKA1hP",
-            "UhADQjlaIGdpdGh1Yi5jb20vbGxrZW5uZWR5L2xzcWwvZ29sc3FsqgIUTHVr",
-            "ZUtlbm5lZHkuTFNRTC5OZXRiBnByb3RvMw=="));
+            "SABCCQoHZWxlbWVudCKgAgoFRmllbGQSFAoCaWQYASABKAsyCC5GaWVsZElE",
+            "EhkKEW5lZ2F0ZV9jb21wYXJhdG9yGAIgASgIEh8KCmNvbXBhcmF0b3IYAyAB",
+            "KA4yCy5Db21wYXJhdG9yEhYKDHN0cmluZ192YWx1ZRhlIAEoCUgAEhUKC2lu",
+            "dDY0X3ZhbHVlGGYgASgDSAASFgoMdWludDY0X3ZhbHVlGGcgASgESAASFgoM",
+            "ZG91YmxlX3ZhbHVlGGggASgBSAASFAoKYm9vbF92YWx1ZRhpIAEoCEgAEhUK",
+            "C2J5dGVzX3ZhbHVlGGogASgMSAASMAoKdGltZV92YWx1ZRhrIAEoCzIaLmdv",
+            "b2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAEIHCgV2YWx1ZSqhAQoKQ29tcGFy",
+            "YXRvchIWChJVTktOT1dOX0NPTVBBUkFUT1IQABIJCgVFUVVBTBABEg8KC0ZV",
+            "WlpZX0VRVUFMEAISEAoMR1JFQVRFUl9USEFOEAMSDQoJTEVTU19USEFOEAQS",
+            "GQoVR1JFQVRFUl9USEFOX09SX0VRVUFMEAUSFgoSTEVTU19USEFOX09SX0VR",
+            "VUFMEAYSCwoHSVNfTlVMTBAHKkQKDUdyb3VwT3BlcmF0b3ISGQoVVU5LTk9X",
+            "Tl9HUk9VUE9QRVJBVE9SEAASBwoDQU5EEAESBgoCT1IQAhIHCgNYT1IQA0I5",
+            "WiBnaXRodWIuY29tL2xsa2VubmVkeS9sc3FsL2dvbHNxbKoCFEx1a2VLZW5u",
+            "ZWR5LkxTUUwuTmV0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::LukeKennedy.LSQL.Net.SelectReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::LukeKennedy.LSQL.Net.Comparator), typeof(global::LukeKennedy.LSQL.Net.GroupOperator), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Group), global::LukeKennedy.LSQL.Net.Group.Parser, new[]{ "Elements", "NegateOperator", "Operator" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.GroupElement), global::LukeKennedy.LSQL.Net.GroupElement.Parser, new[]{ "Field", "Group" }, new[]{ "Element" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Field), global::LukeKennedy.LSQL.Net.Field.Parser, new[]{ "Column", "NegateComparator", "Comparator", "StringValue", "Int64Value", "Uint64Value", "DoubleValue", "BoolValue", "BytesValue", "TimeValue" }, new[]{ "Value" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Field), global::LukeKennedy.LSQL.Net.Field.Parser, new[]{ "Id", "NegateComparator", "Comparator", "StringValue", "Int64Value", "Uint64Value", "DoubleValue", "BoolValue", "BytesValue", "TimeValue" }, new[]{ "Value" }, null, null, null)
           }));
     }
     #endregion
@@ -609,7 +609,7 @@ namespace LukeKennedy.LSQL.Net {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Field(Field other) : this() {
-      column_ = other.column_ != null ? other.column_.Clone() : null;
+      id_ = other.id_ != null ? other.id_.Clone() : null;
       negateComparator_ = other.negateComparator_;
       comparator_ = other.comparator_;
       switch (other.ValueCase) {
@@ -644,14 +644,14 @@ namespace LukeKennedy.LSQL.Net {
       return new Field(this);
     }
 
-    /// <summary>Field number for the "column" field.</summary>
-    public const int ColumnFieldNumber = 1;
-    private global::LukeKennedy.LSQL.Net.ColumnID column_;
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private global::LukeKennedy.LSQL.Net.FieldID id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::LukeKennedy.LSQL.Net.ColumnID Column {
-      get { return column_; }
+    public global::LukeKennedy.LSQL.Net.FieldID Id {
+      get { return id_; }
       set {
-        column_ = value;
+        id_ = value;
       }
     }
 
@@ -794,7 +794,7 @@ namespace LukeKennedy.LSQL.Net {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Column, other.Column)) return false;
+      if (!object.Equals(Id, other.Id)) return false;
       if (NegateComparator != other.NegateComparator) return false;
       if (Comparator != other.Comparator) return false;
       if (StringValue != other.StringValue) return false;
@@ -811,7 +811,7 @@ namespace LukeKennedy.LSQL.Net {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (column_ != null) hash ^= Column.GetHashCode();
+      if (id_ != null) hash ^= Id.GetHashCode();
       if (NegateComparator != false) hash ^= NegateComparator.GetHashCode();
       if (Comparator != global::LukeKennedy.LSQL.Net.Comparator.UnknownComparator) hash ^= Comparator.GetHashCode();
       if (valueCase_ == ValueOneofCase.StringValue) hash ^= StringValue.GetHashCode();
@@ -838,9 +838,9 @@ namespace LukeKennedy.LSQL.Net {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (column_ != null) {
+      if (id_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Column);
+        output.WriteMessage(Id);
       }
       if (NegateComparator != false) {
         output.WriteRawTag(16);
@@ -887,9 +887,9 @@ namespace LukeKennedy.LSQL.Net {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (column_ != null) {
+      if (id_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Column);
+        output.WriteMessage(Id);
       }
       if (NegateComparator != false) {
         output.WriteRawTag(16);
@@ -936,8 +936,8 @@ namespace LukeKennedy.LSQL.Net {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (column_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Column);
+      if (id_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Id);
       }
       if (NegateComparator != false) {
         size += 1 + 1;
@@ -977,11 +977,11 @@ namespace LukeKennedy.LSQL.Net {
       if (other == null) {
         return;
       }
-      if (other.column_ != null) {
-        if (column_ == null) {
-          Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+      if (other.id_ != null) {
+        if (id_ == null) {
+          Id = new global::LukeKennedy.LSQL.Net.FieldID();
         }
-        Column.MergeFrom(other.Column);
+        Id.MergeFrom(other.Id);
       }
       if (other.NegateComparator != false) {
         NegateComparator = other.NegateComparator;
@@ -1031,10 +1031,10 @@ namespace LukeKennedy.LSQL.Net {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (column_ == null) {
-              Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+            if (id_ == null) {
+              Id = new global::LukeKennedy.LSQL.Net.FieldID();
             }
-            input.ReadMessage(Column);
+            input.ReadMessage(Id);
             break;
           }
           case 16: {
@@ -1093,10 +1093,10 @@ namespace LukeKennedy.LSQL.Net {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (column_ == null) {
-              Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+            if (id_ == null) {
+              Id = new global::LukeKennedy.LSQL.Net.FieldID();
             }
-            input.ReadMessage(Column);
+            input.ReadMessage(Id);
             break;
           }
           case 16: {

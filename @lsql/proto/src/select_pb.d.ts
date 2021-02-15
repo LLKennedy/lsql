@@ -3,10 +3,10 @@ import * as jspb from 'google-protobuf'
 
 
 export class Select extends jspb.Message {
-  getColumnsList(): Array<ColumnID>;
-  setColumnsList(value: Array<ColumnID>): Select;
+  getColumnsList(): Array<FieldID>;
+  setColumnsList(value: Array<FieldID>): Select;
   clearColumnsList(): Select;
-  addColumns(value?: ColumnID, index?: number): ColumnID;
+  addColumns(value?: FieldID, index?: number): FieldID;
 
   getOrderingMap(): jspb.Map<number, Ordering>;
   clearOrderingMap(): Select;
@@ -21,27 +21,27 @@ export class Select extends jspb.Message {
 
 export namespace Select {
   export type AsObject = {
-    columnsList: Array<ColumnID.AsObject>,
+    columnsList: Array<FieldID.AsObject>,
     orderingMap: Array<[number, Ordering.AsObject]>,
   }
 }
 
-export class ColumnID extends jspb.Message {
+export class FieldID extends jspb.Message {
   getFieldName(): string;
-  setFieldName(value: string): ColumnID;
+  setFieldName(value: string): FieldID;
 
   getDomainName(): string;
-  setDomainName(value: string): ColumnID;
+  setDomainName(value: string): FieldID;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ColumnID.AsObject;
-  static toObject(includeInstance: boolean, msg: ColumnID): ColumnID.AsObject;
-  static serializeBinaryToWriter(message: ColumnID, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ColumnID;
-  static deserializeBinaryFromReader(message: ColumnID, reader: jspb.BinaryReader): ColumnID;
+  toObject(includeInstance?: boolean): FieldID.AsObject;
+  static toObject(includeInstance: boolean, msg: FieldID): FieldID.AsObject;
+  static serializeBinaryToWriter(message: FieldID, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FieldID;
+  static deserializeBinaryFromReader(message: FieldID, reader: jspb.BinaryReader): FieldID;
 }
 
-export namespace ColumnID {
+export namespace FieldID {
   export type AsObject = {
     fieldName: string,
     domainName: string,
@@ -49,10 +49,10 @@ export namespace ColumnID {
 }
 
 export class Ordering extends jspb.Message {
-  getColumn(): ColumnID | undefined;
-  setColumn(value?: ColumnID): Ordering;
-  hasColumn(): boolean;
-  clearColumn(): Ordering;
+  getId(): FieldID | undefined;
+  setId(value?: FieldID): Ordering;
+  hasId(): boolean;
+  clearId(): Ordering;
 
   getDescending(): boolean;
   setDescending(value: boolean): Ordering;
@@ -67,7 +67,7 @@ export class Ordering extends jspb.Message {
 
 export namespace Ordering {
   export type AsObject = {
-    column?: ColumnID.AsObject,
+    id?: FieldID.AsObject,
     descending: boolean,
   }
 }

@@ -40,7 +40,7 @@ message GroupElement {
 }
 
 message Field {
-    ColumnID column = 1;
+    FieldID id = 1;
     bool negate_comparator = 2;
     Comparator comparator = 3;
     oneof value {

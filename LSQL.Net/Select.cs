@@ -24,20 +24,20 @@ namespace LukeKennedy.LSQL.Net {
     static SelectReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgxzZWxlY3QucHJvdG8iiQEKBlNlbGVjdBIaCgdjb2x1bW5zGAEgAygLMgku",
-            "Q29sdW1uSUQSJwoIb3JkZXJpbmcYAiADKAsyFS5TZWxlY3QuT3JkZXJpbmdF",
-            "bnRyeRo6Cg1PcmRlcmluZ0VudHJ5EgsKA2tleRgBIAEoDRIYCgV2YWx1ZRgC",
-            "IAEoCzIJLk9yZGVyaW5nOgI4ASIzCghDb2x1bW5JRBISCgpmaWVsZF9uYW1l",
-            "GAEgASgJEhMKC2RvbWFpbl9uYW1lGAIgASgJIjkKCE9yZGVyaW5nEhkKBmNv",
-            "bHVtbhgBIAEoCzIJLkNvbHVtbklEEhIKCmRlc2NlbmRpbmcYAiABKAhCOVog",
-            "Z2l0aHViLmNvbS9sbGtlbm5lZHkvbHNxbC9nb2xzcWyqAhRMdWtlS2VubmVk",
-            "eS5MU1FMLk5ldGIGcHJvdG8z"));
+            "CgxzZWxlY3QucHJvdG8iiAEKBlNlbGVjdBIZCgdjb2x1bW5zGAEgAygLMggu",
+            "RmllbGRJRBInCghvcmRlcmluZxgCIAMoCzIVLlNlbGVjdC5PcmRlcmluZ0Vu",
+            "dHJ5GjoKDU9yZGVyaW5nRW50cnkSCwoDa2V5GAEgASgNEhgKBXZhbHVlGAIg",
+            "ASgLMgkuT3JkZXJpbmc6AjgBIjIKB0ZpZWxkSUQSEgoKZmllbGRfbmFtZRgB",
+            "IAEoCRITCgtkb21haW5fbmFtZRgCIAEoCSI0CghPcmRlcmluZxIUCgJpZBgB",
+            "IAEoCzIILkZpZWxkSUQSEgoKZGVzY2VuZGluZxgCIAEoCEI5WiBnaXRodWIu",
+            "Y29tL2xsa2VubmVkeS9sc3FsL2dvbHNxbKoCFEx1a2VLZW5uZWR5LkxTUUwu",
+            "TmV0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Select), global::LukeKennedy.LSQL.Net.Select.Parser, new[]{ "Columns", "Ordering" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.ColumnID), global::LukeKennedy.LSQL.Net.ColumnID.Parser, new[]{ "FieldName", "DomainName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Ordering), global::LukeKennedy.LSQL.Net.Ordering.Parser, new[]{ "Column", "Descending" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.FieldID), global::LukeKennedy.LSQL.Net.FieldID.Parser, new[]{ "FieldName", "DomainName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::LukeKennedy.LSQL.Net.Ordering), global::LukeKennedy.LSQL.Net.Ordering.Parser, new[]{ "Id", "Descending" }, null, null, null, null)
           }));
     }
     #endregion
@@ -85,14 +85,14 @@ namespace LukeKennedy.LSQL.Net {
 
     /// <summary>Field number for the "columns" field.</summary>
     public const int ColumnsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::LukeKennedy.LSQL.Net.ColumnID> _repeated_columns_codec
-        = pb::FieldCodec.ForMessage(10, global::LukeKennedy.LSQL.Net.ColumnID.Parser);
-    private readonly pbc::RepeatedField<global::LukeKennedy.LSQL.Net.ColumnID> columns_ = new pbc::RepeatedField<global::LukeKennedy.LSQL.Net.ColumnID>();
+    private static readonly pb::FieldCodec<global::LukeKennedy.LSQL.Net.FieldID> _repeated_columns_codec
+        = pb::FieldCodec.ForMessage(10, global::LukeKennedy.LSQL.Net.FieldID.Parser);
+    private readonly pbc::RepeatedField<global::LukeKennedy.LSQL.Net.FieldID> columns_ = new pbc::RepeatedField<global::LukeKennedy.LSQL.Net.FieldID>();
     /// <summary>
     /// Columns are the columns to return in the results table.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::LukeKennedy.LSQL.Net.ColumnID> Columns {
+    public pbc::RepeatedField<global::LukeKennedy.LSQL.Net.FieldID> Columns {
       get { return columns_; }
     }
 
@@ -238,15 +238,15 @@ namespace LukeKennedy.LSQL.Net {
 
   }
 
-  public sealed partial class ColumnID : pb::IMessage<ColumnID>
+  public sealed partial class FieldID : pb::IMessage<FieldID>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<ColumnID> _parser = new pb::MessageParser<ColumnID>(() => new ColumnID());
+    private static readonly pb::MessageParser<FieldID> _parser = new pb::MessageParser<FieldID>(() => new FieldID());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ColumnID> Parser { get { return _parser; } }
+    public static pb::MessageParser<FieldID> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -259,22 +259,22 @@ namespace LukeKennedy.LSQL.Net {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ColumnID() {
+    public FieldID() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ColumnID(ColumnID other) : this() {
+    public FieldID(FieldID other) : this() {
       fieldName_ = other.fieldName_;
       domainName_ = other.domainName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ColumnID Clone() {
-      return new ColumnID(this);
+    public FieldID Clone() {
+      return new FieldID(this);
     }
 
     /// <summary>Field number for the "field_name" field.</summary>
@@ -304,11 +304,11 @@ namespace LukeKennedy.LSQL.Net {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ColumnID);
+      return Equals(other as FieldID);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ColumnID other) {
+    public bool Equals(FieldID other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -388,7 +388,7 @@ namespace LukeKennedy.LSQL.Net {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ColumnID other) {
+    public void MergeFrom(FieldID other) {
       if (other == null) {
         return;
       }
@@ -478,7 +478,7 @@ namespace LukeKennedy.LSQL.Net {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Ordering(Ordering other) : this() {
-      column_ = other.column_ != null ? other.column_.Clone() : null;
+      id_ = other.id_ != null ? other.id_.Clone() : null;
       descending_ = other.descending_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -488,14 +488,14 @@ namespace LukeKennedy.LSQL.Net {
       return new Ordering(this);
     }
 
-    /// <summary>Field number for the "column" field.</summary>
-    public const int ColumnFieldNumber = 1;
-    private global::LukeKennedy.LSQL.Net.ColumnID column_;
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private global::LukeKennedy.LSQL.Net.FieldID id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::LukeKennedy.LSQL.Net.ColumnID Column {
-      get { return column_; }
+    public global::LukeKennedy.LSQL.Net.FieldID Id {
+      get { return id_; }
       set {
-        column_ = value;
+        id_ = value;
       }
     }
 
@@ -526,7 +526,7 @@ namespace LukeKennedy.LSQL.Net {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Column, other.Column)) return false;
+      if (!object.Equals(Id, other.Id)) return false;
       if (Descending != other.Descending) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -534,7 +534,7 @@ namespace LukeKennedy.LSQL.Net {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (column_ != null) hash ^= Column.GetHashCode();
+      if (id_ != null) hash ^= Id.GetHashCode();
       if (Descending != false) hash ^= Descending.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -552,9 +552,9 @@ namespace LukeKennedy.LSQL.Net {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (column_ != null) {
+      if (id_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Column);
+        output.WriteMessage(Id);
       }
       if (Descending != false) {
         output.WriteRawTag(16);
@@ -569,9 +569,9 @@ namespace LukeKennedy.LSQL.Net {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (column_ != null) {
+      if (id_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Column);
+        output.WriteMessage(Id);
       }
       if (Descending != false) {
         output.WriteRawTag(16);
@@ -586,8 +586,8 @@ namespace LukeKennedy.LSQL.Net {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (column_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Column);
+      if (id_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Id);
       }
       if (Descending != false) {
         size += 1 + 1;
@@ -603,11 +603,11 @@ namespace LukeKennedy.LSQL.Net {
       if (other == null) {
         return;
       }
-      if (other.column_ != null) {
-        if (column_ == null) {
-          Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+      if (other.id_ != null) {
+        if (id_ == null) {
+          Id = new global::LukeKennedy.LSQL.Net.FieldID();
         }
-        Column.MergeFrom(other.Column);
+        Id.MergeFrom(other.Id);
       }
       if (other.Descending != false) {
         Descending = other.Descending;
@@ -627,10 +627,10 @@ namespace LukeKennedy.LSQL.Net {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (column_ == null) {
-              Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+            if (id_ == null) {
+              Id = new global::LukeKennedy.LSQL.Net.FieldID();
             }
-            input.ReadMessage(Column);
+            input.ReadMessage(Id);
             break;
           }
           case 16: {
@@ -652,10 +652,10 @@ namespace LukeKennedy.LSQL.Net {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (column_ == null) {
-              Column = new global::LukeKennedy.LSQL.Net.ColumnID();
+            if (id_ == null) {
+              Id = new global::LukeKennedy.LSQL.Net.FieldID();
             }
-            input.ReadMessage(Column);
+            input.ReadMessage(Id);
             break;
           }
           case 16: {

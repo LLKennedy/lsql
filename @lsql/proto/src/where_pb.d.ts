@@ -67,10 +67,10 @@ export namespace GroupElement {
 }
 
 export class Field extends jspb.Message {
-  getColumn(): select_pb.ColumnID | undefined;
-  setColumn(value?: select_pb.ColumnID): Field;
-  hasColumn(): boolean;
-  clearColumn(): Field;
+  getId(): select_pb.FieldID | undefined;
+  setId(value?: select_pb.FieldID): Field;
+  hasId(): boolean;
+  clearId(): Field;
 
   getNegateComparator(): boolean;
   setNegateComparator(value: boolean): Field;
@@ -115,7 +115,7 @@ export class Field extends jspb.Message {
 
 export namespace Field {
   export type AsObject = {
-    column?: select_pb.ColumnID.AsObject,
+    id?: select_pb.FieldID.AsObject,
     negateComparator: boolean,
     comparator: omparator,
     stringValue: string,

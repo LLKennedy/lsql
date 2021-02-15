@@ -597,7 +597,7 @@ proto.Field.prototype.toObject = function(opt_includeInstance) {
  */
 proto.Field.toObject = function(includeInstance, msg) {
   var f, obj = {
-    column: (f = msg.getColumn()) && select_pb.ColumnID.toObject(includeInstance, f),
+    id: (f = msg.getId()) && select_pb.FieldID.toObject(includeInstance, f),
     negateComparator: jspb.Message.getBooleanFieldWithDefault(msg, 2, false),
     comparator: jspb.Message.getFieldWithDefault(msg, 3, 0),
     stringValue: jspb.Message.getFieldWithDefault(msg, 101, ""),
@@ -644,9 +644,9 @@ proto.Field.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new select_pb.ColumnID;
-      reader.readMessage(value,select_pb.ColumnID.deserializeBinaryFromReader);
-      msg.setColumn(value);
+      var value = new select_pb.FieldID;
+      reader.readMessage(value,select_pb.FieldID.deserializeBinaryFromReader);
+      msg.setId(value);
       break;
     case 2:
       var value = /** @type {boolean} */ (reader.readBool());
@@ -714,12 +714,12 @@ proto.Field.prototype.serializeBinary = function() {
  */
 proto.Field.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getColumn();
+  f = message.getId();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      select_pb.ColumnID.serializeBinaryToWriter
+      select_pb.FieldID.serializeBinaryToWriter
     );
   }
   f = message.getNegateComparator();
@@ -790,20 +790,20 @@ proto.Field.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional ColumnID column = 1;
- * @return {?proto.ColumnID}
+ * optional FieldID id = 1;
+ * @return {?proto.FieldID}
  */
-proto.Field.prototype.getColumn = function() {
-  return /** @type{?proto.ColumnID} */ (
-    jspb.Message.getWrapperField(this, select_pb.ColumnID, 1));
+proto.Field.prototype.getId = function() {
+  return /** @type{?proto.FieldID} */ (
+    jspb.Message.getWrapperField(this, select_pb.FieldID, 1));
 };
 
 
 /**
- * @param {?proto.ColumnID|undefined} value
+ * @param {?proto.FieldID|undefined} value
  * @return {!proto.Field} returns this
 */
-proto.Field.prototype.setColumn = function(value) {
+proto.Field.prototype.setId = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
@@ -812,8 +812,8 @@ proto.Field.prototype.setColumn = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.Field} returns this
  */
-proto.Field.prototype.clearColumn = function() {
-  return this.setColumn(undefined);
+proto.Field.prototype.clearId = function() {
+  return this.setId(undefined);
 };
 
 
@@ -821,7 +821,7 @@ proto.Field.prototype.clearColumn = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.Field.prototype.hasColumn = function() {
+proto.Field.prototype.hasId = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
