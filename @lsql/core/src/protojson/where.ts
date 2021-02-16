@@ -11,7 +11,7 @@ export interface FieldElement {
 
 export type WhereElement = GroupElement | FieldElement | {};
 
-export interface Group {
+export interface Group extends Object {
 	elements?: WhereElement[];
 	operator?: GroupOperator;
 	negateOperator?: boolean;
@@ -48,7 +48,7 @@ export interface TimeValue {
 	timeValue?: string;
 }
 
-export interface BaseField {
+export interface BaseField extends Object {
 	id?: FieldID;
 	negateComparator?: boolean;
 	comparator?: Comparator;

@@ -36,7 +36,7 @@ export interface BooleanField {
 
 export interface BytesField {
 	readonly type: PropertyType.BYTES;
-	readonly value: Uint8Array;
+	readonly value?: Uint8Array;
 }
 
 export interface TimeField {
@@ -52,7 +52,7 @@ export class Field extends WhereElement {
 	readonly comparator: json.Comparator;
 	readonly negateComparator: boolean;
 	readonly domainName?: string;
-	constructor(typedValue: FieldValue, fieldName: string, comparator: json.Comparator = json.Comparator.EQUAL, negateComparator: boolean = false, domainName?: string) {
+	constructor(typedValue: FieldValue, fieldName: string = "", comparator: json.Comparator = json.Comparator.EQUAL, negateComparator: boolean = false, domainName?: string) {
 		super();
 		this.typedValue = { ...typedValue };
 		this.fieldName = fieldName;
@@ -106,7 +106,7 @@ export class Field extends WhereElement {
 			case PropertyType.BYTES:
 				field = {
 					...base,
-					bytesValue: base64.stringify(this.typedValue.value)
+					bytesValue: base64.stringify(this.typedValue.value ?? new Uint8Array(0))
 				}
 				break;
 			case PropertyType.DOUBLE:
@@ -150,14 +150,14 @@ export class Field extends WhereElement {
 		}
 		id.setFieldName(this.fieldName);
 		field.setId(id);
-		field.setComparator(mapComparator(this.comparator));
+		field.setComparator(jsonComparatorTo_gRPC(this.comparator));
 		field.setNegateComparator(this.negateComparator);
 		switch (this.typedValue.type) {
 			case PropertyType.BOOL:
 				field.setBoolValue(this.typedValue.value);
 				break;
 			case PropertyType.BYTES:
-				field.setBytesValue(base64.stringify(this.typedValue.value));
+				field.setBytesValue(base64.stringify(this.typedValue.value ?? new Uint8Array(0)));
 				break;
 			case PropertyType.DOUBLE:
 				field.setDoubleValue(this.typedValue.value);
@@ -184,10 +184,107 @@ export class Field extends WhereElement {
 		return field;
 	}
 	public static from_ProtoJSON(from: json.Field): Field {
-		throw new Error("unimplemented");
+		let value: FieldValue;
+		if (from.hasOwnProperty("stringValue")) {
+			value = {
+				type: PropertyType.STRING,
+				value: (from as json.StringValue).stringValue ?? ""
+			};
+		} else if (from.hasOwnProperty("int64Value")) {
+			value = {
+				type: PropertyType.INT64,
+				value: Number((from as json.Int64Value).int64Value ?? "0")
+			}
+		} else if (from.hasOwnProperty("uint64Value")) {
+			value = {
+				type: PropertyType.UINT64,
+				value: Number((from as json.Uint64Value).uint64Value ?? "0")
+			}
+		} else if (from.hasOwnProperty("doubleValue")) {
+			value = {
+				type: PropertyType.DOUBLE,
+				value: (from as json.DoubleValue).doubleValue ?? 0
+			}
+		} else if (from.hasOwnProperty("boolValue")) {
+			value = {
+				type: PropertyType.BOOL,
+				value: (from as json.BoolValue).boolValue ?? false
+			}
+		} else if (from.hasOwnProperty("bytesValue")) {
+			value = {
+				type: PropertyType.BYTES,
+				value: base64.parse((from as json.BytesValue).bytesValue ?? "")
+			}
+		} else if (from.hasOwnProperty("timeValue")) {
+			value = {
+				type: PropertyType.TIME,
+				value: new Date((from as json.TimeValue).timeValue ?? "0001-01-01T00:00:00Z")
+			}
+		} else {
+			throw new Error("Field type must be set");
+		}
+		let f = new Field(value, from.id?.fieldName, from.comparator, from.negateComparator, from.id?.domainName);
+		return f;
 	}
 	public static from_gRPCWeb(from: grpcweb.Field): Field {
-		throw new Error("unimplemented");
+		let value: FieldValue;
+		switch (from.getValueCase()) {
+			case grpcweb.Field.ValueCase.BOOL_VALUE:
+				value = {
+					type: PropertyType.BOOL,
+					value: from.getBoolValue()
+				}
+				break;
+			case grpcweb.Field.ValueCase.BYTES_VALUE:
+				let rawVal = from.getBytesValue();
+				if (typeof rawVal === "string") {
+					value = {
+						type: PropertyType.BYTES,
+						value: base64.parse(rawVal)
+					}
+				} else {
+					value = {
+						type: PropertyType.BYTES,
+						value: rawVal
+					}
+				}
+				break;
+			case grpcweb.Field.ValueCase.DOUBLE_VALUE:
+				value = {
+					type: PropertyType.DOUBLE,
+					value: from.getDoubleValue()
+				}
+				break;
+			case grpcweb.Field.ValueCase.INT64_VALUE:
+				value = {
+					type: PropertyType.INT64,
+					value: from.getInt64Value()
+				}
+				break;
+			case grpcweb.Field.ValueCase.STRING_VALUE:
+				value = {
+					type: PropertyType.STRING,
+					value: from.getStringValue()
+				}
+				break;
+			case grpcweb.Field.ValueCase.TIME_VALUE:
+				value = {
+					type: PropertyType.TIME,
+					value: from.getTimeValue()?.toDate() ?? new Timestamp().toDate()
+				}
+				break;
+			case grpcweb.Field.ValueCase.UINT64_VALUE:
+				value = {
+					type: PropertyType.UINT64,
+					value: from.getUint64Value()
+				}
+				break;
+			case grpcweb.Field.ValueCase.VALUE_NOT_SET:
+			default:
+				throw new Error("Field type must be set");
+		}
+		let f = new Field(value, from.getId()?.getFieldName(), gRPCComparatorTo_JSON(from.getComparator()), from.getNegateComparator(), from.getId()?.getDomainName());
+		return f;
 	}
 }
 
@@ -336,7 +433,7 @@ export class Query {
 	}
 }
 
-export function mapOperator(operator: json.GroupOperator): grpcweb.GroupOperator {
+export function jsonOperatorTo_gRPC(operator: json.GroupOperator): grpcweb.GroupOperator {
 	switch (operator) {
 		case json.GroupOperator.AND:
 			return grpcweb.GroupOperator.AND;
@@ -350,7 +447,21 @@ export function mapOperator(operator: json.GroupOperator): grpcweb.GroupOperator
 	}
 }
 
-export function mapComparator(comparator: json.Comparator): grpcweb.Comparator {
+export function gRPCOperatorTo_JSON(operator: grpcweb.GroupOperator): json.GroupOperator {
+	switch (operator) {
+		case grpcweb.GroupOperator.AND:
+			return json.GroupOperator.AND;
+		case grpcweb.GroupOperator.OR:
+			return json.GroupOperator.OR;
+		case grpcweb.GroupOperator.XOR:
+			return json.GroupOperator.XOR;
+		case grpcweb.GroupOperator.UNKNOWN_GROUPOPERATOR:
+		default:
+			return json.GroupOperator.UNKNOWN_GROUPOPERATOR;
+	}
+}
+
+export function jsonComparatorTo_gRPC(comparator: json.Comparator): grpcweb.Comparator {
 	switch (comparator) {
 		case json.Comparator.EQUAL:
 			return grpcweb.Comparator.EQUAL;
@@ -369,5 +480,27 @@ export function mapComparator(comparator: json.Comparator): grpcweb.Comparator {
 		case json.Comparator.UNKNOWN_COMPARATOR:
 		default:
 			return grpcweb.Comparator.UNKNOWN_COMPARATOR;
+	}
+}
+
+export function gRPCComparatorTo_JSON(comparator: grpcweb.Comparator): json.Comparator {
+	switch (comparator) {
+		case grpcweb.Comparator.EQUAL:
+			return json.Comparator.EQUAL;
+		case grpcweb.Comparator.FUZZY_EQUAL:
+			return json.Comparator.FUZZY_EQUAL;
+		case grpcweb.Comparator.GREATER_THAN:
+			return json.Comparator.GREATER_THAN;
+		case grpcweb.Comparator.GREATER_THAN_OR_EQUAL:
+			return json.Comparator.GREATER_THAN_OR_EQUAL;
+		case grpcweb.Comparator.IS_NULL:
+			return json.Comparator.IS_NULL;
+		case grpcweb.Comparator.LESS_THAN:
+			return json.Comparator.LESS_THAN;
+		case grpcweb.Comparator.LESS_THAN_OR_EQUAL:
+			return json.Comparator.LESS_THAN_OR_EQUAL;
+		case grpcweb.Comparator.UNKNOWN_COMPARATOR:
+		default:
+			return json.Comparator.UNKNOWN_COMPARATOR;
 	}
 }
