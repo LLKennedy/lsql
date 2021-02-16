@@ -1,7 +1,8 @@
 import * as json from "../protojson";
 import * as grpcweb from "@lsql/proto";
+import { NativeMessage } from "./core";
 
-export class Select {
+export class Select implements NativeMessage<Select, json.Select, grpcweb.Select> {
 	readonly columns: FieldID[];
 	/** Map key is ordering priority */
 	readonly ordering: ReadonlyMap<number, Ordering>;
@@ -31,7 +32,7 @@ export class Select {
 	}
 }
 
-export class FieldID {
+export class FieldID implements NativeMessage<FieldID, json.FieldID, grpcweb.FieldID> {
 	constructor() {
 		throw new Error("unimplemented");
 	}
@@ -58,7 +59,7 @@ export class FieldID {
 	}
 }
 
-export class Ordering {
+export class Ordering implements NativeMessage<Ordering, json.Ordering, grpcweb.Ordering> {
 	constructor() {
 		throw new Error("unimplemented");
 	}

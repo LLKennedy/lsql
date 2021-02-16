@@ -4,9 +4,9 @@ import { base64 } from "rfc4648";
 import { Timestamp } from "google-protobuf/google/protobuf/timestamp_pb";
 import { Select } from "./select";
 import * as uuid from "uuid";
+import { NativeMessage } from "./core";
 
-export abstract class WhereElement {
-	public abstract equalTo(other: Readonly<WhereElement>): boolean;
+export interface WhereElement<ThisT = any, jsonT = any, gRPCT = any> extends NativeMessage<ThisT, jsonT, gRPCT> {
 }
 
 export enum PropertyType {
@@ -46,14 +46,13 @@ export interface TimeField {
 
 export type FieldValue = NumericField | StringField | BooleanField | BytesField | TimeField;
 
-export class Field extends WhereElement {
+export class Field implements WhereElement<Field, json.Field, grpcweb.Field> {
 	readonly typedValue: FieldValue;
 	readonly fieldName: string;
 	readonly comparator: json.Comparator;
 	readonly negateComparator: boolean;
 	readonly domainName?: string;
 	constructor(typedValue: FieldValue, fieldName: string = "", comparator: json.Comparator = json.Comparator.EQUAL, negateComparator: boolean = false, domainName?: string) {
-		super();
 		this.typedValue = { ...typedValue };
 		this.fieldName = fieldName;
 		this.comparator = comparator;
@@ -289,12 +288,11 @@ export class Field extends WhereElement {
 }
 
 /** Top level query structure, but may also be nested arbitrarily deep within the structure. */
-export class Group extends WhereElement {
+export class Group implements WhereElement<Group, json.Group, grpcweb.Group> {
 	readonly elements: readonly WhereElement[];
 	readonly operator: json.GroupOperator;
 	readonly negateOperator: boolean;
 	constructor(elements: readonly WhereElement[], operator: json.GroupOperator, negateOperator: boolean) {
-		super();
 		this.elements = elements;
 		this.operator = operator;
 		this.negateOperator = negateOperator;
