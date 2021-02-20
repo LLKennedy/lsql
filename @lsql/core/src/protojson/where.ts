@@ -1,11 +1,11 @@
 import { Comparator, GroupOperator } from "./enums";
 import { FieldID } from "./select";
 
-export interface GroupElement {
+export interface GroupElement extends Object {
 	group: Group;
 }
 
-export interface FieldElement {
+export interface FieldElement extends Object {
 	field: Field;
 }
 
@@ -17,33 +17,33 @@ export interface Group extends Object {
 	negateOperator?: boolean;
 }
 
-export interface StringValue {
+export interface StringValue extends Object {
 	stringValue?: string;
 }
 
-export interface Int64Value {
+export interface Int64Value extends Object {
 	/** Actually a number */
 	int64Value?: string;
 }
 
-export interface Uint64Value {
+export interface Uint64Value extends Object {
 	/** Actually a number */
 	uint64Value?: string;
 }
 
-export interface DoubleValue {
+export interface DoubleValue extends Object {
 	doubleValue?: number;
 }
 
-export interface BoolValue {
+export interface BoolValue extends Object {
 	boolValue?: boolean;
 }
 
-export interface BytesValue {
+export interface BytesValue extends Object {
 	bytesValue?: string;
 }
 
-export interface TimeValue {
+export interface TimeValue extends Object {
 	/**ISO string */
 	timeValue?: string;
 }

@@ -1,3 +1,3 @@
-export interface Result {
+export interface Result extends Object {
 
 }

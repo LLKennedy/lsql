@@ -363,7 +363,7 @@ export class Group implements WhereElement<Group, json.Group, grpcweb.Group> {
 				} else if (elem instanceof Group) {
 					g.elements.push({
 						group: newElem
-					})
+					});
 				} else {
 					throw new Error("Unsupported element type: " + elem);
 				}
@@ -397,25 +397,25 @@ export class Group implements WhereElement<Group, json.Group, grpcweb.Group> {
 		let elements: WhereElement[] = [];
 		for (let [_, elem] of (from.elements ?? []).entries()) {
 			if (elem.hasOwnProperty("field")) {
-				elements.push(Field.from_ProtoJSON(elem as json.Field))
+				elements.push(Field.from_ProtoJSON(elem as json.Field));
 			}
 			if (elem.hasOwnProperty("group")) {
-				elements.push(Group.from_ProtoJSON(elem as json.Group))
+				elements.push(Group.from_ProtoJSON(elem as json.Group));
 			}
 		}
-		return new Group(elements, from.operator ?? json.GroupOperator.UNKNOWN_GROUPOPERATOR, from.negateOperator ?? false)
+		return new Group(elements, from.operator ?? json.GroupOperator.UNKNOWN_GROUPOPERATOR, from.negateOperator ?? false);
 	}
 	public static from_gRPCWeb(from: grpcweb.Group): Group {
 		let elements: WhereElement[] = [];
 		for (let [_, elem] of from.getElementsList().entries()) {
 			if (elem.hasField()) {
-				elements.push(Field.from_gRPCWeb(elem.getField() ?? new grpcweb.Field()))
+				elements.push(Field.from_gRPCWeb(elem.getField() ?? new grpcweb.Field()));
 			}
 			if (elem.hasGroup()) {
-				elements.push(Group.from_gRPCWeb(elem.getGroup() ?? new grpcweb.Group()))
+				elements.push(Group.from_gRPCWeb(elem.getGroup() ?? new grpcweb.Group()));
 			}
 		}
-		return new Group(elements, gRPCOperatorTo_JSON(from.getOperator()), from.getNegateOperator())
+		return new Group(elements, gRPCOperatorTo_JSON(from.getOperator()), from.getNegateOperator());
 	}
 }
 
@@ -427,25 +427,41 @@ export class Paging implements NativeMessage<Paging, json.Paging, grpcweb.Paging
 		this.offset = offset;
 	}
 	public modify(delta: Readonly<Partial<Paging>>): Paging {
-		throw new Error("unimplemented");
+		return new Paging(
+			delta.limit ?? this.limit,
+			delta.offset ?? this.offset
+		);
 	}
 	public copy(): Paging {
-		throw new Error("unimplemented");
+		return new Paging(
+			this.limit,
+			this.offset
+		);
 	}
 	public equalTo(other: Readonly<Paging>): boolean {
-		throw new Error("unimplemented");
+		return this.limit === other.limit
+			&& this.offset === other.offset;
 	}
 	public to_ProtoJSON(): json.Paging {
-		throw new Error("unimplemented");
+		let p: json.Paging = {
+			limit: this.limit,
+			offset: this.offset
+		};
+		return p;
 	}
 	public to_gRPCWeb(): grpcweb.Paging {
-		throw new Error("unimplemented");
+		let p = new grpcweb.Paging();
+		p.setLimit(this.limit);
+		p.setOffset(this.offset);
+		return p;
 	}
 	public static from_ProtoJSON(from: json.Paging): Paging {
-		throw new Error("unimplemented");
+		let p = new Paging(from.limit, from.offset);
+		return p;
 	}
 	public static from_gRPCWeb(from: grpcweb.Paging): Paging {
-		throw new Error("unimplemented");
+		let p = new Paging(from.getLimit(), from.getOffset());
+		return p;
 	}
 }
 
@@ -455,14 +471,21 @@ export class Query implements NativeMessage<Query, json.Query, grpcweb.Query> {
 	readonly paging: Paging;
 	/** UUID */
 	readonly id: string;
-	constructor(select: Readonly<Select>, where: Readonly<Group>, paging: Readonly<Paging>, id?: string) {
+	readonly domain: DomainOption;
+	constructor(select: Readonly<Select>, where: Readonly<Group>, paging: Readonly<Paging>, id?: string, domain: DomainOption = new DomainString("")) {
 		this.id = id ?? uuid.v4();
 		this.select = select.copy();
 		this.where = where.copy();
 		this.paging = paging.copy();
+		this.domain = domain;
 	}
 	public modify(delta: Readonly<Partial<Query>>): Query {
-		throw new Error("unimplemented");
+		return new Query(
+			delta.select ?? this.select,
+			delta.where ?? this.where,
+			delta.paging ?? this.paging,
+			delta.id ?? this.id
+		);
 	}
 	public copy(maintainId: boolean = false): Query {
 		return new Query(
@@ -473,19 +496,61 @@ export class Query implements NativeMessage<Query, json.Query, grpcweb.Query> {
 		);
 	}
 	public equalTo(other: Readonly<Query>): boolean {
-		throw new Error("unimplemented");
+		return this.id === other.id
+			&& this.paging.equalTo(other.paging)
+			&& this.select.equalTo(other.select)
+			&& this.where.equalTo(other.where);
 	}
 	public to_ProtoJSON(): json.Query {
-		throw new Error("unimplemented");
+		let q: json.Query = {
+			id: this.id,
+			paging: this.paging.to_ProtoJSON(),
+			select: this.select.to_ProtoJSON(),
+			where: this.where.to_ProtoJSON()
+		};
+		return q;
 	}
 	public to_gRPCWeb(): grpcweb.Query {
-		throw new Error("unimplemented");
+		let q = new grpcweb.Query();
+		q.setId(this.id);
+		if (this.domain instanceof DomainString) {
+			q.setDomain(this.domain.domain);
+		}
+		q.setPaging(this.paging.to_gRPCWeb());
+		q.setSelect(this.select.to_gRPCWeb());
+		q.setWhere(this.where.to_gRPCWeb());
+		return q;
 	}
 	public static from_ProtoJSON(from: json.Query): Query {
-		throw new Error("unimplemented");
+		let d: DomainOption;
+		if (from.domain !== undefined) {
+			d = new DomainString(from.domain);
+		} else {
+			d = new DomainString("");
+		}
+		let q = new Query(
+			Select.from_ProtoJSON(from.select ?? {}),
+			Group.from_ProtoJSON(from.where ?? {}),
+			Paging.from_ProtoJSON(from.paging ?? {}),
+			from.id,
+			d
+		);
+		return q;
 	}
 	public static from_gRPCWeb(from: grpcweb.Query): Query {
 		throw new Error("unimplemented");
+	}
+}
+
+export class DomainOption {
+
+}
+
+export class DomainString extends DomainOption {
+	domain: string;
+	constructor(domain: string) {
+		super();
+		this.domain = domain;
 	}
 }
 
