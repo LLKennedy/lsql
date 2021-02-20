@@ -348,16 +348,74 @@ export class Group implements WhereElement<Group, json.Group, grpcweb.Group> {
 		return true;
 	}
 	public to_ProtoJSON(): json.Group {
-		throw new Error("unimplemented");
+		let g: json.Group = {
+			negateOperator: this.negateOperator,
+			operator: this.operator
+		};
+		if (this.elements) {
+			g.elements = [];
+			for (let [_, elem] of this.elements.entries()) {
+				let newElem = elem.to_ProtoJSON();
+				if (elem instanceof Field) {
+					g.elements.push({
+						field: newElem
+					});
+				} else if (elem instanceof Group) {
+					g.elements.push({
+						group: newElem
+					})
+				} else {
+					throw new Error("Unsupported element type: " + elem);
+				}
+			}
+		}
+		return g;
 	}
 	public to_gRPCWeb(): grpcweb.Group {
-		throw new Error("unimplemented");
+		let g = new grpcweb.Group();
+		g.setNegateOperator(this.negateOperator);
+		g.setOperator(this.operator);
+		if (this.elements) {
+			let elements: grpcweb.GroupElement[] = [];
+			for (let [_, elem] of this.elements.entries()) {
+				let newElem: grpcweb.Group | grpcweb.Field = elem.to_gRPCWeb();
+				let newGrpcElem = new grpcweb.GroupElement();
+				if (elem instanceof Field) {
+					newGrpcElem.setField(newElem as grpcweb.Field);
+				} else if (elem instanceof Group) {
+					newGrpcElem.setGroup(newElem as grpcweb.Group);
+				} else {
+					throw new Error("Unsupported element type: " + elem);
+				}
+				elements.push(newGrpcElem);
+			}
+			g.setElementsList(elements);
+		}
+		return g;
 	}
 	public static from_ProtoJSON(from: json.Group): Group {
-		throw new Error("unimplemented");
+		let elements: WhereElement[] = [];
+		for (let [_, elem] of (from.elements ?? []).entries()) {
+			if (elem.hasOwnProperty("field")) {
+				elements.push(Field.from_ProtoJSON(elem as json.Field))
+			}
+			if (elem.hasOwnProperty("group")) {
+				elements.push(Group.from_ProtoJSON(elem as json.Group))
+			}
+		}
+		return new Group(elements, from.operator ?? json.GroupOperator.UNKNOWN_GROUPOPERATOR, from.negateOperator ?? false)
 	}
 	public static from_gRPCWeb(from: grpcweb.Group): Group {
-		throw new Error("unimplemented");
+		let elements: WhereElement[] = [];
+		for (let [_, elem] of from.getElementsList().entries()) {
+			if (elem.hasField()) {
+				elements.push(Field.from_gRPCWeb(elem.getField() ?? new grpcweb.Field()))
+			}
+			if (elem.hasGroup()) {
+				elements.push(Group.from_gRPCWeb(elem.getGroup() ?? new grpcweb.Group()))
+			}
+		}
+		return new Group(elements, gRPCOperatorTo_JSON(from.getOperator()), from.getNegateOperator())
 	}
 }
 

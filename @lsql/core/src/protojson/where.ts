@@ -9,7 +9,7 @@ export interface FieldElement {
 	field: Field;
 }
 
-export type WhereElement = GroupElement | FieldElement | {};
+export type WhereElement = Object & (GroupElement | FieldElement);
 
 export interface Group extends Object {
 	elements?: WhereElement[];
