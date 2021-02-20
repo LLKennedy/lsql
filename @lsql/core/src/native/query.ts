@@ -361,7 +361,7 @@ export class Group implements WhereElement<Group, json.Group, grpcweb.Group> {
 	}
 }
 
-export class Paging {
+export class Paging implements NativeMessage<Paging, json.Paging, grpcweb.Paging> {
 	readonly limit: number;
 	readonly offset: number;
 	constructor(limit: number = 100, offset: number = 0) {
@@ -391,7 +391,7 @@ export class Paging {
 	}
 }
 
-export class Query {
+export class Query implements NativeMessage<Query, json.Query, grpcweb.Query> {
 	readonly where: Group;
 	readonly select: Select;
 	readonly paging: Paging;

@@ -1,4 +1,6 @@
 import * as json from "../protojson";
+import * as grpcweb from "@lsql/proto";
+import { NativeMessage } from "./core";
 
 export function jsonDomainToNativeDomain(jsonDomain: json.Domain): Domain {
 	if (jsonDomain === undefined || jsonDomain === null) {
@@ -42,7 +44,7 @@ export function jsonDomainToNativeDomain(jsonDomain: json.Domain): Domain {
 }
 
 /** A real or virtual exposed data domain */
-export class Domain {
+export class Domain implements NativeMessage<Domain, json.Domain, grpcweb.Domain> {
 	/** The name of the domain */
 	readonly name: string = "";
 	/** Map property unique names to type information */
@@ -54,6 +56,27 @@ export class Domain {
 			mapCopy.set(propName, propInfo);
 		}
 		this.properties = mapCopy;
+	}
+	public modify(delta: Readonly<Partial<Domain>>): Domain {
+		throw new Error("unimplemented");
+	}
+	public copy(): Domain {
+		throw new Error("unimplemented");
+	}
+	public equalTo(other: Readonly<Domain>): boolean {
+		throw new Error("unimplemented");
+	}
+	public to_ProtoJSON(): json.Domain {
+		throw new Error("unimplemented");
+	}
+	public to_gRPCWeb(): grpcweb.Domain {
+		throw new Error("unimplemented");
+	}
+	public static from_ProtoJSON(from: json.Domain): Domain {
+		throw new Error("unimplemented");
+	}
+	public static from_gRPCWeb(from: grpcweb.Domain): Domain {
+		throw new Error("unimplemented");
 	}
 }
 
